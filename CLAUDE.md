@@ -3,7 +3,7 @@
 ## Šta je projekat
 ECHO je web aplikacija u kojoj građani prijavljuju komunalne probleme (rupe na cesti, rasvjeta,
 otpad, igrališta…), prate status prijave i vide prijave na mapi. Ovo je ŠKOLSKI PROTOTIP koji
-razvijaju učenici osnovne škole uz mentoricu. Pilot-područje je Općina Ilidža (Kanton Sarajevo).
+razvijaju učenici Četvrte gimnazije Ilidža uz mentoricu. Pilot-područje je Općina Ilidža (Kanton Sarajevo).
 Naziv: "ECHO Civic – Ilidža". Podnaslov: "Glas građana koji se čuje".
 Ideja imena: eho je glas koji se čuje i na koji stiže odgovor (građanin prijavi, a status mu odgovori).
 Akronim "Every Citizen Has One voice" može se spomenuti samo kao sitni detalj na ekranu O projektu.

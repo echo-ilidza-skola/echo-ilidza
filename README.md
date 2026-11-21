@@ -3,8 +3,8 @@
 **Glas građana koji se čuje.**
 
 ECHO je školski prototip web aplikacije u kojoj građani prijavljuju komunalne probleme (rupe na cesti,
-rasvjeta, otpad, igrališta…), prate status prijave i vide prijave na mapi. Razvijaju ga učenici osnovne
-škole uz mentoricu. Pilot-područje je Općina Ilidža (Kanton Sarajevo).
+rasvjeta, otpad, igrališta…), prate status prijave i vide prijave na mapi. Razvijaju ga učenici Četvrte
+gimnazije Ilidža uz mentoricu. Pilot-područje je Općina Ilidža (Kanton Sarajevo).
 
 Ime dolazi od eha: građanin pošalje prijavu (glas), a status prijave mu „odgovori“.
 
