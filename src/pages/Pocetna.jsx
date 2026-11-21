@@ -19,7 +19,12 @@ export default function Pocetna() {
 
   return (
     <>
-      <section className="hero puna-sirina" aria-labelledby="hero-naslov">
+      {/* --hero-slika: ista slika koristi se i kao zamućena pozadina ispod teksta (tablet i mobitel). */}
+      <section
+        className="hero puna-sirina"
+        aria-labelledby="hero-naslov"
+        style={{ '--hero-slika': `url(${heroSlika})` }}
+      >
         {/* Fotografija je samo ukras, pa ima prazan alt. Autor i licenca su u podnožju. */}
         {/* Slika, zatamnjenje i oznake su u istom okviru, pa se oznake poklapaju sa slikom. */}
         <div className="hero-slika-okvir">
