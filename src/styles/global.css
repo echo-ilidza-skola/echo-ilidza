@@ -922,13 +922,14 @@ img {
 }
 
 /* Lukovi, oznake i krugovi eha u hero dijelu. Sjaj (drop-shadow) je dozvoljen samo ovdje. */
+/* Lukovi su pune svijetleće linije (kao na mockupu); svjetlo koje teče je .hero-luk-tok. */
 .hero-luk {
   fill: none;
   stroke: var(--limeta);
-  stroke-width: 1.6;
-  stroke-dasharray: 5 7;
-  opacity: 0.7;
-  filter: drop-shadow(0 0 3px rgba(180, 240, 74, 0.8));
+  stroke-width: 3;
+  stroke-linecap: round;
+  opacity: 0.75;
+  filter: drop-shadow(0 0 6px rgba(180, 240, 74, 0.9));
 }
 
 .hero-pin {
@@ -1444,9 +1445,19 @@ img {
     padding: 4rem var(--razmak) 5.5rem;
   }
 
+  /* Statistika je u svom redu gore desno, preko neba: ne prekriva ni naslov ni glavni znak na fontani. */
   .statistika-traka {
-    margin: 0 0 0.5rem;
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    width: min(100%, 32rem);
+    margin: 0;
     max-width: none;
+  }
+
+  .hero-tekst {
+    grid-column: 1;
+    grid-row: 2;
   }
 
   /* Tamnije lijevo (iza teksta) i blago pri dnu; desna strana slike ostaje svijetla, kao na mockupu. */
@@ -1501,13 +1512,12 @@ img {
     text-overflow: ellipsis;
   }
 
-  /* Na računaru se dugi drugi red prelama ("POKRENI / PROMJENU."), kao na odobrenoj slici banera. */
+  /* Na računaru je naslov u dva reda, kao na mockupu; redovi smiju preći u desnu kolonu. */
   .hero-naslov {
-    font-size: clamp(3.2rem, 5vw, 4.6rem);
+    font-size: clamp(2.6rem, 4.3vw, 4.2rem);
   }
 
-  /* Prvi red ("VIDIŠ PROBLEM?") uvijek u jednom redu; smije preći u desnu kolonu iznad statistike. */
-  .hero-naslov-red:first-child {
+  .hero-naslov-red {
     white-space: nowrap;
   }
 
@@ -1585,9 +1595,7 @@ img {
 /* --- Signali: lukovi se pojave pa "teku", oznake padnu pa lebde --- */
 .hero-luk {
   opacity: 0;
-  animation:
-    pojavaLuka 0.9s ease-out forwards,
-    tokLuka 1.6s linear infinite;
+  animation: pojavaLuka 0.9s ease-out forwards;
 }
 
 @keyframes pojavaLuka {

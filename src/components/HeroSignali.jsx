@@ -15,9 +15,9 @@ const FONTANA = { x: 1003, y: 716 }
 const OZNAKE = [
   { x: 1238, y: 588 },
   { x: 1335, y: 765 },
-  { x: 1118, y: 300 },
+  { x: 1180, y: 375 },
   { x: 1525, y: 405 },
-  { x: 905, y: 430 },
+  { x: 1065, y: 480 },
 ]
 
 // Oblik oznake (pin) čiji je vrh u tački (0, 0).
