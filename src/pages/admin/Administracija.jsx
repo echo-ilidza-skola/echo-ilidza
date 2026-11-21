@@ -11,7 +11,7 @@ export default function Administracija() {
 
   function naVratiTestnePodatke() {
     const potvrda = window.confirm(
-      'Ovo briše SVE prijave u ovom pregledniku (i vaše izmjene) i ponovo učitava 28 testnih prijava. Nastaviti?',
+      'Ovo briše SVE prijave i fotografije u ovom pregledniku (i vaše izmjene) i ponovo učitava 28 testnih prijava. Ovo se ne može poništiti. Nastaviti?',
     )
     if (potvrda) vratiTestnePodatke()
   }

@@ -1,0 +1,570 @@
+/* Stilovi obrasca za prijavu i ekrana "Moje prijave".
+   Koriste iste CSS varijable kao global.css. */
+
+.obrazac-stranica {
+  max-width: 760px !important;
+}
+
+.obrazac {
+  padding: 1.25rem;
+}
+
+.naslov-koraka {
+  margin: 0 0 1rem;
+  font-size: 1.4rem;
+}
+
+.naslov-koraka:focus {
+  outline: none;
+}
+
+/* --- traka koraka --- */
+.traka-koraka {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0.5rem 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.traka-korak {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 999px;
+  background: var(--bijela);
+  border: 1px solid var(--linija);
+  color: var(--tekst-prigusen);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.traka-korak-broj {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--podloga);
+  color: var(--tekst);
+  font-weight: 700;
+}
+
+.traka-korak--trenutni {
+  background: var(--tamna);
+  border-color: var(--tamna);
+  color: var(--tekst-na-tamnoj);
+}
+
+.traka-korak--trenutni .traka-korak-broj {
+  background: var(--limeta);
+  color: var(--tamna);
+}
+
+.traka-korak--gotov {
+  color: var(--primarna-tamna);
+  border-color: #a9d8bd;
+}
+
+.traka-korak--gotov .traka-korak-broj {
+  background: var(--primarna);
+  color: var(--bijela);
+}
+
+/* --- polja --- */
+.polje {
+  margin-bottom: 1.25rem;
+}
+
+.polje label,
+.oznaka-polja {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 700;
+}
+
+.polje input[type='text'],
+.polje textarea,
+.polje select {
+  width: 100%;
+  min-height: var(--min-dugme);
+  padding: 0.6rem 0.8rem;
+  font: inherit;
+  color: var(--tekst);
+  background: var(--bijela);
+  border: 1.5px solid #b9c7c1;
+  border-radius: 10px;
+}
+
+.polje textarea {
+  resize: vertical;
+  min-height: 7rem;
+}
+
+.polje input:focus-visible,
+.polje textarea:focus-visible,
+.polje select:focus-visible {
+  outline: 3px solid var(--primarna-tamna);
+  outline-offset: 1px;
+  border-color: var(--primarna-tamna);
+}
+
+.polje [aria-invalid='true'] {
+  border-color: #b42318;
+  background: #fff8f7;
+}
+
+.brojac {
+  margin: 0.2rem 0 0;
+  font-size: 0.8rem;
+  text-align: right;
+  color: var(--tekst-prigusen);
+}
+
+.greska-polja {
+  margin: 0.35rem 0 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #b42318;
+}
+
+.greska-polja::before {
+  content: '⚠ ';
+}
+
+.polje-u-redu {
+  margin: 0;
+}
+
+.polje-u-redu label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.upozorenje-okvir {
+  display: block;
+  margin: 0.5rem 0;
+  padding: 0.65rem 0.85rem;
+  border-left: 4px solid var(--upozorenje);
+  border-radius: 8px;
+  background: var(--upozorenje-podloga);
+  color: var(--upozorenje-tekst);
+  font-size: 0.9rem;
+}
+
+.info-okvir {
+  margin: 0.5rem 0;
+  padding: 0.6rem 0.85rem;
+  border-radius: 8px;
+  background: #e6f0fa;
+  color: #164c7e;
+  font-size: 0.9rem;
+}
+
+/* --- prijedlog kategorije --- */
+.prijedlog-okvir {
+  margin-bottom: 0.6rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px dashed var(--primarna);
+  border-radius: 10px;
+  background: #f3faf6;
+}
+
+.prijedlog-oznaka {
+  margin: 0 0 0.3rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--primarna-tamna);
+}
+
+.prijedlog-tekst {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.prijedlog-red {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.prijedlog-prihvacen {
+  font-weight: 700;
+  color: var(--primarna-tamna);
+}
+
+.dugme-malo {
+  min-height: var(--min-dugme);
+  padding: 0 0.9rem;
+  font-size: 0.9rem;
+}
+
+/* --- fotografija --- */
+.foto-odabir {
+  cursor: pointer;
+}
+
+.foto-odabir:focus-within {
+  outline: 3px solid var(--primarna-tamna);
+  outline-offset: 2px;
+}
+
+.foto-pregled {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.foto-pregled img,
+.fotografija {
+  display: block;
+  max-width: 100%;
+  max-height: 360px;
+  border-radius: 12px;
+  border: 1px solid var(--linija);
+  object-fit: contain;
+  background: var(--podloga);
+}
+
+.fotografija-mala {
+  max-height: 180px;
+  margin: 0.5rem 0;
+}
+
+/* --- lokacija --- */
+.uvod-koraka {
+  margin-top: 0;
+  color: var(--tekst-prigusen);
+}
+
+.lokacija-alati {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.mapa-odabir {
+  height: 52vh;
+  min-height: 300px;
+  cursor: crosshair;
+}
+
+.odabrana-lokacija {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0.75rem 0 0;
+  color: var(--primarna-tamna);
+}
+
+/* Oznaka odabrane lokacije: limetasti pin */
+.oznaka-odabir {
+  position: relative;
+  display: block;
+  width: 26px;
+  height: 26px;
+  margin: 4px 7px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  background: var(--limeta);
+  border: 3px solid var(--tamna);
+}
+
+.oznaka-odabir::after {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  background: var(--tamna);
+}
+
+/* --- pregled --- */
+.pregled-polja {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.2rem;
+  margin: 0;
+}
+
+.pregled-polja dt {
+  margin-top: 0.6rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--tekst-prigusen);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.pregled-polja dd {
+  margin: 0;
+}
+
+.upozorenje-u-redu {
+  margin-top: 0.4rem;
+}
+
+.pregled-uredi {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.link-dugme {
+  min-height: var(--min-dugme);
+  padding: 0;
+  font: inherit;
+  font-weight: 700;
+  color: var(--primarna-tamna);
+  background: none;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.napomena-javnost {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
+  background: var(--podloga);
+  color: var(--primarna-tamna);
+  font-weight: 600;
+}
+
+.napomena-javnost svg {
+  flex: none;
+}
+
+.duplikati-okvir {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 2px solid var(--upozorenje);
+  border-radius: 12px;
+  background: var(--upozorenje-podloga);
+}
+
+.duplikati-okvir h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1.2rem;
+}
+
+.duplikati-okvir > p {
+  margin: 0 0 0.75rem;
+}
+
+.duplikati-lista {
+  margin: 0 0 0.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.duplikati-lista li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 10px;
+  background: var(--bijela);
+}
+
+.duplikati-lista a {
+  font-weight: 700;
+}
+
+.duplikati-detalji {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.75rem;
+  margin: 0.3rem 0 0;
+  font-size: 0.85rem;
+  color: var(--tekst-prigusen);
+}
+
+.obrazac-dugmad {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.obrazac-dugmad .dugme:only-child {
+  margin-left: auto;
+}
+
+.dugme:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* --- uspjeh --- */
+.uspjeh {
+  text-align: center;
+  padding: 2rem 1.25rem;
+}
+
+.uspjeh h1:focus {
+  outline: none;
+}
+
+.uspjeh-ikona {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--limeta);
+  color: var(--tamna);
+}
+
+.uspjeh .obrazac-dugmad {
+  justify-content: center;
+}
+
+/* --- moje prijave --- */
+.naslov-s-dugmetom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.moje-lista {
+  display: grid;
+  gap: 1rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.moja-prijava {
+  padding: 1.1rem;
+  background: var(--bijela);
+  border: 1px solid var(--linija);
+  border-radius: var(--zaobljenje);
+}
+
+.moja-prijava-glava {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.moja-prijava-naslov {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.moja-prijava-detalji {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 1rem;
+  margin: 0.4rem 0;
+  font-size: 0.9rem;
+  color: var(--tekst-prigusen);
+}
+
+.moja-prijava-detalji span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.razlog-odbijanja {
+  margin: 0.5rem 0;
+  padding: 0.7rem 0.9rem;
+  border-left: 4px solid #b42318;
+  border-radius: 8px;
+  background: #fbeaea;
+  color: #6d1616;
+}
+
+.razlog-odbijanja p {
+  margin: 0.3rem 0 0;
+}
+
+.moja-historija {
+  margin-top: 0.5rem;
+}
+
+.moja-historija summary {
+  display: flex;
+  align-items: center;
+  min-height: var(--min-dugme);
+  font-weight: 600;
+  color: var(--primarna-tamna);
+  cursor: pointer;
+}
+
+@media (min-width: 640px) {
+  .pregled-polja {
+    grid-template-columns: 9rem 1fr;
+    gap: 0.6rem 1rem;
+  }
+
+  .pregled-polja dt {
+    margin-top: 0;
+  }
+}
+
+/* Na uskom ekranu traka koraka prikazuje samo brojeve osim trenutnog koraka. */
+@media (max-width: 420px) {
+  .traka-korak:not(.traka-korak--trenutni) .traka-korak-naziv {
+    display: none;
+  }
+
+  .traka-korak:not(.traka-korak--trenutni) {
+    flex: none;
+  }
+}
+
+/* "Dodaj fotografiju" je label koji izgleda kao dugme. */
+.polje label.dugme {
+  display: inline-flex;
+  margin-bottom: 0;
+}
+
+/* Strelica uz "Historija statusa" koja se okrene kad se historija otvori. */
+.moja-historija summary {
+  list-style: none;
+  gap: 0.4rem;
+}
+
+.moja-historija summary::-webkit-details-marker {
+  display: none;
+}
+
+.moja-historija summary::before {
+  content: '▸';
+  transition: transform 0.2s ease;
+}
+
+.moja-historija[open] summary::before {
+  transform: rotate(90deg);
+}

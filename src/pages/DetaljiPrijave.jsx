@@ -7,6 +7,7 @@ import OsnovnaMapa from '../components/mapa/OsnovnaMapa.jsx'
 import { napraviIkonu } from '../components/mapa/ikonaOznake.js'
 import StatusOznaka from '../components/StatusOznaka.jsx'
 import KategorijaOznaka from '../components/KategorijaOznaka.jsx'
+import Fotografija from '../components/Fotografija.jsx'
 import { usePodaci } from '../hooks/usePodaci.js'
 import { javnePrijave } from '../data/storage.js'
 import { formatirajDatum } from '../logic/datum.js'
@@ -59,8 +60,12 @@ export default function DetaljiPrijave() {
       <section className="kartica">
         <h2>Opis</h2>
         <p className="opis-tekst">{prijava.opis}</p>
-        {/* Fotografije se dodaju u etapi 4. Testne prijave nemaju fotografija. */}
-        {!prijava.fotografijaId && <p className="prigusen mali-tekst">Prijava nema fotografiju.</p>}
+        {/* Javni prikaz daje fotografijaId = null ako je administrator sakrio fotografiju. */}
+        {prijava.fotografijaId ? (
+          <Fotografija id={prijava.fotografijaId} alt={`Fotografija problema: ${prijava.naslov}`} />
+        ) : (
+          <p className="prigusen mali-tekst">Prijava nema javnu fotografiju.</p>
+        )}
       </section>
 
       {(glavna || povezane.length > 0) && (

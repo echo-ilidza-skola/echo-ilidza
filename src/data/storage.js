@@ -1,12 +1,16 @@
 // JEDINO mjesto u aplikaciji koje čita i piše podatke.
-// Komponente nikad ne diraju localStorage direktno – uvijek pozivaju funkcije odavde.
+// Komponente nikad ne diraju localStorage ni IndexedDB direktno – uvijek pozivaju funkcije odavde.
 // U kasnijim fazama ovaj modul se može zamijeniti pozivima na server.
 //
-// Fotografije (IndexedDB preko idb-keyval) dodaju se ovdje u etapi 4.
-// Funkcije za izmjenu prijava (status, napomene, povezivanje) dodaju se u etapama 4 i 5.
+//   - prijave i demo uloga: localStorage
+//   - fotografije: IndexedDB (preko biblioteke idb-keyval), jer su prevelike za localStorage
+//
+// Funkcije za administraciju (status, napomene, povezivanje) dodaju se u etapi 5.
 
+import { createStore, get, set, del, clear } from 'idb-keyval'
 import { napraviTestnePodatke } from './testniPodaci.js'
 import { uJavniPrikaz } from '../logic/javniPrikaz.js'
+import { napraviNovuPrijavu, povecajBrojPrijavitelja, noviId } from '../logic/novaPrijava.js'
 import { ULOGE } from './konstante.js'
 
 const KLJUC_PRIJAVE = 'echo.prijave.v1'
@@ -14,6 +18,10 @@ const KLJUC_ULOGA = 'echo.uloga'
 
 // Ime događaja koji javlja ekranima da su se podaci promijenili.
 export const DOGADJAJ_PROMJENE = 'echo:promjena'
+
+export const PORUKA_FOTO_GRESKA =
+  'Fotografiju nije moguće spremiti u ovom pregledniku (memorija je možda puna ili je privatni način rada). ' +
+  'Uklonite fotografiju i pošaljite prijavu bez nje, ili pokušajte ponovo.'
 
 // ---------- pomoćne funkcije ----------
 
@@ -59,13 +67,17 @@ export function inicijalizuj() {
     return { ucitaniTestniPodaci: false }
   }
   sacuvajPrijave(napraviTestnePodatke())
+  // Stare fotografije više ne pripadaju nijednoj prijavi, pa ih brišemo.
+  obrisiSveFotografije()
   return { ucitaniTestniPodaci: true }
 }
 
-// Briše sve prijave i ponovo učitava 28 testnih prijava.
+// Briše sve prijave i fotografije i ponovo učitava 28 testnih prijava.
 // Potvrdu od korisnika traži ekran koji poziva ovu funkciju.
 export function vratiTestnePodatke() {
-  return sacuvajPrijave(napraviTestnePodatke())
+  const uspjeh = sacuvajPrijave(napraviTestnePodatke())
+  obrisiSveFotografije()
+  return uspjeh
 }
 
 // ---------- čitanje (puni zapisi – samo za administraciju i autora) ----------
@@ -93,6 +105,76 @@ export function javnePrijave() {
 // Javna verzija jedne prijave ili null ako ne postoji ili nije javna.
 export function javnaPrijava(id) {
   return uJavniPrikaz(dohvatiPrijavu(id))
+}
+
+// ---------- nova prijava ----------
+
+// Sprema novu prijavu (status "Na čekanju provjere") i vraća je.
+// Ako je građanin potvrdio da je to ISTI problem kao postojeća prijava (unos.glavnaPrijavaId),
+// glavna prijava dobija još jednog prijavitelja. Sistem nikad ne povezuje sam.
+export function dodajPrijavu(unos, autorId) {
+  const prijave = svePrijave()
+  const glavna = unos.glavnaPrijavaId ? prijave.find((p) => p.id === unos.glavnaPrijavaId) : null
+
+  const nova = napraviNovuPrijavu(
+    { ...unos, glavnaPrijavaId: glavna ? glavna.id : null },
+    { id: noviId(), autorId },
+  )
+
+  const azurirane = prijave.map((p) => (glavna && p.id === glavna.id ? povecajBrojPrijavitelja(p) : p))
+  azurirane.push(nova)
+
+  if (!sacuvajPrijave(azurirane)) {
+    throw new Error('Prijavu nije moguće spremiti u ovom pregledniku (memorija je možda puna).')
+  }
+  return nova
+}
+
+// ---------- fotografije (IndexedDB) ----------
+
+// Posebna baza samo za fotografije. Pravi se tek kad zatreba
+// (u testovima i starim preglednicima IndexedDB možda ne postoji).
+let fotoSpremiste = null
+function spremiste() {
+  if (!fotoSpremiste) fotoSpremiste = createStore('echo-fotografije', 'fotografije')
+  return fotoSpremiste
+}
+
+// Sprema fotografiju (Blob) i vraća njen ključ. Kod greške baca grešku s porukom na bosanskom.
+export async function sacuvajFotografiju(blob) {
+  const id = noviId(new Date(), Math.random, 'foto')
+  try {
+    await set(id, blob, spremiste())
+  } catch {
+    throw new Error(PORUKA_FOTO_GRESKA)
+  }
+  return id
+}
+
+// Vraća Blob fotografije ili null ako je nema (npr. obrisani podaci preglednika).
+export async function ucitajFotografiju(id) {
+  if (!id) return null
+  try {
+    return (await get(id, spremiste())) || null
+  } catch {
+    return null
+  }
+}
+
+export async function obrisiFotografiju(id) {
+  try {
+    await del(id, spremiste())
+  } catch {
+    // Ako brisanje ne uspije, fotografija samo ostaje u pregledniku; aplikacija nastavlja raditi.
+  }
+}
+
+export async function obrisiSveFotografije() {
+  try {
+    await clear(spremiste())
+  } catch {
+    // IndexedDB nije dostupan: nema ni fotografija za brisanje.
+  }
 }
 
 // ---------- demo uloga ----------

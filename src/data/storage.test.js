@@ -73,6 +73,46 @@ describe('storage.js', () => {
     expect(storage.svePrijave()).toHaveLength(28)
   })
 
+  it('dodajPrijavu sprema prijavu na čekanju koja nije javna', () => {
+    storage.inicijalizuj()
+    const nova = storage.dodajPrijavu(
+      { naslov: 'Nova rupa', opis: 'Opis', kategorija: 'ceste', lat: 43.83, lng: 18.31 },
+      'demo-gradjanin',
+    )
+    expect(storage.svePrijave()).toHaveLength(29)
+    expect(storage.dohvatiPrijavu(nova.id).status).toBe('NA_CEKANJU')
+    expect(storage.javnaPrijava(nova.id)).toBeNull()
+    expect(storage.javnePrijave().some((p) => p.id === nova.id)).toBe(false)
+    expect(storage.prijaveAutora('demo-gradjanin').some((p) => p.id === nova.id)).toBe(true)
+  })
+
+  it('potvrda iste prijave povećava broj prijavitelja glavne i čuva vezu', () => {
+    storage.inicijalizuj()
+    const prije = storage.dohvatiPrijavu('t14').brojPrijavitelja
+    const nova = storage.dodajPrijavu(
+      { naslov: 'Mrak', opis: 'Ne svijetli', kategorija: 'rasvjeta', lat: 43.851, lng: 18.3375, glavnaPrijavaId: 't14' },
+      'demo-gradjanin',
+    )
+    expect(nova.glavnaPrijavaId).toBe('t14')
+    expect(storage.dohvatiPrijavu('t14').brojPrijavitelja).toBe(prije + 1)
+  })
+
+  it('veza s nepostojećom glavnom prijavom se ne sprema', () => {
+    storage.inicijalizuj()
+    const nova = storage.dodajPrijavu(
+      { naslov: 'X', opis: 'Y', kategorija: 'ceste', lat: 43.83, lng: 18.31, glavnaPrijavaId: 'ne-postoji' },
+      'demo-gradjanin',
+    )
+    expect(nova.glavnaPrijavaId).toBeNull()
+  })
+
+  it('fotografije bez IndexedDB-a (npr. u testu) ne ruše aplikaciju', async () => {
+    expect(await storage.ucitajFotografiju('foto-1')).toBeNull()
+    expect(await storage.ucitajFotografiju(null)).toBeNull()
+    await expect(storage.sacuvajFotografiju(new Blob(['x']))).rejects.toThrow('Fotografiju nije moguće spremiti')
+    await expect(storage.obrisiSveFotografije()).resolves.toBeUndefined()
+  })
+
   it('demo uloga: nepoznata vrijednost postaje Gost', () => {
     expect(storage.ucitajUlogu()).toBe('gost')
     expect(storage.sacuvajUlogu('administrator')).toBe(true)
