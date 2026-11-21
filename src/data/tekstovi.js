@@ -2,9 +2,9 @@
 // Naslov se prikazuje velikim slovima preko CSS-a; drugi red je istaknut limetom.
 
 export const HERO = {
-  naslovPrviRed: 'Svaki glas',
-  naslovDrugiRed: 'ima svoj odjek.',
-  poruka: 'Prijavi rupu, ugašenu lampu ili prepun kontejner. Prati prijavu od slanja do rješenja.',
+  naslovPrviRed: 'Vidiš problem?',
+  naslovDrugiRed: 'Pokreni promjenu.',
+  poruka: 'Prijavi komunalni problem u svom naselju. Označi lokaciju i prati šta se dešava s prijavom.',
   dugme: 'Pošalji prijavu',
   sporednoDugme: 'Pogledaj mapu',
   koraci: 'Primijeti · Prijavi · Prati',
