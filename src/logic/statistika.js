@@ -58,6 +58,13 @@ export function prosjecnoVrijemeRjesavanjaDana(prijave) {
   return trajanja.reduce((zbir, d) => zbir + d, 0) / trajanja.length
 }
 
+// Najnovije prijave (po datumu prijave), najviše "broj" komada. Ne mijenja ulaznu listu.
+export function posljednjePrijave(prijave, broj = 5) {
+  return [...prijave]
+    .sort((a, b) => new Date(b.datumPrijave).getTime() - new Date(a.datumPrijave).getTime())
+    .slice(0, broj)
+}
+
 // Osnovni brojevi za Početnu.
 // "uObradi" broji statuse U_OBRADI i PROSLIJEDJENO (prijave na kojima se radi).
 export function osnovnaStatistika(prijave) {

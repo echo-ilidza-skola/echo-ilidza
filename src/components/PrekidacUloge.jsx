@@ -2,22 +2,33 @@
 
 import { ULOGE } from '../data/konstante.js'
 import { useUloga } from '../context/UlogaContext.jsx'
+import Ikona from './Ikona.jsx'
 
 export default function PrekidacUloge() {
   const { uloga, promijeniUlogu } = useUloga()
 
   return (
     <div className="prekidac-uloge">
-      <label htmlFor="demo-uloga">Demo uloga</label>
-      <select id="demo-uloga" value={uloga} onChange={(e) => promijeniUlogu(e.target.value)} aria-describedby="demo-uloga-napomena">
-        {Object.entries(ULOGE).map(([kljuc, naziv]) => (
-          <option key={kljuc} value={kljuc}>
-            {naziv}
-          </option>
-        ))}
-      </select>
+      <div className="prekidac-polje">
+        <Ikona ime="osoba" velicina={18} className="prekidac-ikona" />
+        <label htmlFor="demo-uloga" className="vizuelno-skriveno">
+          Demo uloga
+        </label>
+        <select
+          id="demo-uloga"
+          value={uloga}
+          onChange={(e) => promijeniUlogu(e.target.value)}
+          aria-describedby="demo-uloga-napomena"
+        >
+          {Object.entries(ULOGE).map(([kljuc, naziv]) => (
+            <option key={kljuc} value={kljuc}>
+              {naziv}
+            </option>
+          ))}
+        </select>
+      </div>
       <p id="demo-uloga-napomena" className="prekidac-napomena">
-        Samo demonstracija – nije prijava korisnika ni zaštita podataka.
+        Demo uloga – nije prijava korisnika ni zaštita podataka
       </p>
     </div>
   )

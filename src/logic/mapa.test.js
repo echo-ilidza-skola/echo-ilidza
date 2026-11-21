@@ -1,5 +1,48 @@
 import { describe, it, expect } from 'vitest'
-import { grupisiZaMapu, povezanePrijave, filtrirajPrijave } from './mapa.js'
+import { grupisiZaMapu, povezanePrijave, filtrirajPrijave, projektujTacku, okvirTacaka } from './mapa.js'
+
+describe('okvirTacaka', () => {
+  const zamjena = { minLat: 1, maxLat: 2, minLng: 3, maxLng: 4 }
+
+  it('prazna lista vraća zamjenu', () => {
+    expect(okvirTacaka([], zamjena)).toBe(zamjena)
+  })
+
+  it('obuhvata sve tačke uz rezervu', () => {
+    const o = okvirTacaka([{ lat: 43.8, lng: 18.3 }, { lat: 43.9, lng: 18.5 }], zamjena, 0.1)
+    expect(o.minLat).toBeCloseTo(43.79)
+    expect(o.maxLat).toBeCloseTo(43.91)
+    expect(o.minLng).toBeCloseTo(18.28)
+    expect(o.maxLng).toBeCloseTo(18.52)
+  })
+
+  it('jedna tačka dobija mali okvir oko sebe', () => {
+    const o = okvirTacaka([{ lat: 43.8, lng: 18.3 }], zamjena, 0.5)
+    expect(o.minLat).toBeLessThan(43.8)
+    expect(o.maxLat).toBeGreaterThan(43.8)
+  })
+})
+
+describe('projektujTacku', () => {
+  const okvir = { minLat: 43.76, maxLat: 43.88, minLng: 18.2, maxLng: 18.4 }
+
+  it('uglovi okvira idu u uglove slike (sjever gore)', () => {
+    expect(projektujTacku({ lat: 43.88, lng: 18.2 }, okvir, 300, 200)).toEqual({ x: 0, y: 0 })
+    const dolje = projektujTacku({ lat: 43.76, lng: 18.4 }, okvir, 300, 200)
+    expect(dolje.x).toBeCloseTo(300)
+    expect(dolje.y).toBeCloseTo(200)
+  })
+
+  it('sredina okvira je sredina slike', () => {
+    const t = projektujTacku({ lat: 43.82, lng: 18.3 }, okvir, 300, 200)
+    expect(t.x).toBeCloseTo(150)
+    expect(t.y).toBeCloseTo(100)
+  })
+
+  it('tačka izvan okvira se pritegne na rub', () => {
+    expect(projektujTacku({ lat: 44.5, lng: 17 }, okvir, 300, 200)).toEqual({ x: 0, y: 0 })
+  })
+})
 
 const glavna = { id: 'g', kategorija: 'ceste', status: 'U_OBRADI', glavnaPrijavaId: null }
 const povezana = { id: 'p', kategorija: 'ceste', status: 'ZAPRIMLJENO', glavnaPrijavaId: 'g' }

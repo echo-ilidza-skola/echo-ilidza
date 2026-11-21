@@ -1,12 +1,20 @@
 import { Link } from 'react-router-dom'
-import UIzradi from '../components/UIzradi.jsx'
 import HeroSignali from '../components/HeroSignali.jsx'
 import Ikona from '../components/Ikona.jsx'
+import Talas from '../components/Talas.jsx'
 import { ZvucniTalas } from '../components/Logo.jsx'
+import StatistikaTraka from '../components/pocetna/StatistikaTraka.jsx'
+import KakoFunkcionise from '../components/pocetna/KakoFunkcionise.jsx'
+import MiniMapaGlasova from '../components/pocetna/MiniMapaGlasova.jsx'
+import PosljednjePrijave from '../components/pocetna/PosljednjePrijave.jsx'
+import { usePodaci } from '../hooks/usePodaci.js'
+import { javnePrijave } from '../data/storage.js'
 import { HERO } from '../data/tekstovi.js'
 import heroSlika from '../assets/hero-ilidza.jpg'
 
 export default function Pocetna() {
+  const javne = usePodaci(javnePrijave)
+
   return (
     <>
       <section className="hero puna-sirina" aria-labelledby="hero-naslov">
@@ -15,37 +23,43 @@ export default function Pocetna() {
         <HeroSignali />
 
         <div className="hero-sadrzaj">
-          <h1 id="hero-naslov" className="hero-naslov">
-            {HERO.naslovPrviRed}
-            <span className="hero-naslov-isticanje">{HERO.naslovDrugiRed}</span>
-          </h1>
-          <p className="hero-poruka">{HERO.poruka}</p>
+          <div className="hero-tekst">
+            <h1 id="hero-naslov" className="hero-naslov">
+              {HERO.naslovPrviRed}
+              <span className="hero-naslov-isticanje">{HERO.naslovDrugiRed}</span>
+            </h1>
+            <p className="hero-poruka">{HERO.poruka}</p>
 
-          <div className="hero-dugmad">
-            <Link to="/prijavi" className="dugme dugme-glavno dugme-veliko">
-              <Ikona ime="prijavi" velicina={20} />
-              {HERO.dugme}
-              <Ikona ime="strelica" velicina={20} />
-            </Link>
-            <Link to="/mapa" className="dugme dugme-obrub-svijetlo dugme-veliko">
-              <Ikona ime="mapa" velicina={20} />
-              {HERO.sporednoDugme}
-            </Link>
+            <div className="hero-dugmad">
+              <Link to="/prijavi" className="dugme dugme-glavno dugme-veliko dugme-sjaj">
+                <Ikona ime="prijavi" velicina={20} />
+                {HERO.dugme}
+                <Ikona ime="strelica" velicina={20} />
+              </Link>
+              <Link to="/mapa" className="dugme dugme-obrub-svijetlo dugme-veliko">
+                <Ikona ime="mapa" velicina={20} />
+                {HERO.sporednoDugme}
+              </Link>
+            </div>
+
+            <p className="hero-koraci">
+              <ZvucniTalas sirina={40} className="logo-talas" />
+              {HERO.koraci}
+            </p>
+            <p className="hero-napomena">{HERO.napomena}</p>
           </div>
 
-          <p className="hero-koraci">
-            <ZvucniTalas sirina={40} className="logo-talas" />
-            {HERO.koraci}
-          </p>
-          <p className="hero-napomena">{HERO.napomena}</p>
+          <StatistikaTraka javne={javne} />
         </div>
+
+        <Talas boja="var(--podloga)" className="hero-talas" />
       </section>
 
-      <section>
-        <UIzradi etapa={6}>
-          Statistika, „Kako funkcioniše“ i posljednje odobrene prijave dodaju se na početnu stranicu u etapi 6.
-        </UIzradi>
-      </section>
+      <div className="pocetna-mreza">
+        <KakoFunkcionise />
+        <MiniMapaGlasova javne={javne} />
+        <PosljednjePrijave javne={javne} />
+      </div>
     </>
   )
 }

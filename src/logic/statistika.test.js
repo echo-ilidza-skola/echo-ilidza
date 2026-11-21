@@ -6,6 +6,7 @@ import {
   prosjecnoVrijemeRjesavanjaDana,
   osnovnaStatistika,
   datumRjesavanja,
+  posljednjePrijave,
 } from './statistika.js'
 
 function p(izmjene) {
@@ -70,6 +71,25 @@ describe('brojanje', () => {
 
   it('osnovna statistika: u obradi = U_OBRADI + PROSLIJEDJENO', () => {
     expect(osnovnaStatistika(prijave)).toEqual({ ukupno: 4, rijeseno: 1, uObradi: 2 })
+  })
+})
+
+describe('posljednjePrijave', () => {
+  const prijave = [
+    p({ id: 'a', datumPrijave: '2026-11-01T00:00:00.000Z' }),
+    p({ id: 'b', datumPrijave: '2026-11-05T00:00:00.000Z' }),
+    p({ id: 'c', datumPrijave: '2026-11-03T00:00:00.000Z' }),
+  ]
+
+  it('vraća najnovije prve i poštuje broj', () => {
+    expect(posljednjePrijave(prijave, 2).map((x) => x.id)).toEqual(['b', 'c'])
+    expect(posljednjePrijave(prijave).map((x) => x.id)).toEqual(['b', 'c', 'a'])
+  })
+
+  it('ne mijenja ulaznu listu i radi s praznom', () => {
+    posljednjePrijave(prijave, 1)
+    expect(prijave.map((x) => x.id)).toEqual(['a', 'b', 'c'])
+    expect(posljednjePrijave([])).toEqual([])
   })
 })
 
