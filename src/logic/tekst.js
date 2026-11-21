@@ -37,6 +37,17 @@ function izrazZaKljucnuRijec(kljucnaRijec) {
   return new RegExp('\\b' + dijelovi.join(' ') + '\\b', 'g')
 }
 
+// Pretvara posebne znakove u HTML oznake, da tekst koji je unio korisnik
+// ne može postati HTML kod (npr. kad pravimo oznaku na mapi kao HTML tekst).
+export function escapeHtml(tekst) {
+  return String(tekst ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
 // Broji koliko puta se svaka ključna riječ pojavljuje u tekstu.
 // Vraća samo pronađene riječi: [{ rijec: 'rupa', broj: 2 }, ...]
 export function pronadjiKljucneRijeci(tekst, kljucneRijeci) {

@@ -270,6 +270,313 @@ a {
   border-color: var(--boja-upozorenje-tekst);
 }
 
+.dugme-sporedno {
+  color: var(--boja-primarna-tamna);
+  background: var(--boja-bijela);
+  border-color: var(--boja-primarna);
+}
+
+.dugme-sporedno:hover {
+  color: var(--boja-bijela);
+}
+
+.mali-tekst {
+  font-size: 0.875rem;
+}
+
+/* Tekst koji vidi samo čitač ekrana. */
+.vizuelno-skriveno {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- natpisi statusa i kategorije ---------- */
+.status-natpis {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border: 1px solid var(--boja-linija);
+  border-radius: 999px;
+  background: var(--boja-podloga);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.status-natpis--rijeseno {
+  background: var(--boja-primarna-tamna);
+  border-color: var(--boja-primarna-tamna);
+  color: var(--boja-bijela);
+}
+
+.status-natpis--proslijedjeno {
+  background: var(--boja-upozorenje-podloga);
+  border-color: var(--boja-upozorenje);
+  color: var(--boja-upozorenje-tekst);
+}
+
+.kategorija-natpis {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+}
+
+.kategorija-tacka {
+  display: inline-block;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  flex: none;
+}
+
+/* ---------- oznake na mapi i u legendi ---------- */
+/* Boja oznake = kategorija (postavlja se u kodu), oblik = status. */
+.oznaka-omotac {
+  /* Leaflet bi inače dodao bijeli kvadrat iza oznake. */
+  background: none;
+  border: none;
+}
+
+.oznaka {
+  display: inline-block;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--boja-bijela);
+  outline: 1.5px solid var(--boja-tekst);
+  flex: none;
+}
+
+.oznaka-omotac .oznaka {
+  margin: 3px;
+}
+
+.oznaka--krug {
+  border-radius: 50%;
+}
+
+.oznaka--kvadrat {
+  border-radius: 3px;
+}
+
+.oznaka--romb {
+  border-radius: 2px;
+  transform: rotate(45deg) scale(0.9);
+}
+
+.oznaka--kvacica {
+  border-radius: 50%;
+}
+
+.oznaka--kvacica::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--boja-bijela);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.oznaka--mala {
+  width: 18px;
+  height: 18px;
+  border-width: 2px;
+}
+
+.oznaka--mala.oznaka--kvacica::after {
+  font-size: 11px;
+}
+
+.oznaka--siva {
+  background: var(--boja-tekst-prigusen);
+}
+
+.oznaka-broj {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 4px;
+  border-radius: 10px;
+  background: var(--boja-tekst);
+  color: var(--boja-bijela);
+  border: 2px solid var(--boja-bijela);
+  font: 700 11px/16px var(--font-tekst);
+  text-align: center;
+}
+
+/* Fokus na oznaci kad se mapa koristi tastaturom. */
+.leaflet-marker-icon:focus-visible {
+  outline: 3px solid var(--boja-upozorenje);
+  outline-offset: 2px;
+}
+
+/* ---------- mapa ---------- */
+.mapa-raspored {
+  display: flex;
+  flex-direction: column;
+  gap: var(--razmak);
+}
+
+.mapa {
+  height: 60vh;
+  min-height: 320px;
+  border: 1px solid var(--boja-linija);
+  border-radius: var(--zaobljenje);
+  z-index: 0;
+}
+
+.mapa-mala {
+  height: 260px;
+  min-height: 0;
+}
+
+.legenda {
+  background: var(--boja-bijela);
+  border: 1px solid var(--boja-linija);
+  border-radius: var(--zaobljenje);
+  padding: var(--razmak);
+}
+
+.legenda h2 {
+  font-size: 1.2rem;
+  margin: 0 0 0.25rem;
+}
+
+.legenda fieldset {
+  border: none;
+  margin: 0 0 0.75rem;
+  padding: 0;
+}
+
+.legenda legend {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.filter-opcija {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: var(--min-dugme);
+  cursor: pointer;
+}
+
+.filter-opcija input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--boja-primarna);
+}
+
+.sazetak {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font: 0.9rem/1.4 var(--font-tekst);
+}
+
+.sazetak-naslov {
+  font-family: var(--font-naslov);
+  font-size: 1rem;
+  color: var(--boja-primarna-tamna);
+}
+
+.sazetak a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--min-dugme);
+  font-weight: 600;
+}
+
+.lista-prijava {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.lista-prijava li {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--boja-linija);
+}
+
+.lista-prijava li:last-child {
+  border-bottom: none;
+}
+
+.lista-prijava a {
+  font-weight: 600;
+}
+
+.lista-detalji {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin-top: 0.3rem;
+}
+
+/* ---------- detalji prijave ---------- */
+.detalji-oznake {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-bottom: var(--razmak);
+}
+
+.detalji-polja {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.35rem 1rem;
+  margin: 0;
+}
+
+.detalji-polja dt {
+  font-weight: 600;
+  color: var(--boja-tekst-prigusen);
+}
+
+.detalji-polja dd {
+  margin: 0;
+}
+
+.opis-tekst {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.historija {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.historija li {
+  margin-bottom: 0.75rem;
+}
+
+.historija-datum {
+  margin-left: 0.5rem;
+  color: var(--boja-tekst-prigusen);
+  font-size: 0.9rem;
+}
+
+.historija-napomena {
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+}
+
 /* ---------- podnožje ---------- */
 .podnozje {
   border-top: 1px solid var(--boja-linija);
@@ -289,5 +596,30 @@ a {
 
   h1 {
     font-size: 2rem;
+  }
+}
+
+@media (min-width: 960px) {
+  .mapa-raspored {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .mapa-glavni {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .legenda {
+    width: 300px;
+    flex: none;
+  }
+
+  .mapa {
+    height: 70vh;
+  }
+
+  .mapa-mala {
+    height: 300px;
   }
 }

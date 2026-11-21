@@ -1,5 +1,21 @@
 import { describe, it, expect } from 'vitest'
-import { normalizujTekst, korijenRijeci, pronadjiKljucneRijeci } from './tekst.js'
+import { normalizujTekst, korijenRijeci, pronadjiKljucneRijeci, escapeHtml } from './tekst.js'
+
+describe('escapeHtml', () => {
+  it('pretvara HTML znakove u bezopasan tekst', () => {
+    expect(escapeHtml('<img src=x onerror="alert(1)">')).toBe('&lt;img src=x onerror=&quot;alert(1)&quot;&gt;')
+    expect(escapeHtml("Tom & Jerry's")).toBe('Tom &amp; Jerry&#39;s')
+  })
+
+  it('obični tekst s dijakriticima ostaje isti', () => {
+    expect(escapeHtml('Rupa kod škole')).toBe('Rupa kod škole')
+  })
+
+  it('null i undefined daju prazan tekst', () => {
+    expect(escapeHtml(null)).toBe('')
+    expect(escapeHtml(undefined)).toBe('')
+  })
+})
 
 describe('normalizujTekst', () => {
   it('pravi mala slova i uklanja dijakritike', () => {

@@ -85,6 +85,14 @@ export const TOK_STATUSA = ['NA_CEKANJU', 'ZAPRIMLJENO', 'U_OBRADI', 'PROSLIJEDJ
 
 export const JAVNI_STATUSI = Object.keys(STATUSI).filter((s) => STATUSI[s].javno)
 
+// Oblik oznake na mapi za svaki javni status (boja oznake = kategorija, oblik = status).
+export const OBLICI_STATUSA = {
+  ZAPRIMLJENO: { oblik: 'krug', opis: 'krug' },
+  U_OBRADI: { oblik: 'kvadrat', opis: 'kvadrat' },
+  PROSLIJEDJENO: { oblik: 'romb', opis: 'romb' },
+  RIJESENO: { oblik: 'kvacica', opis: 'krug s kvačicom' },
+}
+
 export function nazivStatusa(status) {
   return STATUSI[status] ? STATUSI[status].naziv : status
 }
