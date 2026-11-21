@@ -27,8 +27,15 @@ export default function PrekidacUloge() {
           ))}
         </select>
       </div>
-      <p id="demo-uloga-napomena" className="prekidac-napomena">
-        Demo uloga – nije prijava ni zaštita podataka
+      {/* Vidljivo piše kratko "Demo verzija"; puna napomena je u oblačiću (title) i za čitač ekrana,
+          a detaljno objašnjenje je na ekranu O projektu. */}
+      <p
+        id="demo-uloga-napomena"
+        className="prekidac-napomena"
+        title="Demo uloga služi samo za demonstraciju – nije prijava korisnika ni zaštita podataka."
+      >
+        Demo verzija
+        <span className="vizuelno-skriveno"> – demo uloga nije prijava korisnika ni zaštita podataka</span>
       </p>
     </div>
   )

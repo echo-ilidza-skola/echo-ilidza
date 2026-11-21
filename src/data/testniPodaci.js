@@ -66,10 +66,10 @@ const OSNOVNI_PODACI = [
   },
   {
     id: 't08', naselje: 'Otes', lat: 43.8423, lng: 18.2889, danaPrije: 12,
-    kategorija: 'okolis', potvrdjeniPrioritet: 'nizak',
+    kategorija: 'otpad', potvrdjeniPrioritet: 'nizak',
     status: 'ZAPRIMLJENO', autorId: 'testni-korisnik-06',
-    naslov: 'Neodržavana zelena površina između zgrada',
-    opis: 'Trava nije košena mjesecima, a u visokoj travi se skuplja otpad.',
+    naslov: 'Nepropisno odložen otpad',
+    opis: 'Na zelenoj površini između zgrada neko je ostavio kese sa smećem i stari namještaj, iako je kontejner blizu.',
   },
   {
     id: 't09', naselje: 'Otes', lat: 43.8437, lng: 18.2902, danaPrije: 40,
@@ -121,7 +121,7 @@ const OSNOVNI_PODACI = [
     id: 't15', naselje: 'Stup', lat: 43.8512, lng: 18.3377, danaPrije: 13,
     kategorija: 'rasvjeta', potvrdjeniPrioritet: 'srednji',
     status: 'ZAPRIMLJENO', autorId: 'testni-korisnik-11', glavnaPrijavaId: 't14',
-    naslov: 'Mrak na stazi, ne svijetle lampe',
+    naslov: 'Neispravna ulična rasvjeta',
     opis: 'Na stazi uz cestu ne radi nijedna lampa. Ljudi navečer hodaju uz svjetlo mobitela.',
   },
 
