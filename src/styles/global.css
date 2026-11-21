@@ -176,9 +176,37 @@ img {
   gap: 0.5rem;
 }
 
-.logo-talas {
-  color: var(--limeta);
+/* Znak eha: tačka (izvor glasa) i tri luka (odjek). Animacija je u odjeljku POKRET. */
+.eho-znak {
   flex: none;
+  overflow: visible;
+}
+
+.eho-tacka {
+  fill: var(--limeta);
+}
+
+.eho-sjaj {
+  fill: rgba(180, 240, 74, 0.3);
+}
+
+.eho-luk {
+  stroke: var(--limeta);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+/* Bez animacije luci postepeno blijede, kao glas koji se udaljava. */
+.eho-luk-1 {
+  opacity: 1;
+}
+
+.eho-luk-2 {
+  opacity: 0.7;
+}
+
+.eho-luk-3 {
+  opacity: 0.4;
 }
 
 .logo-tekst {
@@ -1602,24 +1630,58 @@ img {
   50% { transform: scale(0.75); opacity: 0.6; }
 }
 
-/* --- Zvučni talas (logo): iscrta se pri učitavanju, pa lagano "pulsira" --- */
-.logo-talas path {
-  stroke-dasharray: 160;
-  stroke-dashoffset: 160;
-  animation: crtanjeTalasa 1.4s ease-out 0.2s forwards;
+/* --- Znak eha: tačka "pulsira", a luci se pale jedan za drugim, kao odjek koji putuje --- */
+.eho-znak--animiran .eho-tacka,
+.eho-znak--animiran .eho-sjaj,
+.eho-znak--animiran .eho-luk {
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
-@keyframes crtanjeTalasa {
-  to { stroke-dashoffset: 0; }
+.eho-znak--animiran .eho-tacka {
+  animation: ehoTacka 2.8s ease-in-out infinite;
 }
 
-.talas-puls {
-  animation: pulsTalasa 2.4s ease-in-out 1.6s infinite;
+.eho-znak--animiran .eho-sjaj {
+  animation: ehoSjaj 2.8s ease-out infinite;
 }
 
-@keyframes pulsTalasa {
-  0%, 100% { filter: drop-shadow(0 0 0 rgba(180, 240, 74, 0)); }
-  50% { filter: drop-shadow(0 0 6px rgba(180, 240, 74, 0.9)); }
+.eho-znak--animiran .eho-luk {
+  animation: ehoLuk 2.8s ease-in-out infinite;
+}
+
+.eho-znak--animiran .eho-luk-2 {
+  animation-delay: 0.25s;
+}
+
+.eho-znak--animiran .eho-luk-3 {
+  animation-delay: 0.5s;
+}
+
+/* Glas krene iz tačke… */
+@keyframes ehoTacka {
+  0%, 100% { transform: scale(1); }
+  8% { transform: scale(1.3); }
+  20% { transform: scale(1); }
+}
+
+@keyframes ehoSjaj {
+  0% { transform: scale(0.6); opacity: 0.9; }
+  45%, 100% { transform: scale(2); opacity: 0; }
+}
+
+/* …i putuje kroz lukove: svaki luk zasvijetli i malo se pomjeri prema van. */
+@keyframes ehoLuk {
+  0%, 100% { opacity: 0.25; transform: translateX(0); }
+  18% { opacity: 1; transform: translateX(1.5px); }
+  45% { opacity: 0.25; transform: translateX(0); }
+}
+
+/* Kad pređemo mišem preko loga, odjek se ubrza. */
+.logo-link:hover .eho-luk,
+.logo-link:hover .eho-tacka,
+.logo-link:hover .eho-sjaj {
+  animation-duration: 1.4s;
 }
 
 /* --- Dugmad: lagano podizanje, jači sjaj, strelica se pomakne --- */
@@ -1807,10 +1869,6 @@ img {
 
   .hero-luk {
     opacity: 0.75 !important;
-  }
-
-  .logo-talas path {
-    stroke-dashoffset: 0;
   }
 
   .mini-mapa-sken {

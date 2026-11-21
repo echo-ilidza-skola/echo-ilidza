@@ -3,7 +3,7 @@ import HeroSignali from '../components/HeroSignali.jsx'
 import Ikona from '../components/Ikona.jsx'
 import Talas from '../components/Talas.jsx'
 import Pojava from '../components/Pojava.jsx'
-import { ZvucniTalas } from '../components/Logo.jsx'
+import { EhoZnak } from '../components/Logo.jsx'
 import StatistikaTraka from '../components/pocetna/StatistikaTraka.jsx'
 import KakoFunkcionise from '../components/pocetna/KakoFunkcionise.jsx'
 import MiniMapaGlasova from '../components/pocetna/MiniMapaGlasova.jsx'
@@ -47,7 +47,7 @@ export default function Pocetna() {
             </div>
 
             <p className="hero-koraci ulaz ulaz-5">
-              <ZvucniTalas sirina={40} className="logo-talas talas-puls" />
+              <EhoZnak velicina={26} />
               {HERO.koraci}
             </p>
             <p className="hero-napomena ulaz ulaz-5">{HERO.napomena}</p>
