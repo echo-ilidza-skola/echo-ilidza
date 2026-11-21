@@ -8,7 +8,12 @@ import {
   DEMO_KORISNIK_ID,
   MAX_NASLOV,
   MAX_OPIS,
+  PRAG_DUPLIKATA_M,
 } from './konstante.js'
+import { udaljenostM } from '../logic/udaljenost.js'
+import { najblizeNaselje } from '../logic/lokacija.js'
+import { predloziKategoriju } from '../logic/prijedlogKategorije.js'
+import { predloziPrioritet } from '../logic/prioritet.js'
 
 const SADA = new Date('2026-11-21T12:00:00Z')
 const prijave = napraviTestnePodatke(SADA)
@@ -94,11 +99,35 @@ describe('testni podaci', () => {
       expect(glavna.glavnaPrijavaId).toBeNull()
       expect(glavna.kategorija).toBe(p.kategorija)
     }
-    // Broj prijavitelja glavne prijave je bar 1 + broj povezanih prijava.
+    // Broj prijavitelja glavne prijave je 1 + broj povezanih prijava.
     for (const id of glavneIds) {
       const glavna = prijave.find((g) => g.id === id)
       const brojPovezanih = povezane.filter((p) => p.glavnaPrijavaId === id).length
-      expect(glavna.brojPrijavitelja).toBeGreaterThanOrEqual(1 + brojPovezanih)
+      expect(glavna.brojPrijavitelja).toBe(1 + brojPovezanih)
+    }
+  })
+
+  it('povezane prijave su bliže od 50 m svojoj glavnoj prijavi', () => {
+    for (const p of prijave.filter((p) => p.glavnaPrijavaId)) {
+      const glavna = prijave.find((g) => g.id === p.glavnaPrijavaId)
+      expect(udaljenostM(p, glavna)).toBeLessThan(PRAG_DUPLIKATA_M)
+    }
+  })
+
+  it('prijedlozi su izračunati pravilima i odgovaraju funkcijama iz src/logic', () => {
+    for (const p of prijave) {
+      expect(p.predlozenaKategorija).toBe(predloziKategoriju(p.naslov, p.opis).kategorija)
+      expect(p.predlozeniPrioritet).toBe(
+        predloziPrioritet(p.naslov, p.opis, p.brojPrijavitelja - 1).prioritet,
+      )
+    }
+    // Bar jedna prijava nema prijedlog kategorije (nema ključnih riječi).
+    expect(prijave.some((p) => p.predlozenaKategorija === null)).toBe(true)
+  })
+
+  it('naselje svake prijave je ono čije je približno središte najbliže', () => {
+    for (const p of prijave) {
+      expect(najblizeNaselje(p)).toBe(p.naselje)
     }
   })
 
