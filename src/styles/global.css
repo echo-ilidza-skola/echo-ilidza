@@ -476,37 +476,49 @@ img {
   isolation: isolate;
 }
 
-.hero-slika {
+/* Visina slike kad je široka koliko i ekran (slika je 1672 × 941 px, omjer 16 : 9). */
+.hero {
+  --visina-slike: calc(100vw * 941 / 1672);
+}
+
+/* Mobitel i tablet: CIJELA slika je na vrhu, a tekst ispod nje (kao na mockupu).
+   Donji dio slike se postepeno stapa s tamnom pozadinom. */
+.hero-slika-okvir {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--visina-slike);
+  z-index: -2;
+  -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 70%, transparent 100%);
+}
+
+.hero-slika {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 55% 60%;
-  z-index: -2;
-  /* Ilustracija je svijetla (zlatni sat); blago je zatamnimo i pojačamo zelenu, da tekst bude čitljiv. */
-  filter: brightness(0.92) saturate(1.15);
+  /* Ilustracija je svijetla (zlatni sat); blago je zatamnimo i pojačamo zelenu. */
+  filter: brightness(0.95) saturate(1.1);
 }
 
-/* Zatamnjenje preko fotografije, da tekst bude čitljiv (gradijent je dozvoljen samo ovdje). */
+/* Blagi zeleni sjaj iza oznaka (gradijent je dozvoljen samo u hero dijelu). */
 .hero::before {
   content: '';
   position: absolute;
   inset: 0;
   z-index: -1;
-  background:
-    radial-gradient(ellipse at 70% 38%, rgba(180, 240, 74, 0.18) 0%, rgba(180, 240, 74, 0) 45%),
-    linear-gradient(180deg, rgba(15, 46, 37, 0.15) 0%, rgba(15, 46, 37, 0.35) 28%, rgba(15, 46, 37, 0.92) 52%, rgba(15, 46, 37, 0.97) 100%);
+  background: radial-gradient(ellipse at 50% 22%, rgba(180, 240, 74, 0.16) 0%, rgba(180, 240, 74, 0) 40%);
 }
 
 .hero-signali {
   position: absolute;
   z-index: -1;
-  top: 0.25rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 105%;
-  max-width: 520px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--visina-slike);
   pointer-events: none;
 }
 
@@ -514,7 +526,8 @@ img {
   position: relative;
   max-width: var(--sirina-sadrzaja);
   margin: 0 auto;
-  padding: 15.5rem var(--razmak) 4.5rem;
+  /* Tekst počinje pri dnu slike, preko dijela koji se stapa s tamnom pozadinom. */
+  padding: calc(var(--visina-slike) - 2.5rem) var(--razmak) 4.5rem;
 }
 
 .hero-naslov {
@@ -548,10 +561,13 @@ img {
   margin: 1.75rem 0 0;
   padding: 0.9rem 0.5rem;
   list-style: none;
-  background: rgba(15, 46, 37, 0.65);
-  border: 1px solid rgba(180, 240, 74, 0.35);
+  /* Providno "staklo": slika se vidi kroz traku, uz blago zamućenje da brojevi ostanu čitljivi. */
+  background: rgba(15, 46, 37, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 18px;
-  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(3px) saturate(1.2);
+  backdrop-filter: blur(3px) saturate(1.2);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
 }
 
 .stat {
@@ -600,7 +616,9 @@ img {
 
 .stat-naziv {
   font-size: 0.8rem;
-  color: var(--tekst-na-tamnoj-prigusen);
+  font-weight: 600;
+  /* Svjetliji natpis, da bude čitljiv i preko slike kroz providnu traku. */
+  color: #eef6f2;
 }
 
 /* ---------- početna: tri kartice ispod hero dijela ---------- */
@@ -1320,14 +1338,6 @@ img {
     flex: 0 0 auto;
   }
 
-  .hero-sadrzaj {
-    padding-top: 17rem;
-  }
-
-  .hero-signali {
-    max-width: 620px;
-  }
-
   .pocetna-mreza {
     grid-template-columns: 1fr 1fr;
   }
@@ -1363,12 +1373,29 @@ img {
     display: none;
   }
 
+  /* Računar: hero ima ISTI omjer kao slika, pa se vidi cijela slika (ništa se ne odsijeca).
+     Ako je tekst viši od slike (uzak prozor), hero naraste, a slika se samo malo odsiječe sa strana. */
+  .hero {
+    aspect-ratio: 1672 / 941;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hero-slika-okvir {
+    inset: 0;
+    height: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
   .hero-sadrzaj {
     display: grid;
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
     align-items: end;
     gap: 2rem;
-    padding: 5.5rem var(--razmak) 6.5rem;
+    width: 100%;
+    padding: 4rem var(--razmak) 5.5rem;
   }
 
   .statistika-traka {
@@ -1382,14 +1409,15 @@ img {
     right: 3%;
     transform: translateY(-50%);
     width: 50%;
+    height: auto;
     max-width: 680px;
   }
 
+  /* Tamnije samo lijevo, iza teksta; desna strana slike ostaje svijetla i vidljiva. */
   .hero::before {
     background:
-      radial-gradient(ellipse at 72% 40%, rgba(180, 240, 74, 0.2) 0%, rgba(180, 240, 74, 0) 40%),
-      linear-gradient(90deg, rgba(15, 46, 37, 0.95) 0%, rgba(15, 46, 37, 0.78) 38%, rgba(15, 46, 37, 0.25) 75%, rgba(15, 46, 37, 0.15) 100%),
-      linear-gradient(180deg, rgba(15, 46, 37, 0) 60%, rgba(15, 46, 37, 0.6) 100%);
+      radial-gradient(ellipse at 72% 42%, rgba(180, 240, 74, 0.16) 0%, rgba(180, 240, 74, 0) 38%),
+      linear-gradient(90deg, rgba(15, 46, 37, 0.88) 0%, rgba(15, 46, 37, 0.6) 34%, rgba(15, 46, 37, 0.12) 62%, rgba(15, 46, 37, 0) 100%);
   }
 
   .hero-talas {
@@ -1516,24 +1544,6 @@ img {
 /* Blagi sjaj istaknutog dijela naslova (sjaj je dozvoljen u hero dijelu). */
 .hero-naslov-isticanje {
   text-shadow: 0 0 28px rgba(180, 240, 74, 0.35);
-}
-
-/* --- Fotografija: polagano "filmsko" približavanje (Ken Burns) --- */
-.hero-slika-okvir {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  overflow: hidden;
-}
-
-.hero-slika {
-  animation: priblizavanje 26s ease-in-out infinite alternate;
-  transform-origin: 65% 40%;
-}
-
-@keyframes priblizavanje {
-  from { transform: scale(1); }
-  to { transform: scale(1.12) translateX(-1.5%); }
 }
 
 /* --- Signali: lukovi se pojave pa "teku", oznake padnu pa lebde --- */
