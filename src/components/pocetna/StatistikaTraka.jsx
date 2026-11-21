@@ -31,7 +31,7 @@ export default function StatistikaTraka({ javne }) {
     <ul className="statistika-traka ulaz ulaz-5" aria-label="Statistika javnih prijava (testni podaci)">
       <Stavka broj={s.ukupno} naziv="Javne prijave" ikona="moje" klasa="stat-ikona--zelena" />
       <Stavka broj={s.uObradi} naziv="U obradi" ikona="sat" klasa="stat-ikona--zuta" />
-      <Stavka broj={s.rijeseno} naziv="Riješeno" ikona="kvacica" klasa="stat-ikona--zelena" />
+      <Stavka broj={s.rijeseno} naziv="Riješeno" ikona="kvaka" klasa="stat-ikona--kvacica" />
     </ul>
   )
 }
