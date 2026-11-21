@@ -415,19 +415,6 @@ img {
   margin-top: 0;
 }
 
-.u-izradi {
-  background: var(--bijela);
-  border: 1px dashed var(--tekst-prigusen);
-  border-radius: var(--zaobljenje);
-  padding: var(--razmak);
-  margin: var(--razmak) 0;
-}
-
-.u-izradi-dodatak {
-  margin-top: 0.5rem;
-  color: var(--tekst-prigusen);
-}
-
 /* ---------- dugmad ---------- */
 .dugme {
   display: inline-flex;
