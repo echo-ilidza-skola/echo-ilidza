@@ -19,7 +19,7 @@ const OZNAKE = [
   { x: 1180, y: 388 }, // grad iza parka
   { x: 1605, y: 305 }, // desno, zgrade u daljini
   { x: 1462, y: 532 }, // desno, zgrade uz rijeku
-  { x: 1335, y: 770 }, // dolje desno, krov zgrade
+  { x: 1238, y: 592 }, // desno od parka, zgrada (dolje desno je panel statistike)
   { x: 640, y: 792 }, // dolje lijevo, park ispod hotela
 ]
 

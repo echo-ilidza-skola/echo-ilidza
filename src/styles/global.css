@@ -1456,19 +1456,42 @@ img {
     padding: 4rem var(--razmak) 5.5rem;
   }
 
-  /* Statistika je u svom redu gore desno, preko neba: ne prekriva ni naslov ni glavni znak na fontani. */
-  .statistika-traka {
-    grid-column: 2;
-    grid-row: 1;
-    justify-self: end;
-    width: min(100%, 32rem);
-    margin: 0;
-    max-width: none;
+  /* Statistika je DOLJE DESNO preko slike, kao na mockupu: desno od fontane i iznad talasa.
+     Kompaktnija je, da ne prekrije glavni znak na fontani (koji je dolje u sredini slike). */
+  .hero-sadrzaj {
+    position: static;
   }
 
   .hero-tekst {
     grid-column: 1;
-    grid-row: 2;
+  }
+
+  .statistika-traka {
+    position: absolute;
+    /* Desni rub poravnat sa sadržajem stranice (isti kao zaglavlje). */
+    right: max(var(--razmak), calc((100% - var(--sirina-sadrzaja)) / 2 + var(--razmak)));
+    bottom: 11%;
+    width: min(34%, 30rem);
+    margin: 0;
+    max-width: none;
+    padding: 0.7rem 0.4rem;
+  }
+
+  .statistika-traka .stat {
+    gap: 0.5rem;
+  }
+
+  .statistika-traka .stat-ikona {
+    width: 38px;
+    height: 38px;
+  }
+
+  .statistika-traka .stat-broj {
+    font-size: 1.5rem;
+  }
+
+  .statistika-traka .stat-naziv {
+    font-size: 0.78rem;
   }
 
   /* Tamnije lijevo (iza teksta) i blago pri dnu; desna strana slike ostaje svijetla, kao na mockupu. */
@@ -2143,4 +2166,26 @@ img {
 
 .donje-dugme-kamera.active {
   color: var(--limeta);
+}
+
+/* Uži laptopi (960–1199 px): panel statistike dolje desno još kompaktniji, natpisi u jednom redu. */
+@media (min-width: 960px) and (max-width: 1199px) {
+  .statistika-traka .stat-ikona {
+    width: 32px;
+    height: 32px;
+  }
+
+  .statistika-traka .stat-ikona svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .statistika-traka .stat-broj {
+    font-size: 1.3rem;
+  }
+
+  .statistika-traka .stat-naziv {
+    font-size: 0.72rem;
+    white-space: nowrap;
+  }
 }
