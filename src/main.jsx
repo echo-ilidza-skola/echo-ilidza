@@ -11,6 +11,7 @@ import '@fontsource/montserrat/latin-900.css'
 import '@fontsource/montserrat/latin-ext-900.css'
 import './styles/global.css'
 import './styles/obrazac.css'
+import './styles/admin.css'
 
 // Prije prvog prikaza provjeravamo podatke; ako ih nema, učitavaju se testni podaci.
 inicijalizuj()

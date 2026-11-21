@@ -113,6 +113,51 @@ describe('storage.js', () => {
     await expect(storage.obrisiSveFotografije()).resolves.toBeUndefined()
   })
 
+  it('administrator odobri prijavu: postaje javna, s potvrđenom kategorijom i prioritetom', () => {
+    storage.inicijalizuj()
+    const p = storage.odobriPrijavu('t19', { kategorija: 'okolis', prioritet: 'srednji' })
+    expect(p.status).toBe('ZAPRIMLJENO')
+    expect(p.potvrdjeniPrioritet).toBe('srednji')
+    expect(storage.javnaPrijava('t19')).not.toBeNull()
+    expect(storage.dohvatiPrijavu('t19').historijaStatusa.at(-1).status).toBe('ZAPRIMLJENO')
+  })
+
+  it('administrator odbije prijavu uz razlog; autor vidi razlog, prijava nije javna', () => {
+    storage.inicijalizuj()
+    expect(() => storage.odbijPrijavu('t10', '')).toThrow()
+    storage.odbijPrijavu('t10', 'Lokacija nije precizna')
+    const p = storage.prijaveAutora('testni-korisnik-07').find((x) => x.id === 't10')
+    expect(p.status).toBe('ODBIJENO')
+    expect(p.razlogOdbijanja).toBe('Lokacija nije precizna')
+    expect(storage.javnaPrijava('t10')).toBeNull()
+  })
+
+  it('promjena statusa se vidi u javnom prikazu i historiji', () => {
+    storage.inicijalizuj()
+    storage.promijeniStatusPrijave('t02', 'RIJESENO', 'Kontejner ispražnjen')
+    const javna = storage.javnaPrijava('t02')
+    expect(javna.status).toBe('RIJESENO')
+    expect(javna.historijaStatusa.at(-1)).toMatchObject({ status: 'RIJESENO', napomena: 'Kontejner ispražnjen' })
+  })
+
+  it('interna napomena i sakrivena fotografija ne izlaze u javni prikaz', () => {
+    storage.inicijalizuj()
+    storage.sacuvajInternuNapomenu('t02', 'Tajna napomena admina')
+    storage.postaviSakrivenuFotografiju('t02', true)
+    const javna = storage.javnaPrijava('t02')
+    expect(JSON.stringify(javna)).not.toContain('Tajna napomena')
+    expect(javna.fotografijaId).toBeNull()
+    expect(storage.dohvatiPrijavu('t02').internaNapomena).toBe('Tajna napomena admina')
+  })
+
+  it('ručno povezivanje i razdvajanje mijenjaju broj prijavitelja', () => {
+    storage.inicijalizuj()
+    storage.poveziPrijavu('t13', 't04')
+    expect(storage.dohvatiPrijavu('t04').brojPrijavitelja).toBe(4)
+    storage.razdvojiPrijavu('t13')
+    expect(storage.dohvatiPrijavu('t04').brojPrijavitelja).toBe(3)
+  })
+
   it('demo uloga: nepoznata vrijednost postaje Gost', () => {
     expect(storage.ucitajUlogu()).toBe('gost')
     expect(storage.sacuvajUlogu('administrator')).toBe(true)

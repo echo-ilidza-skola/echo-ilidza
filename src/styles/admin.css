@@ -1,0 +1,390 @@
+/* Stilovi administracije. Koriste iste CSS varijable kao global.css. */
+
+/* --- kartice (tabovi) --- */
+.admin-kartice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 1rem 0;
+}
+
+.admin-kartica {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: var(--min-dugme);
+  padding: 0 1.1rem;
+  font: inherit;
+  font-weight: 700;
+  color: var(--tamna);
+  background: var(--bijela);
+  border: 1px solid var(--linija);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.admin-kartica--aktivna {
+  color: var(--tekst-na-tamnoj);
+  background: var(--tamna);
+  border-color: var(--tamna);
+}
+
+.admin-znacka {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: 12px;
+  background: var(--limeta);
+  color: var(--tamna);
+  font-size: 0.8rem;
+}
+
+.admin-poruka {
+  min-height: 1.5rem;
+  margin: 0.5rem 0;
+  font-weight: 700;
+  color: var(--primarna-tamna);
+}
+
+.admin-poruka--greska {
+  color: #b42318;
+}
+
+/* --- kartica jedne prijave --- */
+.admin-prijava {
+  margin: 1rem 0;
+  padding: 1.1rem;
+  background: var(--bijela);
+  border: 1px solid var(--linija);
+  border-left: 5px solid var(--primarna);
+  border-radius: var(--zaobljenje);
+}
+
+.admin-prijava-glava {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.admin-prijava-glava h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.admin-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.9rem;
+  margin: 0.3rem 0 0;
+  font-size: 0.85rem;
+  color: var(--tekst-prigusen);
+}
+
+.admin-prijava-tijelo {
+  display: grid;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.admin-kolona {
+  min-width: 0;
+}
+
+.mapa-admin {
+  height: 220px;
+  min-height: 0;
+  margin-top: 0.75rem;
+}
+
+.admin-sekcija {
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--linija);
+}
+
+.admin-sekcija h4 {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-naslov);
+  font-size: 1rem;
+  color: var(--tamna);
+}
+
+.admin-naslov-polja {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 700;
+}
+
+.admin-sekcija textarea,
+.admin-prijedlog select,
+.admin-red-polja select {
+  width: 100%;
+  min-height: var(--min-dugme);
+  padding: 0.55rem 0.75rem;
+  margin-bottom: 0.5rem;
+  font: inherit;
+  border: 1.5px solid #b9c7c1;
+  border-radius: 10px;
+  background: var(--bijela);
+}
+
+.admin-dugmad {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+/* --- prijedlog pravila --- */
+.admin-prijedlog {
+  padding: 0.85rem 1rem;
+  border: 1px dashed var(--primarna);
+  border-radius: 12px;
+  background: #f3faf6;
+}
+
+.admin-prijedlog-mreza {
+  display: grid;
+  gap: 1rem;
+}
+
+.admin-prijedlog-naslov {
+  margin: 0 0 0.2rem;
+  font-weight: 800;
+  font-family: var(--font-naslov);
+  color: var(--tamna);
+}
+
+.admin-prijedlog label {
+  display: block;
+  margin: 0.4rem 0 0.2rem;
+  font-weight: 700;
+}
+
+.admin-razlozi {
+  margin: 0.25rem 0;
+  padding-left: 1.1rem;
+  font-size: 0.85rem;
+}
+
+.admin-napomena-prioritet {
+  margin: 0;
+}
+
+/* --- povezivanje --- */
+.admin-lista-mala {
+  margin: 0.3rem 0 0.6rem;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+}
+
+.admin-lista-mala li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.3rem 0;
+}
+
+.admin-duplikati {
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  background: var(--upozorenje-podloga);
+  margin-bottom: 0.6rem;
+}
+
+.admin-red-polja label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 700;
+}
+
+.admin-historija summary {
+  display: flex;
+  align-items: center;
+  min-height: var(--min-dugme);
+  margin-top: 0.6rem;
+  font-weight: 700;
+  color: var(--primarna-tamna);
+  cursor: pointer;
+}
+
+/* --- lista svih prijava --- */
+.admin-filteri {
+  display: grid;
+  gap: 0 0.75rem;
+  align-items: end;
+  padding: 1rem;
+  background: var(--bijela);
+  border: 1px solid var(--linija);
+  border-radius: var(--zaobljenje);
+}
+
+.admin-filteri .polje {
+  margin-bottom: 0.75rem;
+}
+
+.admin-filteri .dugme {
+  margin-bottom: 0.75rem;
+}
+
+.admin-lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-red {
+  margin-bottom: 0.5rem;
+  padding: 0.75rem 0.9rem;
+  background: var(--bijela);
+  border: 1px solid var(--linija);
+  border-radius: 12px;
+}
+
+.admin-red--otvoren {
+  border-color: var(--primarna);
+}
+
+.admin-red-glava {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.9rem;
+}
+
+.admin-red-tekst {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+
+.admin-red .admin-prijava {
+  margin-bottom: 0;
+  border-left-width: 1px;
+}
+
+/* --- statistika --- */
+.admin-kpi {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.admin-kpi-stavka {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1rem 1.1rem;
+  background: var(--tamna);
+  color: var(--tekst-na-tamnoj);
+  border-radius: var(--zaobljenje);
+}
+
+.admin-kpi-stavka .prigusen {
+  color: var(--tekst-na-tamnoj-prigusen);
+}
+
+.admin-kpi-broj {
+  font-family: var(--font-naslov);
+  font-weight: 900;
+  font-size: 2.2rem;
+  line-height: 1;
+  color: var(--limeta);
+}
+
+.admin-grafikoni {
+  display: grid;
+  gap: 1rem;
+}
+
+.grafikon {
+  margin: 0;
+  padding: 1rem 1.1rem;
+  background: var(--bijela);
+  border: 1px solid var(--linija);
+  border-radius: var(--zaobljenje);
+}
+
+.grafikon-naslov {
+  margin-bottom: 0.75rem;
+  font-family: var(--font-naslov);
+  font-weight: 800;
+  color: var(--tamna);
+}
+
+.grafikon-lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.grafikon-red {
+  display: grid;
+  grid-template-columns: minmax(7rem, 11rem) 1fr 2.2rem;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.25rem 0;
+  font-size: 0.88rem;
+}
+
+.grafikon-traka-okvir {
+  height: 14px;
+  border-radius: 7px;
+  background: var(--podloga);
+  overflow: hidden;
+}
+
+.grafikon-traka {
+  display: block;
+  height: 100%;
+  border-radius: 7px;
+  transition: width 0.6s ease;
+}
+
+.grafikon-broj {
+  font-weight: 700;
+  text-align: right;
+}
+
+.admin-reset {
+  margin-top: 2rem;
+}
+
+@media (min-width: 760px) {
+  .admin-prijedlog-mreza {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .admin-filteri {
+    grid-template-columns: 2fr 1fr 1fr 1fr auto;
+  }
+
+  .admin-kpi {
+    grid-template-columns: 1fr 2fr;
+  }
+}
+
+@media (min-width: 1000px) {
+  .admin-prijava-tijelo {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  }
+
+  .admin-grafikoni {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Prazna poruka ne zauzima prostor (element ostaje zbog čitača ekrana). */
+.admin-poruka:empty {
+  min-height: 0;
+  margin: 0;
+}

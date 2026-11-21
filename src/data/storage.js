@@ -5,12 +5,17 @@
 //   - prijave i demo uloga: localStorage
 //   - fotografije: IndexedDB (preko biblioteke idb-keyval), jer su prevelike za localStorage
 //
-// Funkcije za administraciju (status, napomene, povezivanje) dodaju se u etapi 5.
 
 import { createStore, get, set, del, clear } from 'idb-keyval'
 import { napraviTestnePodatke } from './testniPodaci.js'
 import { uJavniPrikaz } from '../logic/javniPrikaz.js'
 import { napraviNovuPrijavu, povecajBrojPrijavitelja, noviId } from '../logic/novaPrijava.js'
+import {
+  promijeniStatus,
+  potvrdiKategorijuIPrioritet,
+  poveziPrijave,
+  razdvojiPrijave,
+} from '../logic/administracija.js'
 import { ULOGE } from './konstante.js'
 
 const KLJUC_PRIJAVE = 'echo.prijave.v1'
@@ -128,6 +133,66 @@ export function dodajPrijavu(unos, autorId) {
     throw new Error('Prijavu nije moguće spremiti u ovom pregledniku (memorija je možda puna).')
   }
   return nova
+}
+
+// ---------- administracija ----------
+// Sve izmjene idu kroz čiste funkcije iz src/logic/administracija.js; ovdje se samo spremaju.
+
+function sacuvajIliGreska(prijave) {
+  if (!sacuvajPrijave(prijave)) {
+    throw new Error('Izmjenu nije moguće spremiti u ovom pregledniku (memorija je možda puna).')
+  }
+}
+
+// Mijenja jednu prijavu funkcijom "izmjena" i vraća izmijenjenu prijavu.
+function azurirajPrijavu(id, izmjena) {
+  const prijave = svePrijave()
+  const indeks = prijave.findIndex((p) => p.id === id)
+  if (indeks < 0) throw new Error('Prijava ne postoji.')
+  const nove = [...prijave]
+  nove[indeks] = izmjena(prijave[indeks])
+  sacuvajIliGreska(nove)
+  return nove[indeks]
+}
+
+// Odobravanje: administrator potvrđuje kategoriju i prioritet, a prijava postaje javna (Zaprimljeno).
+export function odobriPrijavu(id, { kategorija, prioritet, napomena }) {
+  return azurirajPrijavu(id, (p) =>
+    promijeniStatus(potvrdiKategorijuIPrioritet(p, kategorija, prioritet), 'ZAPRIMLJENO', {
+      napomena: napomena || 'Prijava je provjerena i odobrena.',
+    }),
+  )
+}
+
+// Odbijanje uz obavezan razlog, koji autor vidi u "Mojim prijavama".
+export function odbijPrijavu(id, razlog) {
+  return azurirajPrijavu(id, (p) => promijeniStatus(p, 'ODBIJENO', { napomena: razlog }))
+}
+
+export function promijeniStatusPrijave(id, noviStatus, napomena) {
+  return azurirajPrijavu(id, (p) => promijeniStatus(p, noviStatus, { napomena }))
+}
+
+export function sacuvajKategorijuIPrioritet(id, kategorija, prioritet) {
+  return azurirajPrijavu(id, (p) => potvrdiKategorijuIPrioritet(p, kategorija, prioritet))
+}
+
+// Interna napomena je samo za administraciju i NIKAD se ne prikazuje javno.
+export function sacuvajInternuNapomenu(id, tekst) {
+  return azurirajPrijavu(id, (p) => ({ ...p, internaNapomena: (tekst || '').trim() }))
+}
+
+// Sakrivena fotografija se ne prikazuje u javnom prikazu (administrator je i dalje vidi).
+export function postaviSakrivenuFotografiju(id, sakrivena) {
+  return azurirajPrijavu(id, (p) => ({ ...p, fotografijaSkrivena: Boolean(sakrivena) }))
+}
+
+export function poveziPrijavu(id, saId) {
+  sacuvajIliGreska(poveziPrijave(svePrijave(), id, saId))
+}
+
+export function razdvojiPrijavu(id) {
+  sacuvajIliGreska(razdvojiPrijave(svePrijave(), id))
 }
 
 // ---------- fotografije (IndexedDB) ----------
