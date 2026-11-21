@@ -23,7 +23,7 @@ export default function Povezivanje({ prijava, sve, javiPoruku }) {
   if (glavna) {
     return (
       <div className="admin-sekcija">
-        <h4>Povezane prijave</h4>
+        <h3>Povezane prijave</h3>
         <p>
           Povezana s prijavom <strong>{glavna.naslov}</strong> ({glavna.id}), koja ima {glavna.brojPrijavitelja}{' '}
           prijavitelja.
@@ -49,7 +49,7 @@ export default function Povezivanje({ prijava, sve, javiPoruku }) {
 
   return (
     <div className="admin-sekcija">
-      <h4>Povezane prijave</h4>
+      <h3>Povezane prijave</h3>
       {povezane.length > 0 ? (
         <>
           <p>Ovo je glavna prijava grupe ({prijava.brojPrijavitelja} prijavitelja). Povezane prijave:</p>

@@ -279,7 +279,7 @@ img {
 
 .prekidac-napomena {
   margin: 0;
-  font-size: 0.66rem;
+  font-size: 0.72rem;
   line-height: 1.2;
   text-align: right;
   color: var(--tekst-na-tamnoj-prigusen);
@@ -1874,4 +1874,85 @@ img {
   .mini-mapa-sken {
     display: none;
   }
+}
+
+/* =====================================================================
+   O PROJEKTU
+   ===================================================================== */
+.o-projektu {
+  max-width: 860px !important;
+}
+
+.projekat-uvod {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.projekat-uvod .eho-znak {
+  margin-top: 0.4rem;
+  padding: 0.5rem;
+  box-sizing: content-box;
+  background: var(--tamna);
+  border-radius: 16px;
+}
+
+.projekat-odjeljak {
+  margin: 1rem 0;
+  padding: 1.1rem 1.25rem;
+  background: var(--bijela);
+  border: 1px solid var(--linija);
+  border-radius: var(--zaobljenje);
+}
+
+.projekat-odjeljak h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 0.6rem;
+  font-size: 1.25rem;
+}
+
+.projekat-ikona {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #e3f4ea;
+  color: var(--primarna);
+}
+
+.projekat-odjeljak ul {
+  margin: 0.4rem 0;
+  padding-left: 1.2rem;
+}
+
+.projekat-odjeljak li {
+  margin-bottom: 0.4rem;
+}
+
+.projekat-kraj {
+  margin: 1.5rem 0 0;
+}
+
+/* =====================================================================
+   PRISTUPAČNOST: dodirne površine na mapi (najmanje 44 px)
+   ===================================================================== */
+.leaflet-control-zoom a,
+.leaflet-touch .leaflet-control-zoom a {
+  width: 44px;
+  height: 44px;
+  line-height: 44px;
+  font-size: 22px;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  width: 36px;
+  height: 36px;
+  font-size: 24px;
+  line-height: 32px;
 }

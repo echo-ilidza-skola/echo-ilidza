@@ -15,6 +15,11 @@ const PUTANJE = {
   poruka: ['M4 5h16v11H9l-5 4z', 'M8 9.5h8', 'M8 12.5h5'],
   kvacica: ['M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z', 'm8 12.3 2.8 2.7L16.5 9.5'],
   sat: ['M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z', 'M12 7.5V12l3 2'],
+  podaci: [
+    'M4 6c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3z',
+    'M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6',
+    'M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3',
+  ],
 
   // Ikone kategorija (neutralne; testne prijave nemaju fotografija).
   ceste: ['M8 3 4 21', 'M16 3l4 18', 'M12 4v3', 'M12 10.5v3', 'M12 17v3'],

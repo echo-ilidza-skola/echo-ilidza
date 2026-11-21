@@ -59,7 +59,7 @@ export default function AdminPrijava({ prijava, sve, naOdluku }) {
     <article className="admin-prijava" aria-labelledby={`naslov-${id}`}>
       <header className="admin-prijava-glava">
         <div>
-          <h3 id={`naslov-${id}`}>{prijava.naslov}</h3>
+          <h2 id={`naslov-${id}`} className="admin-prijava-naslov">{prijava.naslov}</h2>
           <p className="admin-meta">
             <KategorijaOznaka kategorija={prijava.kategorija} />
             <span>{prijava.naselje}</span>
@@ -123,7 +123,7 @@ export default function AdminPrijava({ prijava, sve, naOdluku }) {
 
           {naCekanju ? (
             <div className="admin-sekcija">
-              <h4>Odluka</h4>
+              <h3>Odluka</h3>
               {!odbijanje ? (
                 <div className="admin-dugmad">
                   <button
@@ -177,7 +177,7 @@ export default function AdminPrijava({ prijava, sve, naOdluku }) {
               </div>
 
               <div className="admin-sekcija">
-                <h4>Promjena statusa</h4>
+                <h3>Promjena statusa</h3>
                 <div className="polje">
                   <label htmlFor={`status-${id}`}>Novi status</label>
                   <select id={`status-${id}`} value={noviStatus} onChange={(e) => postaviNoviStatus(e.target.value)}>
