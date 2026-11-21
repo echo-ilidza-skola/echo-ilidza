@@ -7,6 +7,7 @@ import OznakaPrijave from '../components/mapa/OznakaPrijave.jsx'
 import LegendaFilteri from '../components/mapa/LegendaFilteri.jsx'
 import StatusOznaka from '../components/StatusOznaka.jsx'
 import KategorijaOznaka from '../components/KategorijaOznaka.jsx'
+import Ikona from '../components/Ikona.jsx'
 import { usePodaci } from '../hooks/usePodaci.js'
 import { javnePrijave } from '../data/storage.js'
 import { KATEGORIJE, JAVNI_STATUSI, CENTAR_MAPE } from '../data/konstante.js'
@@ -19,6 +20,8 @@ function sviFilteri() {
 export default function Mapa() {
   const javne = usePodaci(javnePrijave)
   const [filteri, postaviFiltere] = useState(sviFilteri)
+  // Na mobitelu su legenda i filteri skriveni iza dugmeta; na računaru su uvijek vidljivi.
+  const [filteriOtvoreni, postaviFiltereOtvorene] = useState(false)
 
   const naMapi = grupisiZaMapu(javne)
   const prikazane = filtrirajPrijave(naMapi, filteri)
@@ -30,6 +33,22 @@ export default function Mapa() {
         Na mapi su samo prijave koje je administrator odobrio. Nove prijave postaju vidljive tek nakon provjere.
       </p>
 
+      <div className="mapa-alati">
+        <p className="mapa-brojac" aria-live="polite">
+          Prikazano <strong>{prikazane.length}</strong> od {naMapi.length} oznaka
+        </p>
+        <button
+          type="button"
+          className="dugme dugme-sporedno dugme-filteri"
+          aria-expanded={filteriOtvoreni}
+          aria-controls="legenda-filteri"
+          onClick={() => postaviFiltereOtvorene(!filteriOtvoreni)}
+        >
+          <Ikona ime={filteriOtvoreni ? 'zatvori' : 'filter'} velicina={18} />
+          {filteriOtvoreni ? 'Sakrij filtere' : 'Legenda i filteri'}
+        </button>
+      </div>
+
       <div className="mapa-raspored">
         <div className="mapa-glavni">
           <OsnovnaMapa centar={CENTAR_MAPE} zoom={13} className="mapa" oznaka="Mapa javnih prijava">
@@ -37,13 +56,15 @@ export default function Mapa() {
               <OznakaPrijave key={p.id} prijava={p} />
             ))}
           </OsnovnaMapa>
-          <p className="prigusen mali-tekst" aria-live="polite">
-            Prikazano je {prikazane.length} od {naMapi.length} oznaka. Povezane prijave istog problema su
-            jedna oznaka.
-          </p>
+          <p className="prigusen mali-tekst">Povezane prijave istog problema prikazane su kao jedna oznaka.</p>
         </div>
 
-        <LegendaFilteri filteri={filteri} promijeniFiltere={postaviFiltere} ponisti={() => postaviFiltere(sviFilteri())} />
+        <LegendaFilteri
+          otvoreno={filteriOtvoreni}
+          filteri={filteri}
+          promijeniFiltere={postaviFiltere}
+          ponisti={() => postaviFiltere(sviFilteri())}
+        />
       </div>
 
       {/* Lista je zamjena za mapu za one koji ne mogu koristiti mapu (npr. čitač ekrana). */}

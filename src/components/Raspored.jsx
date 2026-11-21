@@ -1,8 +1,11 @@
-// Zajednički raspored svih ekrana: traka o testnim podacima, zaglavlje, sadržaj, podnožje.
+// Zajednički raspored svih ekrana: traka o testnim podacima, zaglavlje, sadržaj, podnožje
+// i donja navigacija (samo na mobitelu).
 
 import { Outlet } from 'react-router-dom'
 import TrakaTestniPodaci from './TrakaTestniPodaci.jsx'
 import Zaglavlje from './Zaglavlje.jsx'
+import Podnozje from './Podnozje.jsx'
+import { DonjaNavigacija } from './Navigacija.jsx'
 
 export default function Raspored() {
   return (
@@ -15,9 +18,8 @@ export default function Raspored() {
       <main id="sadrzaj" className="sadrzaj" tabIndex={-1}>
         <Outlet />
       </main>
-      <footer className="podnozje">
-        <p>ECHO Civic – Ilidža · školski prototip · svi podaci su testni i čuvaju se samo u ovom pregledniku.</p>
-      </footer>
+      <Podnozje />
+      <DonjaNavigacija />
     </>
   )
 }

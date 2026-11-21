@@ -20,6 +20,9 @@ Akronim "Every Citizen Has One voice" može se spomenuti samo kao sitni detalj n
 7. Autor prijave, interna napomena i predloženi prioritet NIKAD se ne prikazuju u javnom prikazu.
 8. Nema pozadinskog servera, nema API ključeva, nema vanjskih AI servisa, nema analitike ni praćenja.
 9. Ne preuzimaj slike s interneta. Testne prijave nemaju fotografije ili koriste neutralnu ikonu kategorije.
+   Jedini izuzetak (odobrila mentorica): fotografija za hero dio (`src/assets/hero-ilidza.jpg`) sa slobodnom
+   licencom, uz vidljivu atribuciju autora i licence; izvor je zapisan u `src/assets/IZVORI.md`.
+   Privremena je – zamijenit će je fotografija koju snime učenici.
 10. Demo uloge (Gost / Građanin / Administrator) NISU prijava korisnika ni zaštita podataka. To piše uz
     prekidač i na ekranu O projektu.
 11. Nikad ne prikazuj nedovršenu ili neprovjerenu funkciju kao završenu. Greške i ograničenja se navode, ne skrivaju.
@@ -44,10 +47,18 @@ Akronim "Every Citizen Has One voice" može se spomenuti samo kao sitni detalj n
 - Čista logika (haversine, prijedlozi, prioritet, statistika) živi u `src/logic/` bez React koda i ima Vitest testove.
 
 ## Vizuelni identitet
-- Primarna boja: #1F7A63 (tamna zelena), tamnija #14523F, svijetla podloga #EEF5F2
-- Tekst #22302C, prigušeni tekst #5E6B66, linije #D5DFDA, upozorenje #B9731F na #FBF3E7
-- Naslovi: Georgia (serif); ostali tekst: sistemski sans-serif
-- Mirno i uredno, bez gradijenata i sjenki. Mobitel prvo, zatim tablet i računar.
+(Ažurirano nakon etape 3: inovativan i upečatljiv stil po uzoru na mockup koji je odobrila mentorica.)
+- Tamna podloga (zaglavlje, hero, podnožje, donja navigacija): #0F2E25; primarna #1F7A63, tamnija #14523F
+- Akcent limeta #B4F04A: dugmad za glavnu radnju, aktivna stavka navigacije, isticanje u naslovima.
+  Tekst NA limeti je uvijek tamni (#0F2E25); limeta se ne koristi za tekst na svijetloj podlozi (slab kontrast).
+- Sadržaj na svijetloj podlozi #EEF5F2 i bijelim karticama; tekst #22302C, prigušeni #5E6B66, linije #D5DFDA,
+  upozorenje #B9731F na #FBF3E7
+- Naslovi: debeli sistemski sans-serif (bez dodatnih fontova); veliki naslovi u hero dijelu velikim slovima.
+- Gradijent i sjaj (glow) dozvoljeni SAMO kao ukras u hero dijelu i zaglavlju; kartice su ravne, s tankim obrubom, bez sjenki.
+- Ikone: vlastite jednostavne inline SVG ikone (bez biblioteke ikona).
+- Logo: riječ "ECHO" uz simbol zvučnog talasa, ispod "CIVIC · ILIDŽA". Nikad grb ni znak Općine.
+- Nikad linkovi na društvene mreže ni dugme "Prijava/login" (demo uloge nisu prijava korisnika).
+- Mobitel prvo (donja navigacija na mobitelu), zatim tablet i računar.
 - Pristupačnost: kontrast najmanje WCAG AA, dugmad najmanje 44 px, rad tastaturom, alt tekst za slike.
 
 ## Model podataka (jedna prijava)

@@ -8,9 +8,13 @@ function prebaci(lista, vrijednost) {
   return lista.includes(vrijednost) ? lista.filter((v) => v !== vrijednost) : [...lista, vrijednost]
 }
 
-export default function LegendaFilteri({ filteri, promijeniFiltere, ponisti }) {
+export default function LegendaFilteri({ otvoreno, filteri, promijeniFiltere, ponisti }) {
   return (
-    <section className="legenda" aria-labelledby="legenda-naslov">
+    <section
+      id="legenda-filteri"
+      className={otvoreno ? 'legenda legenda-otvorena' : 'legenda'}
+      aria-labelledby="legenda-naslov"
+    >
       <h2 id="legenda-naslov">Legenda i filteri</h2>
       <p className="prigusen mali-tekst">
         Boja oznake je kategorija, a oblik je status. Broj u uglu oznake je broj prijavitelja istog problema.

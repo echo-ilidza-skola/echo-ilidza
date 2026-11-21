@@ -19,12 +19,14 @@ export default function DetaljiPrijave() {
 
   if (!prijava) {
     return (
-      <section className="kartica">
-        <h1>Prijava nije dostupna</h1>
-        <p>
-          Prijava ne postoji ili još nije javna. Prijave postaju javne tek nakon provjere administratora.
-        </p>
-        <Link to="/mapa">Nazad na mapu</Link>
+      <section>
+        <div className="kartica">
+          <h1>Prijava nije dostupna</h1>
+          <p>
+            Prijava ne postoji ili još nije javna. Prijave postaju javne tek nakon provjere administratora.
+          </p>
+          <Link to="/mapa">Nazad na mapu</Link>
+        </div>
       </section>
     )
   }

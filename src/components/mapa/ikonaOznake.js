@@ -37,8 +37,8 @@ export function napraviIkonu(prijava) {
   return L.divIcon({
     className: 'oznaka-omotac',
     html,
-    iconSize: [30, 30],
-    iconAnchor: [15, 15],
-    popupAnchor: [0, -14],
+    iconSize: [36, 36],
+    iconAnchor: [18, 18],
+    popupAnchor: [0, -16],
   })
 }
