@@ -11,13 +11,16 @@ import { useManjePokreta } from '../hooks/useManjePokreta.js'
 // Sredina fontane na slici hero-ilidza-ai.jpg (u pikselima slike).
 const FONTANA = { x: 1003, y: 716 }
 
-// Ostale oznake (vrh oznake je tačka na slici).
+// Ostale oznake, raspoređene po cijeloj slici (vrh oznake je tačka na slici).
+// Na računaru zaobilaze tekst (lijevo u sredini) i panel statistike (gore desno).
 const OZNAKE = [
-  { x: 1238, y: 588 },
-  { x: 1335, y: 765 },
-  { x: 1180, y: 375 },
-  { x: 1525, y: 405 },
-  { x: 1065, y: 480 },
+  { x: 330, y: 232 }, // gore lijevo, naselje na brdu
+  { x: 760, y: 258 }, // gore u sredini, kod rijeke
+  { x: 1180, y: 388 }, // grad iza parka
+  { x: 1605, y: 305 }, // desno, zgrade u daljini
+  { x: 1462, y: 532 }, // desno, zgrade uz rijeku
+  { x: 1335, y: 770 }, // dolje desno, krov zgrade
+  { x: 640, y: 792 }, // dolje lijevo, park ispod hotela
 ]
 
 // Oblik oznake (pin) čiji je vrh u tački (0, 0).
@@ -32,6 +35,8 @@ function putanjaLuka(o) {
 function Oznaka({ x, y, mjerilo, glavna, kasnjenje }) {
   return (
     <g transform={`translate(${x} ${y}) scale(${mjerilo})`}>
+      {/* Mali krug eha ispod svake oznake */}
+      <ellipse className="hero-mali-eho" style={{ animationDelay: `${kasnjenje * 3}s` }} cx="0" cy="0" rx="16" ry="5.5" />
       <ellipse className="hero-sjena-pina" cx="0" cy="0" rx="9" ry="3" />
       <g className="hero-pin-ulaz" style={{ animationDelay: `${kasnjenje}s` }}>
         <g className="hero-pin-lebdi" style={{ animationDelay: `${kasnjenje * 2}s` }}>

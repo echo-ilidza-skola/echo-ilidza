@@ -1972,3 +1972,13 @@ img {
   font-size: 24px;
   line-height: 32px;
 }
+
+/* Mali krug eha ispod svake oznake u hero dijelu: širi se i nestaje, svaka oznaka u svom ritmu. */
+.hero-mali-eho {
+  fill: none;
+  stroke: var(--limeta);
+  stroke-width: 1.5;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: eho 2.6s ease-out infinite;
+}
