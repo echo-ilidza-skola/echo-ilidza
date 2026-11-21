@@ -27,9 +27,8 @@
   /* Tamnija nijansa upozorenja za tekst, da kontrast bude najmanje WCAG AA. */
   --upozorenje-tekst: #7a4a10;
 
-  /* Uski debeli font za naslove: koristi prvi koji postoji na uređaju (bez preuzimanja fontova). */
-  --font-naslov: Bahnschrift, 'Avenir Next Condensed', 'Roboto Condensed', sans-serif-condensed, 'Arial Narrow',
-    system-ui, sans-serif;
+  /* Font za naslove: Montserrat (paket @fontsource/montserrat, licenca OFL), uz rezervne sistemske fontove. */
+  --font-naslov: Montserrat, 'Segoe UI', system-ui, sans-serif;
   --font-tekst: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
 
   --razmak: 1rem;
@@ -62,11 +61,10 @@ h1,
 h2,
 h3 {
   font-family: var(--font-naslov);
-  font-stretch: condensed;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--tamna);
   line-height: 1.15;
-  letter-spacing: 0.01em;
+  letter-spacing: -0.01em;
 }
 
 h1 {
@@ -191,7 +189,6 @@ img {
 
 .logo-naziv {
   font-family: var(--font-naslov);
-  font-stretch: condensed;
   font-weight: 700;
   font-size: 1.6rem;
   letter-spacing: 0.04em;
@@ -522,10 +519,11 @@ img {
 
 .hero-naslov {
   margin: 0;
-  font-size: clamp(2.6rem, 12vw, 5.4rem);
-  font-weight: 700;
-  line-height: 0.95;
-  letter-spacing: 0;
+  /* Montserrat je širok font, pa je naslov manji nego s uskim fontom. */
+  font-size: clamp(2.3rem, 10.5vw, 4.6rem);
+  font-weight: 900;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
   color: var(--tekst-na-tamnoj);
 }
@@ -594,7 +592,6 @@ img {
 
 .stat-broj {
   font-family: var(--font-naslov);
-  font-stretch: condensed;
   font-weight: 700;
   font-size: 1.9rem;
   line-height: 1;
@@ -697,7 +694,6 @@ img {
 
 .korak-naslov {
   font-family: var(--font-naslov);
-  font-stretch: condensed;
   font-size: 1.05rem;
   line-height: 1.15;
   color: var(--tamna);
@@ -1151,7 +1147,6 @@ img {
 
 .sazetak-naslov {
   font-family: var(--font-naslov);
-  font-stretch: condensed;
   font-size: 1.1rem;
   color: var(--tamna);
 }
@@ -1442,9 +1437,13 @@ img {
     text-overflow: ellipsis;
   }
 
-  /* Svaki red naslova ostaje u jednom redu, kao na mockupu. */
+  /* Na računaru se dugi drugi red prelama ("POKRENI / PROMJENU."), kao na odobrenoj slici banera. */
   .hero-naslov {
-    font-size: clamp(3.4rem, 5.6vw, 5.2rem);
+    font-size: clamp(3.2rem, 5vw, 4.6rem);
+  }
+
+  /* Prvi red ("VIDIŠ PROBLEM?") uvijek u jednom redu; smije preći u desnu kolonu iznad statistike. */
+  .hero-naslov-red:first-child {
     white-space: nowrap;
   }
 

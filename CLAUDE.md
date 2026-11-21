@@ -35,6 +35,7 @@ Akronim "Every Citizen Has One voice" može se spomenuti samo kao sitni detalj n
 - leaflet.heat za toplotnu mapu
 - idb-keyval za fotografije u IndexedDB; ostali podaci u localStorage
 - Vitest za testove logike
+- @fontsource/montserrat za font naslova (odobreno)
 - Bez UI biblioteka (bez Tailwinda, MUI…): običan CSS s CSS varijablama, da učenici razumiju svaki red
 - Ne dodaji druge biblioteke bez pitanja
 
@@ -53,7 +54,9 @@ Akronim "Every Citizen Has One voice" može se spomenuti samo kao sitni detalj n
   Tekst NA limeti je uvijek tamni (#0F2E25); limeta se ne koristi za tekst na svijetloj podlozi (slab kontrast).
 - Sadržaj na svijetloj podlozi #EEF5F2 i bijelim karticama; tekst #22302C, prigušeni #5E6B66, linije #D5DFDA,
   upozorenje #B9731F na #FBF3E7
-- Naslovi: debeli sistemski sans-serif (bez dodatnih fontova); veliki naslovi u hero dijelu velikim slovima.
+- Naslovi: Montserrat (paket @fontsource/montserrat, licenca OFL, odobrila mentorica), debljine 800 i 900,
+  samo latinica (latin + latin-ext); font je u projektu, bez Google servera. Baner u hero dijelu velikim slovima.
+  Ostali tekst: sistemski sans-serif.
 - Gradijent i sjaj (glow) dozvoljeni SAMO kao ukras u hero dijelu i zaglavlju. Kartice imaju tanak obrub;
   kartice početne stranice smiju imati blagu, mekanu sjenku (--sjena-kartice), ostale su ravne.
 - Talasasti prelazi (SVG) između tamnih i svijetlih dijelova stranice, kao na odobrenom mockupu.
