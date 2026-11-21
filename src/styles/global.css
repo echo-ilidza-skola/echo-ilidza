@@ -1,0 +1,293 @@
+/* Osnovni stilovi aplikacije ECHO Civic – Ilidža.
+   Sve boje su u CSS varijablama, da ih je lako promijeniti na jednom mjestu.
+   Mobitel prvo: osnovni stilovi su za uski ekran, a @media dodaje izmjene za šire ekrane. */
+
+:root {
+  --boja-primarna: #1f7a63;
+  --boja-primarna-tamna: #14523f;
+  --boja-podloga: #eef5f2;
+  --boja-bijela: #ffffff;
+  --boja-tekst: #22302c;
+  --boja-tekst-prigusen: #5e6b66;
+  --boja-linija: #d5dfda;
+  --boja-upozorenje: #b9731f;
+  --boja-upozorenje-podloga: #fbf3e7;
+  /* Tamnija nijansa upozorenja za tekst, da kontrast bude najmanje WCAG AA. */
+  --boja-upozorenje-tekst: #7a4a10;
+
+  --font-naslov: Georgia, 'Times New Roman', serif;
+  --font-tekst: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+
+  --razmak: 1rem;
+  --zaobljenje: 6px;
+  --min-dugme: 44px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-tekst);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--boja-tekst);
+  background: var(--boja-podloga);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-naslov);
+  color: var(--boja-primarna-tamna);
+  line-height: 1.25;
+}
+
+h1 {
+  font-size: 1.6rem;
+  margin: 0 0 0.5rem;
+}
+
+a {
+  color: var(--boja-primarna-tamna);
+}
+
+/* Jasno vidljiv fokus za rad tastaturom. */
+:focus-visible {
+  outline: 3px solid var(--boja-upozorenje);
+  outline-offset: 2px;
+}
+
+.prigusen {
+  color: var(--boja-tekst-prigusen);
+}
+
+/* ---------- traka o testnim podacima ---------- */
+.traka-testni {
+  background: var(--boja-upozorenje-podloga);
+  color: var(--boja-upozorenje-tekst);
+  border-bottom: 2px solid var(--boja-upozorenje);
+  padding: 0.5rem var(--razmak);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ---------- link za preskakanje navigacije ---------- */
+.preskoci-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--boja-bijela);
+  padding: 0.5rem 1rem;
+  z-index: 1000;
+}
+
+.preskoci-link:focus {
+  left: 0.5rem;
+  top: 0.5rem;
+}
+
+/* ---------- zaglavlje ---------- */
+.zaglavlje {
+  background: var(--boja-bijela);
+  border-bottom: 1px solid var(--boja-linija);
+}
+
+.zaglavlje-vrh {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.75rem var(--razmak);
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+}
+
+.logo-naziv {
+  font-family: var(--font-naslov);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--boja-primarna-tamna);
+}
+
+.logo-podnaslov {
+  color: var(--boja-tekst-prigusen);
+  font-size: 0.9rem;
+}
+
+/* ---------- prekidač demo uloge ---------- */
+.prekidac-uloge {
+  border: 1px dashed var(--boja-upozorenje);
+  border-radius: var(--zaobljenje);
+  padding: 0.25rem 0.5rem 0.5rem;
+  margin: 0;
+}
+
+.prekidac-uloge legend {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0 0.25rem;
+}
+
+.prekidac-opcije {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.prekidac-uloge .opcija {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: var(--min-dugme);
+  padding: 0 0.75rem;
+  border: 1px solid var(--boja-linija);
+  border-radius: var(--zaobljenje);
+  cursor: pointer;
+  background: var(--boja-bijela);
+}
+
+.prekidac-uloge .opcija.aktivna {
+  border-color: var(--boja-primarna);
+  background: var(--boja-podloga);
+  font-weight: 600;
+}
+
+.prekidac-uloge .opcija:focus-within {
+  outline: 3px solid var(--boja-upozorenje);
+  outline-offset: 1px;
+}
+
+.prekidac-napomena {
+  margin: 0.35rem 0 0;
+  font-size: 0.8rem;
+  color: var(--boja-tekst-prigusen);
+}
+
+/* ---------- navigacija ---------- */
+.navigacija ul {
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0 var(--razmak);
+  list-style: none;
+  overflow-x: auto;
+}
+
+.navigacija a {
+  display: flex;
+  align-items: center;
+  min-height: var(--min-dugme);
+  padding: 0 0.75rem;
+  white-space: nowrap;
+  text-decoration: none;
+  color: var(--boja-tekst);
+  border-bottom: 3px solid transparent;
+}
+
+.navigacija a.active {
+  color: var(--boja-primarna-tamna);
+  border-bottom-color: var(--boja-primarna);
+  font-weight: 600;
+}
+
+/* ---------- sadržaj ---------- */
+.sadrzaj {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.25rem var(--razmak) 2rem;
+}
+
+.sadrzaj:focus {
+  outline: none;
+}
+
+.uvod {
+  font-size: 1.1rem;
+  color: var(--boja-tekst-prigusen);
+  margin-top: 0;
+}
+
+.kartica {
+  background: var(--boja-bijela);
+  border: 1px solid var(--boja-linija);
+  border-radius: var(--zaobljenje);
+  padding: var(--razmak);
+  margin: var(--razmak) 0;
+}
+
+.u-izradi {
+  background: var(--boja-bijela);
+  border: 1px dashed var(--boja-tekst-prigusen);
+  border-radius: var(--zaobljenje);
+  padding: var(--razmak);
+  margin: var(--razmak) 0;
+}
+
+.u-izradi-dodatak {
+  margin-top: 0.5rem;
+  color: var(--boja-tekst-prigusen);
+}
+
+/* ---------- dugmad ---------- */
+.dugme {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--min-dugme);
+  padding: 0 1.1rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--boja-bijela);
+  background: var(--boja-primarna);
+  border: 2px solid var(--boja-primarna);
+  border-radius: var(--zaobljenje);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.dugme:hover {
+  background: var(--boja-primarna-tamna);
+  border-color: var(--boja-primarna-tamna);
+}
+
+.dugme-upozorenje {
+  color: var(--boja-upozorenje-tekst);
+  background: var(--boja-upozorenje-podloga);
+  border-color: var(--boja-upozorenje);
+}
+
+.dugme-upozorenje:hover {
+  color: var(--boja-bijela);
+  background: var(--boja-upozorenje-tekst);
+  border-color: var(--boja-upozorenje-tekst);
+}
+
+/* ---------- podnožje ---------- */
+.podnozje {
+  border-top: 1px solid var(--boja-linija);
+  padding: var(--razmak);
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--boja-tekst-prigusen);
+}
+
+/* ---------- tablet i računar ---------- */
+@media (min-width: 768px) {
+  .zaglavlje-vrh {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "echo-civic-ilidza",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "ECHO Civic – Ilidža: školski prototip za prijavu komunalnih problema (testni podaci)",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "idb-keyval": "^6.3.0",
+    "leaflet": "^1.9.4",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-leaflet": "^5.0.0",
+    "react-router-dom": "^7.18.6"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.3.0",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.1"
+  }
+}
