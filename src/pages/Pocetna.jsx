@@ -11,7 +11,7 @@ import PosljednjePrijave from '../components/pocetna/PosljednjePrijave.jsx'
 import { usePodaci } from '../hooks/usePodaci.js'
 import { javnePrijave } from '../data/storage.js'
 import { HERO } from '../data/tekstovi.js'
-import heroSlika from '../assets/hero-ilidza.jpg'
+import heroSlika from '../assets/hero-ilidza-ai.jpg'
 
 // Klase "ulaz ulaz-N" pokreću animaciju pojavljivanja jednog elementa za drugim (vidi global.css).
 export default function Pocetna() {

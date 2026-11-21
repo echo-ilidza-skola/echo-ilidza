@@ -20,9 +20,9 @@ Akronim "Every Citizen Has One voice" može se spomenuti samo kao sitni detalj n
 7. Autor prijave, interna napomena i predloženi prioritet NIKAD se ne prikazuju u javnom prikazu.
 8. Nema pozadinskog servera, nema API ključeva, nema vanjskih AI servisa, nema analitike ni praćenja.
 9. Ne preuzimaj slike s interneta. Testne prijave nemaju fotografije ili koriste neutralnu ikonu kategorije.
-   Jedini izuzetak (odobrila mentorica): fotografija za hero dio (`src/assets/hero-ilidza.jpg`) sa slobodnom
-   licencom, uz vidljivu atribuciju autora i licence; izvor je zapisan u `src/assets/IZVORI.md`.
-   Privremena je – zamijenit će je fotografija koju snime učenici.
+   Jedini izuzetak (odobrila mentorica): slika za hero dio (`src/assets/hero-ilidza-ai.jpg`), AI ilustracija
+   koju je napravila mentorica, uz vidljivu oznaku „ilustracija generisana pomoću AI“ (podnožje); izvor je
+   zapisan u `src/assets/IZVORI.md`. Privremena je – zamijenit će je fotografija koju snime učenici.
 10. Demo uloge (Gost / Građanin / Administrator) NISU prijava korisnika ni zaštita podataka. To piše uz
     prekidač i na ekranu O projektu.
 11. Nikad ne prikazuj nedovršenu ili neprovjerenu funkciju kao završenu. Greške i ograničenja se navode, ne skrivaju.

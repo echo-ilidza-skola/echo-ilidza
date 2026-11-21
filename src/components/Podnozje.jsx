@@ -1,4 +1,4 @@
-// Podnožje: napomena o prototipu i obavezna atribucija fotografije (CC BY 3.0).
+// Podnožje: napomena o prototipu i obavezna oznaka da je slika na početnoj generisana pomoću AI.
 // Nema grba Općine ni linkova na društvene mreže.
 
 import Logo from './Logo.jsx'
@@ -20,9 +20,7 @@ export default function Podnozje() {
             ništa Općini ni bilo kojoj instituciji.
           </p>
           <p className="podnozje-atribucija">
-            Fotografija na početnoj stranici: Petr Kraumann,{' '}
-            <a href="https://commons.wikimedia.org/wiki/File:Ilid%C5%BEa.jpg">Wikimedia Commons</a>, licenca{' '}
-            <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.
+            Slika na početnoj stranici je ilustracija generisana pomoću AI, a ne stvarna fotografija Ilidže.
           </p>
         </div>
       </div>

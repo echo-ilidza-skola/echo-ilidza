@@ -485,10 +485,10 @@ img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 62% 30%;
+  object-position: 55% 60%;
   z-index: -2;
-  /* Fotografija je snimljena u sumrak; malo je posvijetlimo i pojačamo zelenu. */
-  filter: brightness(1.25) saturate(1.3) contrast(1.05);
+  /* Ilustracija je svijetla (zlatni sat); blago je zatamnimo i pojačamo zelenu, da tekst bude čitljiv. */
+  filter: brightness(0.92) saturate(1.15);
 }
 
 /* Zatamnjenje preko fotografije, da tekst bude čitljiv (gradijent je dozvoljen samo ovdje). */
