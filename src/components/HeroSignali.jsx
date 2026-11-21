@@ -1,37 +1,65 @@
-// Ukras u hero dijelu: oznake koje šalju "signal" (krugovi eha), lukovi koji ih povezuju
-// i svjetleće tačke koje putuju po lukovima (signal ide od oznake do glavne oznake i nazad – eho).
+// Ukras u hero dijelu: oznake na slici Ilidže, lukovi koji ih povezuju s glavnom oznakom
+// i svjetleći signali koji putuju po lukovima (glas → odjek).
+//
+// VAŽNO: SVG koristi ISTE koordinate kao slika (1672 × 941 px) i isto "rezanje" kao slika
+// (preserveAspectRatio="xMidYMid slice" = object-fit: cover). Zato glavna oznaka uvijek stoji
+// tačno na fontani, bez obzira na veličinu ekrana.
 // Samo dekoracija – čitač ekrana je preskače (aria-hidden).
-// Ako korisnik u sistemu traži manje pokreta, tačke koje putuju se ne prikazuju,
-// a CSS gasi ostale animacije.
 
 import { useManjePokreta } from '../hooks/useManjePokreta.js'
 
+// Sredina fontane na slici hero-ilidza-ai.jpg (u pikselima slike).
+const FONTANA = { x: 1003, y: 716 }
+
+// Ostale oznake (vrh oznake je tačka na slici).
 const OZNAKE = [
-  { x: 330, y: 215, glavna: true },
-  { x: 110, y: 250 },
-  { x: 205, y: 135 },
-  { x: 470, y: 120 },
-  { x: 540, y: 265 },
-  { x: 410, y: 330 },
+  { x: 1238, y: 588 },
+  { x: 1335, y: 765 },
+  { x: 1118, y: 300 },
+  { x: 1525, y: 405 },
+  { x: 905, y: 430 },
 ]
 
 // Oblik oznake (pin) čiji je vrh u tački (0, 0).
 const PIN = 'M0 0c-6-9-12-14.5-12-22a12 12 0 0 1 24 0c0 7.5-6 13-12 22z'
 
-// Luk od oznake "o" do glavne oznake (kvadratna Bezierova kriva).
-function putanjaLuka(o, glavna) {
-  const vrhY = Math.min(glavna.y, o.y) - 70
-  return `M${o.x} ${o.y} Q${(glavna.x + o.x) / 2} ${vrhY} ${glavna.x} ${glavna.y}`
+// Luk od oznake do fontane: kriva koja se izdiže iznad obje tačke.
+function putanjaLuka(o) {
+  const vrhY = Math.min(FONTANA.y, o.y) - 150
+  return `M${o.x} ${o.y} Q${(FONTANA.x + o.x) / 2} ${vrhY} ${FONTANA.x} ${FONTANA.y}`
+}
+
+function Oznaka({ x, y, mjerilo, glavna, kasnjenje }) {
+  return (
+    <g transform={`translate(${x} ${y}) scale(${mjerilo})`}>
+      <ellipse className="hero-sjena-pina" cx="0" cy="0" rx="9" ry="3" />
+      <g className="hero-pin-ulaz" style={{ animationDelay: `${kasnjenje}s` }}>
+        <g className="hero-pin-lebdi" style={{ animationDelay: `${kasnjenje * 2}s` }}>
+          <path className={glavna ? 'hero-pin hero-pin-glavni' : 'hero-pin'} d={PIN} />
+          <circle className="hero-pin-srediste" cx="0" cy="-22" r="4.5" />
+        </g>
+      </g>
+    </g>
+  )
 }
 
 export default function HeroSignali() {
   const manjePokreta = useManjePokreta()
-  const glavna = OZNAKE[0]
-  const ostale = OZNAKE.slice(1)
 
   return (
-    <svg className="hero-signali" viewBox="0 0 600 400" aria-hidden="true" focusable="false">
+    <svg
+      className="hero-signali"
+      viewBox="0 0 1672 941"
+      preserveAspectRatio="xMidYMid slice"
+      aria-hidden="true"
+      focusable="false"
+    >
       <defs>
+        <radialGradient id="sjaj-fontane">
+          <stop offset="0%" stopColor="#d9ff8a" stopOpacity="0.75" />
+          <stop offset="35%" stopColor="#b4f04a" stopOpacity="0.35" />
+          <stop offset="100%" stopColor="#b4f04a" stopOpacity="0" />
+        </radialGradient>
         <radialGradient id="sjaj-signala">
           <stop offset="0%" stopColor="#f4ffd9" />
           <stop offset="45%" stopColor="#b4f04a" />
@@ -39,23 +67,39 @@ export default function HeroSignali() {
         </radialGradient>
       </defs>
 
-      {/* Lukovi od svake oznake prema glavnoj; isprekidana linija "teče" */}
-      {ostale.map((o, i) => (
-        <path
-          key={`luk-${o.x}`}
-          id={`luk-${i}`}
-          className="hero-luk"
-          style={{ animationDelay: `${0.6 + i * 0.15}s, ${i * 0.4}s` }}
-          d={putanjaLuka(o, glavna)}
+      {/* Sjaj na tlu oko fontane */}
+      <ellipse className="hero-sjaj-tla" cx={FONTANA.x} cy={FONTANA.y} rx="260" ry="110" fill="url(#sjaj-fontane)" />
+
+      {/* Stalne elipse na tlu (kao krugovi na vodi) i elipse koje se šire (eho) */}
+      {[70, 125, 185].map((rx) => (
+        <ellipse key={`krug-${rx}`} className="hero-krug" cx={FONTANA.x} cy={FONTANA.y} rx={rx} ry={rx * 0.34} />
+      ))}
+      {[0, 1, 2].map((i) => (
+        <ellipse
+          key={`eho-${i}`}
+          className="hero-eho"
+          style={{ animationDelay: `${1 + i * 1.1}s` }}
+          cx={FONTANA.x}
+          cy={FONTANA.y}
+          rx="95"
+          ry="32"
         />
       ))}
 
-      {/* Signali koji putuju po lukovima: od oznake do glavne i nazad (eho) */}
+      {/* Lukovi: puna svijetleća linija + svjetlo koje "teče" po njoj */}
+      {OZNAKE.map((o, i) => (
+        <g key={`luk-${o.x}`}>
+          <path id={`luk-${i}`} className="hero-luk" style={{ animationDelay: `${0.6 + i * 0.15}s` }} d={putanjaLuka(o)} />
+          <path className="hero-luk-tok" style={{ animationDelay: `${i * 0.5}s` }} d={putanjaLuka(o)} />
+        </g>
+      ))}
+
+      {/* Signali koji putuju od oznake do fontane i nazad (eho) */}
       {!manjePokreta &&
-        ostale.map((o, i) => (
-          <circle key={`signal-${o.x}`} className="hero-signal" r="7" fill="url(#sjaj-signala)">
+        OZNAKE.map((o, i) => (
+          <circle key={`signal-${o.x}`} className="hero-signal" r="12" fill="url(#sjaj-signala)">
             <animateMotion
-              dur={`${3.2 + i * 0.45}s`}
+              dur={`${3.4 + i * 0.45}s`}
               begin={`${1.2 + i * 0.7}s`}
               repeatCount="indefinite"
               keyPoints="0;1;0"
@@ -68,31 +112,11 @@ export default function HeroSignali() {
           </circle>
         ))}
 
-      {/* Krugovi eha oko glavne oznake */}
-      {[0, 1, 2].map((i) => (
-        <ellipse
-          key={`eho-${i}`}
-          className="hero-eho"
-          style={{ animationDelay: `${1 + i * 1.1}s` }}
-          cx={glavna.x}
-          cy={glavna.y}
-          rx="60"
-          ry="20"
-        />
-      ))}
-
-      {/* Oznake: padnu na svoje mjesto jedna za drugom, pa lagano lebde */}
       {OZNAKE.map((o, i) => (
-        <g key={`pin-${o.x}`} transform={`translate(${o.x} ${o.y}) scale(${o.glavna ? 1.9 : 1})`}>
-          <ellipse className="hero-sjena-pina" cx="0" cy="0" rx="9" ry="3" />
-          <g className="hero-pin-ulaz" style={{ animationDelay: `${0.25 + i * 0.12}s` }}>
-            <g className="hero-pin-lebdi" style={{ animationDelay: `${i * 0.5}s` }}>
-              <path className={o.glavna ? 'hero-pin hero-pin-glavni' : 'hero-pin'} d={PIN} />
-              <circle className="hero-pin-srediste" cx="0" cy="-22" r="4.5" />
-            </g>
-          </g>
-        </g>
+        <Oznaka key={`pin-${o.x}`} x={o.x} y={o.y} mjerilo={1.7} kasnjenje={0.35 + i * 0.12} />
       ))}
+      {/* Glavna oznaka stoji na fontani */}
+      <Oznaka x={FONTANA.x} y={FONTANA.y} mjerilo={3.1} glavna kasnjenje={0.2} />
     </svg>
   )
 }

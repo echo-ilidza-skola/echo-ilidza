@@ -21,10 +21,12 @@ export default function Pocetna() {
     <>
       <section className="hero puna-sirina" aria-labelledby="hero-naslov">
         {/* Fotografija je samo ukras, pa ima prazan alt. Autor i licenca su u podnožju. */}
+        {/* Slika, zatamnjenje i oznake su u istom okviru, pa se oznake poklapaju sa slikom. */}
         <div className="hero-slika-okvir">
           <img className="hero-slika" src={heroSlika} alt="" />
+          <div className="hero-zatamnjenje" />
+          <HeroSignali />
         </div>
-        <HeroSignali />
 
         <div className="hero-sadrzaj">
           <div className="hero-tekst">
@@ -39,10 +41,6 @@ export default function Pocetna() {
                 <Ikona ime="prijavi" velicina={20} />
                 {HERO.dugme}
                 <Ikona ime="strelica" velicina={20} className="ikona-strelica" />
-              </Link>
-              <Link to="/mapa" className="dugme dugme-obrub-svijetlo dugme-veliko">
-                <Ikona ime="mapa" velicina={20} />
-                {HERO.sporednoDugme}
               </Link>
             </div>
 
