@@ -568,3 +568,280 @@
 .moja-historija[open] summary::before {
   transform: rotate(90deg);
 }
+
+/* =====================================================================
+   DORADA PRIJAVE (mobitel prvo): fotografija, pločice kategorija, kartica lokacije
+   ===================================================================== */
+.foto-polje {
+  margin-bottom: 1.5rem;
+}
+
+.foto-polje h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+}
+
+.foto-dugmad {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.6rem;
+}
+
+.foto-dugmad .dugme {
+  min-height: 54px;
+}
+
+.foto-obrada {
+  padding: 1rem;
+  border-radius: 12px;
+  background: var(--podloga);
+  font-weight: 600;
+}
+
+.foto-pregled--veliki img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+}
+
+/* Pločice kategorija */
+.kategorije-plocice {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.plocice-mreza {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.plocica-kategorije {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: 92px;
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.2;
+  background: var(--bijela);
+  border: 2px solid var(--linija);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.plocica-kategorije:hover {
+  border-color: var(--boja-kategorije);
+}
+
+.plocica-kategorije:focus-within {
+  outline: 3px solid var(--primarna-tamna);
+  outline-offset: 2px;
+}
+
+.plocica-kategorije--odabrana {
+  border-color: var(--boja-kategorije);
+  background: #f4fbf7;
+  box-shadow: inset 0 0 0 1px var(--boja-kategorije);
+}
+
+.plocica-ikona {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  color: var(--bijela);
+  background: var(--boja-kategorije);
+}
+
+.plocica-prijedlog {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  padding: 0 0.4rem;
+  border-radius: 6px;
+  background: var(--limeta);
+  color: var(--tamna);
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+/* Kartica lokacije */
+.dugme-gps {
+  width: 100%;
+  min-height: 54px;
+  margin-bottom: 0.75rem;
+}
+
+.kartica-lokacije {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  margin-bottom: 0.75rem;
+  border-radius: 14px;
+  background: var(--podloga);
+  border: 1px solid var(--linija);
+}
+
+.kartica-lokacije-ikona {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--limeta);
+  color: var(--tamna);
+}
+
+.kartica-lokacije-tekst {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.lokacija-mapa {
+  margin-top: 0.5rem;
+}
+
+.lokacija-mapa .polje-u-redu {
+  margin: 0.75rem 0;
+}
+
+@media (min-width: 640px) {
+  .foto-dugmad {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .plocice-mreza {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* =====================================================================
+   TRAKA NAPRETKA STATUSA
+   ===================================================================== */
+.traka-napretka {
+  position: relative;
+  margin: 0.75rem 0;
+  padding-top: 0.25rem;
+}
+
+/* Linija ide kroz središta tačaka (od prve do posljednje). */
+.traka-napretka-linija {
+  position: absolute;
+  top: calc(0.25rem + 8px);
+  left: calc(100% / (var(--broj-koraka-linija, 5) * 2));
+  right: calc(100% / (var(--broj-koraka-linija, 5) * 2));
+  height: 4px;
+  border-radius: 2px;
+  background: var(--linija);
+}
+
+.traka-napretka--odbijena .traka-napretka-linija {
+  --broj-koraka-linija: 2;
+}
+
+.traka-napretka-linija span {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+  background: var(--primarna);
+}
+
+.traka-napretka--odbijena .traka-napretka-linija span {
+  background: #b42318;
+}
+
+.traka-napretka-koraci {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--broj-koraka), 1fr);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.napredak-korak {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  text-align: center;
+  min-width: 0;
+}
+
+.napredak-tacka {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--bijela);
+  border: 3px solid var(--linija);
+}
+
+.napredak-korak--gotov .napredak-tacka {
+  background: var(--primarna);
+  border-color: var(--primarna);
+}
+
+.napredak-korak--trenutni .napredak-tacka {
+  background: var(--limeta);
+  border-color: var(--primarna-tamna);
+  box-shadow: 0 0 0 4px rgba(180, 240, 74, 0.35);
+}
+
+.napredak-korak--odbijen .napredak-tacka {
+  background: #b42318;
+  border-color: #b42318;
+}
+
+.napredak-naziv {
+  font-size: 0.72rem;
+  line-height: 1.2;
+  color: var(--tekst-prigusen);
+  overflow-wrap: anywhere;
+}
+
+.napredak-korak--gotov .napredak-naziv,
+.napredak-korak--trenutni .napredak-naziv,
+.napredak-korak--odbijen .napredak-naziv {
+  color: var(--tekst);
+  font-weight: 700;
+}
+
+.napredak-korak--odbijen .napredak-naziv {
+  color: #8a1f1f;
+}
+
+.napredak-datum {
+  font-size: 0.68rem;
+  color: var(--tekst-prigusen);
+}
+
+@media (min-width: 640px) {
+  .napredak-naziv {
+    font-size: 0.82rem;
+  }
+
+  .napredak-datum {
+    font-size: 0.75rem;
+  }
+}
+
+/* Pločice su labele unutar .polje – vraćamo im raspored koji bi pravilo ".polje label" pregazilo. */
+.polje .plocica-kategorije {
+  display: flex;
+  margin: 0;
+}

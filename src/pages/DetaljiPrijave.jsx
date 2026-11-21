@@ -8,6 +8,7 @@ import { napraviIkonu } from '../components/mapa/ikonaOznake.js'
 import StatusOznaka from '../components/StatusOznaka.jsx'
 import KategorijaOznaka from '../components/KategorijaOznaka.jsx'
 import Fotografija from '../components/Fotografija.jsx'
+import TrakaNapretka from '../components/TrakaNapretka.jsx'
 import { usePodaci } from '../hooks/usePodaci.js'
 import { javnePrijave } from '../data/storage.js'
 import { formatirajDatum } from '../logic/datum.js'
@@ -45,6 +46,10 @@ export default function DetaljiPrijave() {
       <div className="detalji-oznake">
         <KategorijaOznaka kategorija={prijava.kategorija} />
         <StatusOznaka status={prijava.status} />
+      </div>
+
+      <div className="kartica">
+        <TrakaNapretka prijava={prijava} />
       </div>
 
       <dl className="detalji-polja">

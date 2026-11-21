@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import KategorijaOznaka from '../components/KategorijaOznaka.jsx'
 import StatusOznaka from '../components/StatusOznaka.jsx'
 import Fotografija from '../components/Fotografija.jsx'
+import TrakaNapretka from '../components/TrakaNapretka.jsx'
 import Ikona from '../components/Ikona.jsx'
 import { usePodaci } from '../hooks/usePodaci.js'
 import { prijaveAutora, javnePrijave } from '../data/storage.js'
@@ -33,6 +34,8 @@ function MojaPrijava({ prijava, javne }) {
         </span>
         <span>Poslano {formatirajDatum(prijava.datumPrijave)}</span>
       </p>
+
+      <TrakaNapretka prijava={prijava} />
 
       {prijava.status === 'NA_CEKANJU' && (
         <p className="info-okvir">Prijava još nije javna. Postat će javna kada je administrator provjeri i odobri.</p>

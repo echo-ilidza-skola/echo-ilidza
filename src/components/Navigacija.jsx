@@ -46,14 +46,20 @@ export function DonjaNavigacija() {
   return (
     <nav className="donja-navigacija" aria-label="Glavna navigacija (mobitel)">
       <ul>
-        {linkovi.map((link) => (
-          <li key={link.putanja}>
-            <NavLink to={link.putanja} end={link.putanja === '/'}>
-              <Ikona ime={link.ikona} velicina={22} />
-              <span>{link.kratko}</span>
-            </NavLink>
-          </li>
-        ))}
+        {linkovi.map((link) => {
+          // "Prijavi" je istaknuto okruglo dugme s kamerom u sredini trake (najbrži put do nove prijave).
+          const istaknuto = link.putanja === '/prijavi'
+          return (
+            <li key={link.putanja} className={istaknuto ? 'donja-stavka-istaknuta' : undefined}>
+              <NavLink to={link.putanja} end={link.putanja === '/'} className={istaknuto ? 'donje-dugme-kamera' : undefined}>
+                <span className={istaknuto ? 'kamera-krug' : undefined}>
+                  <Ikona ime={istaknuto ? 'kamera' : link.ikona} velicina={istaknuto ? 26 : 22} />
+                </span>
+                <span>{link.kratko}</span>
+              </NavLink>
+            </li>
+          )
+        })}
       </ul>
     </nav>
   )

@@ -1,5 +1,6 @@
-// Korak 2: lokacija klikom na mapu, GPS-om (uz dozvolu) ili izborom naselja.
-// Ručni odabir UVIJEK radi, i kad GPS nije dostupan.
+// Korak 2: lokacija – GPS (uz dozvolu), klik na mapu ili izbor naselja.
+// Kad je lokacija odabrana, prikazuje se kartica sa sažetkom i dugmetom "Promijeni".
+// Ručni odabir na mapi UVIJEK radi, i kad GPS nije dostupan.
 
 import { useState } from 'react'
 import OdabirLokacije from './OdabirLokacije.jsx'
@@ -9,8 +10,38 @@ import { najblizeNaselje } from '../../logic/lokacija.js'
 import { upozorenjeLokacije } from '../../logic/validacija.js'
 import { porukaGps, razlogNedostupnostiGps } from '../../logic/gps.js'
 
+const IZVORI = {
+  gps: 'određeno GPS-om',
+  mapa: 'odabrano na mapi',
+  naselje: 'središte naselja – za tačnije mjesto kliknite na mapu',
+}
+
+function KarticaLokacije({ lokacija, promijeni, mapaOtvorena }) {
+  return (
+    <div className="kartica-lokacije">
+      <span className="kartica-lokacije-ikona" aria-hidden="true">
+        <Ikona ime="mapa" velicina={22} />
+      </span>
+      <div className="kartica-lokacije-tekst">
+        <strong>{najblizeNaselje(lokacija)} (približno)</strong>
+        <span className="mali-tekst prigusen">
+          {lokacija.lat.toFixed(5)}, {lokacija.lng.toFixed(5)} · {IZVORI[lokacija.izvor] || ''}
+          {lokacija.izvor === 'gps' && lokacija.tacnost ? `, tačnost oko ${lokacija.tacnost} m` : ''}
+        </span>
+      </div>
+      {!mapaOtvorena && (
+        <button type="button" className="link-dugme" onClick={promijeni}>
+          Promijeni
+        </button>
+      )}
+    </div>
+  )
+}
+
 export default function KorakLokacija({ lokacija, postaviLokaciju, greska }) {
   const [gps, postaviGps] = useState({ trazi: false, poruka: null })
+  // Mapa je otvorena dok lokacija nije odabrana; nakon GPS-a se skupi u karticu.
+  const [mapaOtvorena, postaviMapuOtvorenu] = useState(!lokacija)
 
   function koristiGps() {
     const razlog = razlogNedostupnostiGps({
@@ -19,6 +50,7 @@ export default function KorakLokacija({ lokacija, postaviLokaciju, greska }) {
     })
     if (razlog) {
       postaviGps({ trazi: false, poruka: porukaGps(razlog) })
+      postaviMapuOtvorenu(true)
       return
     }
     postaviGps({ trazi: true, poruka: null })
@@ -31,8 +63,12 @@ export default function KorakLokacija({ lokacija, postaviLokaciju, greska }) {
           tacnost: Math.round(pozicija.coords.accuracy),
         })
         postaviGps({ trazi: false, poruka: null })
+        postaviMapuOtvorenu(false)
       },
-      (greskaGps) => postaviGps({ trazi: false, poruka: porukaGps(greskaGps.code) }),
+      (greskaGps) => {
+        postaviGps({ trazi: false, poruka: porukaGps(greskaGps.code) })
+        postaviMapuOtvorenu(true)
+      },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 },
     )
   }
@@ -46,26 +82,10 @@ export default function KorakLokacija({ lokacija, postaviLokaciju, greska }) {
 
   return (
     <>
-      <p className="uvod-koraka">Kliknite na mapu tačno na mjesto problema. Lokaciju možete mijenjati novim klikom.</p>
-
-      <div className="lokacija-alati">
-        <button type="button" className="dugme dugme-sporedno" onClick={koristiGps} disabled={gps.trazi}>
-          <Ikona ime="mapa" velicina={18} />
-          {gps.trazi ? 'Tražim lokaciju…' : 'Koristi moju lokaciju'}
-        </button>
-
-        <div className="polje polje-u-redu">
-          <label htmlFor="naselje">ili približno, po naselju:</label>
-          <select id="naselje" value="" onChange={(e) => odaberiNaselje(e.target.value)}>
-            <option value="">– Odaberite naselje –</option>
-            {NASELJA.map((n) => (
-              <option key={n.naziv} value={n.naziv}>
-                {n.naziv}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
+      <button type="button" className="dugme dugme-glavno dugme-gps" onClick={koristiGps} disabled={gps.trazi}>
+        <Ikona ime="mapa" velicina={20} />
+        {gps.trazi ? 'Tražim lokaciju…' : 'Koristi moju lokaciju'}
+      </button>
 
       {gps.poruka && (
         <p className="upozorenje-okvir" role="status">
@@ -73,22 +93,37 @@ export default function KorakLokacija({ lokacija, postaviLokaciju, greska }) {
         </p>
       )}
 
-      <OdabirLokacije lokacija={lokacija} naOdabir={postaviLokaciju} />
-
       <div aria-live="polite">
         {lokacija ? (
-          <p className="odabrana-lokacija">
-            <Ikona ime="kvacica" velicina={18} />
-            Odabrano: približno naselje <strong>{najblizeNaselje(lokacija)}</strong> ({lokacija.lat.toFixed(5)},{' '}
-            {lokacija.lng.toFixed(5)})
-            {lokacija.izvor === 'gps' && lokacija.tacnost ? `, GPS tačnost oko ${lokacija.tacnost} m` : ''}
-            {lokacija.izvor === 'naselje' ? ' – središte naselja; kliknite na mapu za tačnije mjesto' : ''}
-          </p>
+          <KarticaLokacije lokacija={lokacija} mapaOtvorena={mapaOtvorena} promijeni={() => postaviMapuOtvorenu(true)} />
         ) : (
           <p className="prigusen">Lokacija još nije odabrana.</p>
         )}
         {upozorenje && <p className="upozorenje-okvir">{upozorenje}</p>}
       </div>
+
+      {mapaOtvorena && (
+        <div className="lokacija-mapa">
+          <p className="uvod-koraka">Ili kliknite na mapu tačno na mjesto problema (novim klikom mijenjate lokaciju).</p>
+          <OdabirLokacije lokacija={lokacija} naOdabir={postaviLokaciju} />
+          <div className="polje polje-u-redu">
+            <label htmlFor="naselje">Ili približno, po naselju:</label>
+            <select id="naselje" value="" onChange={(e) => odaberiNaselje(e.target.value)}>
+              <option value="">– Odaberite naselje –</option>
+              {NASELJA.map((n) => (
+                <option key={n.naziv} value={n.naziv}>
+                  {n.naziv}
+                </option>
+              ))}
+            </select>
+          </div>
+          {lokacija && (
+            <button type="button" className="dugme dugme-sporedno dugme-malo" onClick={() => postaviMapuOtvorenu(false)}>
+              Gotovo
+            </button>
+          )}
+        </div>
+      )}
 
       {greska && (
         <p id="lokacija-greska" className="greska-polja" role="alert" tabIndex={-1}>

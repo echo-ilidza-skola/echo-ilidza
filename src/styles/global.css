@@ -2122,3 +2122,38 @@ img {
     flex-wrap: wrap;
   }
 }
+
+/* =====================================================================
+   DONJA NAVIGACIJA: okruglo dugme s kamerom ("Prijavi") u sredini
+   ===================================================================== */
+.donja-stavka-istaknuta {
+  position: relative;
+}
+
+.donje-dugme-kamera {
+  border-top-color: transparent !important;
+}
+
+.kamera-krug {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  margin-top: -30px;
+  border-radius: 50%;
+  background: var(--limeta);
+  color: var(--tamna);
+  border: 4px solid var(--tamna);
+  box-shadow: 0 0 18px rgba(180, 240, 74, 0.5);
+  transition: transform 0.18s ease;
+}
+
+.donje-dugme-kamera:hover .kamera-krug,
+.donje-dugme-kamera.active .kamera-krug {
+  transform: scale(1.06);
+}
+
+.donje-dugme-kamera.active {
+  color: var(--limeta);
+}
