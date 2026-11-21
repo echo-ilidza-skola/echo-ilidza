@@ -1,5 +1,20 @@
 import { describe, it, expect } from 'vitest'
-import { grupisiZaMapu, povezanePrijave, filtrirajPrijave, projektujTacku, okvirTacaka } from './mapa.js'
+import { grupisiZaMapu, povezanePrijave, filtrirajPrijave, projektujTacku, okvirTacaka, tackeToplotneMape } from './mapa.js'
+
+describe('tackeToplotneMape', () => {
+  it('pravi [lat, lng, jačina] s brojem prijavitelja kao jačinom', () => {
+    expect(tackeToplotneMape([{ lat: 43.8, lng: 18.3, brojPrijavitelja: 3 }])).toEqual([[43.8, 18.3, 3]])
+  })
+
+  it('bez broja prijavitelja jačina je 1', () => {
+    expect(tackeToplotneMape([{ lat: 43.8, lng: 18.3 }])).toEqual([[43.8, 18.3, 1]])
+  })
+
+  it('preskače prijave bez ispravnih koordinata i radi s praznom listom', () => {
+    expect(tackeToplotneMape([{ lat: NaN, lng: 18.3 }, { lng: 18.3 }])).toEqual([])
+    expect(tackeToplotneMape([])).toEqual([])
+  })
+})
 
 describe('okvirTacaka', () => {
   const zamjena = { minLat: 1, maxLat: 2, minLng: 3, maxLng: 4 }

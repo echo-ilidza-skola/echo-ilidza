@@ -45,6 +45,14 @@ export function okvirTacaka(tacke, zamjena, rezerva = 0.12) {
   }
 }
 
+// Tačke za toplotnu mapu: [lat, lng, jačina]. Jačina je broj prijavitelja,
+// pa problem koji je prijavilo više građana "grije" jače.
+export function tackeToplotneMape(prijave) {
+  return prijave
+    .filter((p) => Number.isFinite(p.lat) && Number.isFinite(p.lng))
+    .map((p) => [p.lat, p.lng, Math.max(1, p.brojPrijavitelja || 1)])
+}
+
 // Zadržava prijave čija je kategorija I status među odabranima.
 // filteri: { kategorije: ['ceste', ...], statusi: ['ZAPRIMLJENO', ...] }
 export function filtrirajPrijave(prijave, filteri) {

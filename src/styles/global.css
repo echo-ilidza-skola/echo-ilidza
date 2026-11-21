@@ -2059,3 +2059,66 @@ img {
     mask-image: linear-gradient(180deg, transparent 0%, #000 35%);
   }
 }
+
+/* =====================================================================
+   PREKIDAČ TOPLOTNE MAPE
+   ===================================================================== */
+.prekidac-toplotna {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: var(--min-dugme);
+  padding: 0 1rem 0 0.6rem;
+  margin-left: auto;
+  font: inherit;
+  font-weight: 700;
+  color: var(--tamna);
+  background: var(--bijela);
+  border: 1.5px solid var(--linija);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.prekidac-staza {
+  position: relative;
+  width: 42px;
+  height: 24px;
+  border-radius: 12px;
+  background: #b9c7c1;
+  transition: background-color 0.2s ease;
+  flex: none;
+}
+
+.prekidac-kruzic {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--bijela);
+  transition: transform 0.2s ease;
+}
+
+.prekidac-toplotna--ukljuceno {
+  border-color: var(--primarna);
+}
+
+.prekidac-toplotna--ukljuceno .prekidac-staza {
+  background: var(--primarna);
+}
+
+.prekidac-toplotna--ukljuceno .prekidac-kruzic {
+  transform: translateX(18px);
+}
+
+/* Toplotni sloj je ispod oznaka i malo providan, da se ulice i dalje vide. */
+.leaflet-heatmap-layer {
+  opacity: 0.8;
+}
+
+@media (max-width: 959px) {
+  .mapa-alati {
+    flex-wrap: wrap;
+  }
+}

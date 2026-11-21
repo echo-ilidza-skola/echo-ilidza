@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import OsnovnaMapa from '../components/mapa/OsnovnaMapa.jsx'
 import OznakaPrijave from '../components/mapa/OznakaPrijave.jsx'
 import LegendaFilteri from '../components/mapa/LegendaFilteri.jsx'
+import ToplotniSloj from '../components/mapa/ToplotniSloj.jsx'
 import StatusOznaka from '../components/StatusOznaka.jsx'
 import KategorijaOznaka from '../components/KategorijaOznaka.jsx'
 import Ikona from '../components/Ikona.jsx'
@@ -22,6 +23,8 @@ export default function Mapa() {
   const [filteri, postaviFiltere] = useState(sviFilteri)
   // Na mobitelu su legenda i filteri skriveni iza dugmeta; na računaru su uvijek vidljivi.
   const [filteriOtvoreni, postaviFiltereOtvorene] = useState(false)
+  // Toplotna mapa je isključena dok je korisnik ne uključi.
+  const [toplotna, postaviToplotnu] = useState(false)
 
   const naMapi = grupisiZaMapu(javne)
   const prikazane = filtrirajPrijave(naMapi, filteri)
@@ -37,6 +40,19 @@ export default function Mapa() {
         <p className="mapa-brojac" aria-live="polite">
           Prikazano <strong>{prikazane.length}</strong> od {naMapi.length} oznaka
         </p>
+        {/* Prekidač (switch): čitač ekrana pročita "Toplotna mapa, uključeno/isključeno". */}
+        <button
+          type="button"
+          role="switch"
+          aria-checked={toplotna}
+          className={toplotna ? 'prekidac-toplotna prekidac-toplotna--ukljuceno' : 'prekidac-toplotna'}
+          onClick={() => postaviToplotnu(!toplotna)}
+        >
+          <span className="prekidac-staza" aria-hidden="true">
+            <span className="prekidac-kruzic" />
+          </span>
+          Toplotna mapa
+        </button>
         <button
           type="button"
           className="dugme dugme-sporedno dugme-filteri"
@@ -52,11 +68,16 @@ export default function Mapa() {
       <div className="mapa-raspored">
         <div className="mapa-glavni">
           <OsnovnaMapa centar={CENTAR_MAPE} zoom={13} className="mapa" oznaka="Mapa javnih prijava">
+            {toplotna && <ToplotniSloj prijave={prikazane} />}
             {prikazane.map((p) => (
               <OznakaPrijave key={p.id} prijava={p} />
             ))}
           </OsnovnaMapa>
-          <p className="prigusen mali-tekst">Povezane prijave istog problema prikazane su kao jedna oznaka.</p>
+          <p className="prigusen mali-tekst">
+            Povezane prijave istog problema prikazane su kao jedna oznaka.
+            {toplotna &&
+              ' Toplotna mapa: što je boja toplija (od zelene prema narandžastoj), to je na tom mjestu više prijava i prijavitelja. Prati odabrane filtere.'}
+          </p>
         </div>
 
         <LegendaFilteri

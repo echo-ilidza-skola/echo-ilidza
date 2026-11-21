@@ -150,12 +150,42 @@ export default function OProjektu() {
         </ul>
       </Odjeljak>
 
+      <Odjeljak ikona="admin" naslov="Kako bi radila stvarna verzija">
+        <p>
+          Ovaj prototip namjerno nema prijavu korisnika: bez servera bi to bila lažna zaštita, a djeca ne trebaju
+          ostavljati e-mailove ni lozinke. Kad bi ECHO jednog dana stvarno radio, predlažemo:
+        </p>
+        <ul>
+          <li>
+            <strong>Građani</strong> prijavljuju i bez korisničkog računa; ko želi pratiti status, ostavi e-mail i
+            dobije link za praćenje (bez lozinke).
+          </li>
+          <li>
+            <strong>Administratori</strong> imaju pravu prijavu s jakom lozinkom, jer vide autore, interne napomene i
+            fotografije prije objave.
+          </li>
+          <li>
+            <strong>Administrator je moderator</strong>, a ne neko ko popravlja rupe: štiti privatnost (lica,
+            registarske oznake), odbija neozbiljne prijave uz razlog, potvrđuje kategoriju i prioritet, povezuje iste
+            probleme i ažurira status.
+          </li>
+          <li>
+            <strong>Ko bi bio administrator?</strong> Ili zaposlenik nadležne službe Općine (uz zvanični dogovor), ili
+            posrednik – škola, mjesna zajednica ili udruženje – koji prijave prosljeđuje Općini zvaničnim putem. Tada se
+            „Riješeno“ označava tek kad to potvrdi Općina ili kad građanin pošalje fotografiju popravljenog stanja.
+          </li>
+          <li>
+            U ovom školskom prototipu administratore glume mentorica i učenici – „dežurni moderatori“.
+          </li>
+        </ul>
+      </Odjeljak>
+
       <Odjeljak ikona="info" naslov="Zahvale i izvori">
         <ul>
           <li>
             Mapa: ©{' '}
             <a href="https://www.openstreetmap.org/copyright">saradnici OpenStreetMap-a</a>, prikaz pomoću biblioteke
-            Leaflet.
+            Leaflet; toplotna mapa pomoću dodatka Leaflet.heat (licenca BSD).
           </li>
           <li>Slika na početnoj stranici je ilustracija generisana pomoću AI, a ne stvarna fotografija Ilidže.</li>
           <li>Font naslova: Montserrat (licenca SIL Open Font License).</li>
