@@ -5,11 +5,14 @@ import { Link } from 'react-router-dom'
 import Ikona from '../Ikona.jsx'
 import { OKVIR_ILIDZE } from '../../data/konstante.js'
 import { projektujTacku, okvirTacaka } from '../../logic/mapa.js'
+import { posljednjePrijave } from '../../logic/statistika.js'
 
 const SIRINA = 300
 const VISINA = 190
 
-export default function MiniMapaGlasova({ javne }) {
+export default function MiniMapaGlasova({ javne: sveJavne }) {
+  // Najnovije prvo, da tri najnovije prijave dobiju krug eha.
+  const javne = posljednjePrijave(sveJavne, sveJavne.length)
   // Okvir prilagođen prijavama, da tačke budu raširene po cijeloj slici.
   const okvir = okvirTacaka(javne, OKVIR_ILIDZE)
   return (
@@ -23,11 +26,17 @@ export default function MiniMapaGlasova({ javne }) {
         {[1, 2, 3].map((i) => (
           <line key={`h${i}`} className="mini-mapa-mreza" x1="0" y1={i * 47.5} x2={SIRINA} y2={i * 47.5} />
         ))}
-        {javne.map((p) => {
+        {/* Linija koja polako "skenira" mapu (samo ukras) */}
+        <rect className="mini-mapa-sken" x="0" y="0" width="60" height={VISINA} />
+
+        {javne.map((p, i) => {
           const t = projektujTacku(p, okvir, SIRINA, VISINA)
+          // Svaka tačka treperi u svom ritmu; najnovije tri šalju i krug eha.
+          const kasnjenje = `${(i * 0.37) % 3}s`
           return (
             <g key={p.id}>
-              <circle className="mini-mapa-sjaj" cx={t.x} cy={t.y} r="9" />
+              {i < 3 && <circle className="mini-mapa-eho" cx={t.x} cy={t.y} r="14" style={{ animationDelay: `${i * 0.9}s` }} />}
+              <circle className="mini-mapa-sjaj" cx={t.x} cy={t.y} r="9" style={{ animationDelay: kasnjenje }} />
               <circle className="mini-mapa-tacka" cx={t.x} cy={t.y} r="3.5" />
             </g>
           )

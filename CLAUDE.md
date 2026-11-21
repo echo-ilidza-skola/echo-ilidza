@@ -57,6 +57,9 @@ Akronim "Every Citizen Has One voice" može se spomenuti samo kao sitni detalj n
 - Gradijent i sjaj (glow) dozvoljeni SAMO kao ukras u hero dijelu i zaglavlju. Kartice imaju tanak obrub;
   kartice početne stranice smiju imati blagu, mekanu sjenku (--sjena-kartice), ostale su ravne.
 - Talasasti prelazi (SVG) između tamnih i svijetlih dijelova stranice, kao na odobrenom mockupu.
+- Pokret (motion): samo CSS i SVG animacije, bez biblioteka; sve animacije su na kraju global.css.
+  Sadržaj nikad ne smije ostati sakriven ako se animacija ne pokrene, a uz prefers-reduced-motion
+  sve animacije se gase.
 - Ikone: vlastite jednostavne inline SVG ikone (bez biblioteke ikona).
 - Logo: riječ "ECHO" uz simbol zvučnog talasa, ispod "CIVIC · ILIDŽA". Nikad grb ni znak Općine.
 - Nikad linkovi na društvene mreže ni dugme "Prijava/login" (demo uloge nisu prijava korisnika).

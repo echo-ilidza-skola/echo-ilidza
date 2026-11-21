@@ -908,13 +908,7 @@ img {
   }
 }
 
-/* Ako korisnik traži manje pokreta, krugovi eha miruju. */
-@media (prefers-reduced-motion: reduce) {
-  .hero-eho {
-    animation: none;
-    opacity: 0.45;
-  }
-}
+/* Animacije (pokret) su sve na jednom mjestu, na kraju ovog fajla. */
 
 /* ---------- natpisi statusa i kategorije ---------- */
 .status-natpis {
@@ -1343,7 +1337,7 @@ img {
     grid-template-columns: 1fr 1fr;
   }
 
-  .pocetna-mreza .kako {
+  .pocetna-mreza .mreza-kako {
     grid-column: 1 / -1;
   }
 
@@ -1412,8 +1406,11 @@ img {
     align-items: stretch;
   }
 
-  .pocetna-mreza .kako {
+  .pocetna-mreza .mreza-kako {
     grid-column: auto;
+  }
+
+  .kako {
     display: flex;
     flex-direction: column;
   }
@@ -1479,5 +1476,335 @@ img {
 
   .mapa-mala {
     height: 300px;
+  }
+}
+
+/* =====================================================================
+   POKRET (animacije)
+   Sve animacije su ovdje. Na dnu je blok koji ih gasi kad korisnik
+   u sistemu traži manje pokreta (prefers-reduced-motion).
+   ===================================================================== */
+
+/* --- Ulaz hero dijela: elementi se pojavljuju jedan za drugim --- */
+.ulaz {
+  opacity: 0;
+  animation: ulaz 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+
+.ulaz-1 { animation-delay: 0.1s; }
+.ulaz-2 { animation-delay: 0.25s; }
+.ulaz-3 { animation-delay: 0.45s; }
+.ulaz-4 { animation-delay: 0.6s; }
+.ulaz-5 { animation-delay: 0.8s; }
+
+@keyframes ulaz {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+.hero-naslov-red {
+  display: block;
+}
+
+/* Blagi sjaj istaknutog dijela naslova (sjaj je dozvoljen u hero dijelu). */
+.hero-naslov-isticanje {
+  text-shadow: 0 0 28px rgba(180, 240, 74, 0.35);
+}
+
+/* --- Fotografija: polagano "filmsko" približavanje (Ken Burns) --- */
+.hero-slika-okvir {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+}
+
+.hero-slika {
+  animation: priblizavanje 26s ease-in-out infinite alternate;
+  transform-origin: 65% 40%;
+}
+
+@keyframes priblizavanje {
+  from { transform: scale(1); }
+  to { transform: scale(1.12) translateX(-1.5%); }
+}
+
+/* --- Signali: lukovi se pojave pa "teku", oznake padnu pa lebde --- */
+.hero-luk {
+  opacity: 0;
+  animation:
+    pojavaLuka 0.9s ease-out forwards,
+    tokLuka 1.6s linear infinite;
+}
+
+@keyframes pojavaLuka {
+  to { opacity: 0.75; }
+}
+
+@keyframes tokLuka {
+  to { stroke-dashoffset: -24; }
+}
+
+.hero-signal {
+  filter: drop-shadow(0 0 6px rgba(180, 240, 74, 1));
+}
+
+.hero-pin-ulaz {
+  opacity: 0;
+  animation: padPina 0.7s cubic-bezier(0.3, 1.5, 0.5, 1) forwards;
+}
+
+@keyframes padPina {
+  from {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero-pin-lebdi {
+  animation: lebdenje 3.2s ease-in-out infinite;
+}
+
+@keyframes lebdenje {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.hero-sjena-pina {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: disanjeSjene 3.2s ease-in-out infinite;
+}
+
+@keyframes disanjeSjene {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(0.75); opacity: 0.6; }
+}
+
+/* --- Zvučni talas (logo): iscrta se pri učitavanju, pa lagano "pulsira" --- */
+.logo-talas path {
+  stroke-dasharray: 160;
+  stroke-dashoffset: 160;
+  animation: crtanjeTalasa 1.4s ease-out 0.2s forwards;
+}
+
+@keyframes crtanjeTalasa {
+  to { stroke-dashoffset: 0; }
+}
+
+.talas-puls {
+  animation: pulsTalasa 2.4s ease-in-out 1.6s infinite;
+}
+
+@keyframes pulsTalasa {
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(180, 240, 74, 0)); }
+  50% { filter: drop-shadow(0 0 6px rgba(180, 240, 74, 0.9)); }
+}
+
+/* --- Dugmad: lagano podizanje, jači sjaj, strelica se pomakne --- */
+.dugme {
+  transition: transform 0.18s ease, background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.25s ease,
+    color 0.18s ease;
+}
+
+.dugme:hover {
+  transform: translateY(-2px);
+}
+
+.dugme:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.dugme-sjaj {
+  animation: sjajDugmeta 2.8s ease-in-out 1.5s infinite;
+}
+
+.dugme-sjaj:hover {
+  box-shadow: 0 0 34px rgba(180, 240, 74, 0.75);
+}
+
+@keyframes sjajDugmeta {
+  0%, 100% { box-shadow: 0 0 18px rgba(180, 240, 74, 0.35); }
+  50% { box-shadow: 0 0 30px rgba(180, 240, 74, 0.65); }
+}
+
+.ikona-strelica {
+  transition: transform 0.2s ease;
+}
+
+.dugme:hover .ikona-strelica,
+.link-strelica:hover svg {
+  transform: translateX(4px);
+}
+
+.link-strelica svg {
+  transition: transform 0.2s ease;
+}
+
+/* --- Kartice početne: pojave se dok skrolamo, i podignu se pod mišem --- */
+.pojava {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.pojava-vidljivo {
+  opacity: 1;
+  transform: none;
+}
+
+.pojava > * {
+  height: 100%;
+}
+
+.pocetna-kartica {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.pocetna-kartica:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(15, 46, 37, 0.14);
+}
+
+/* Koraci "iskoče" jedan za drugim kad kartica dođe na ekran. */
+.pojava .korak {
+  opacity: 0;
+}
+
+.pojava-vidljivo .korak {
+  animation: iskakanje 0.6s cubic-bezier(0.3, 1.4, 0.5, 1) forwards;
+}
+
+.pojava-vidljivo .korak:nth-child(2) { animation-delay: 0.2s; }
+.pojava-vidljivo .korak:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes iskakanje {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.korak-ikona {
+  transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+}
+
+.korak:hover .korak-ikona {
+  transform: scale(1.1) rotate(-4deg);
+  background: var(--primarna);
+  color: var(--bijela);
+}
+
+.korak + .korak::before {
+  animation: strelicaPuls 1.8s ease-in-out infinite;
+}
+
+@keyframes strelicaPuls {
+  0%, 100% { transform: translateX(0); opacity: 0.5; }
+  50% { transform: translateX(4px); opacity: 1; }
+}
+
+/* Redovi posljednjih prijava se lagano pomaknu pod mišem. */
+.posljednje-lista li {
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  border-radius: 10px;
+}
+
+.posljednje-lista li:hover {
+  transform: translateX(4px);
+}
+
+/* --- Mini-mapa: tačke trepere, najnovije šalju eho, linija skenira --- */
+.mini-mapa-sjaj {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: treptanje 3s ease-in-out infinite;
+}
+
+@keyframes treptanje {
+  0%, 100% { opacity: 0.35; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.25); }
+}
+
+.mini-mapa-eho {
+  fill: none;
+  stroke: var(--limeta);
+  stroke-width: 1.5;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: eho 2.7s ease-out infinite;
+}
+
+.mini-mapa-sken {
+  fill: rgba(180, 240, 74, 0.07);
+  animation: skeniranje 6s linear infinite;
+}
+
+@keyframes skeniranje {
+  from { transform: translateX(-60px); }
+  to { transform: translateX(300px); }
+}
+
+/* --- Prelaz između stranica: sadržaj se lagano pojavi --- */
+.sadrzaj > * {
+  animation: ulazStranice 0.45s ease-out both;
+}
+
+@keyframes ulazStranice {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- Manje pokreta: sve animacije se gase, sadržaj je odmah vidljiv --- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .ulaz,
+  .pojava,
+  .pojava .korak,
+  .hero-luk,
+  .hero-pin-ulaz {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  .hero-luk {
+    opacity: 0.75 !important;
+  }
+
+  .logo-talas path {
+    stroke-dashoffset: 0;
+  }
+
+  .mini-mapa-sken {
+    display: none;
   }
 }
