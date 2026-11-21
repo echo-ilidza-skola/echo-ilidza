@@ -28,7 +28,7 @@ export default function PrekidacUloge() {
         </select>
       </div>
       <p id="demo-uloga-napomena" className="prekidac-napomena">
-        Demo uloga – nije prijava korisnika ni zaštita podataka
+        Demo uloga – nije prijava ni zaštita podataka
       </p>
     </div>
   )

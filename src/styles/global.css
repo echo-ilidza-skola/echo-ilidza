@@ -145,10 +145,12 @@ img {
 }
 
 /* ---------- zaglavlje ---------- */
+/* Zaglavlje: tamno zeleni prelaz umjesto ravne trake s oštrom linijom (gradijent je dozvoljen u zaglavlju). */
 .zaglavlje {
-  background: var(--tamna);
+  position: relative;
+  z-index: 20;
+  background: linear-gradient(180deg, #0c2a21 0%, var(--tamna) 100%);
   color: var(--tekst-na-tamnoj);
-  border-bottom: 1px solid var(--tamna-linija);
 }
 
 .zaglavlje-sadrzaj {
@@ -215,10 +217,17 @@ img {
   line-height: 1;
 }
 
+/* Znak eha u logu blago svijetli (sjaj je dozvoljen u zaglavlju). */
+.logo-znak {
+  width: 40px;
+  height: 48px;
+  filter: drop-shadow(0 0 7px rgba(180, 240, 74, 0.55));
+}
+
 .logo-naziv {
   font-family: var(--font-naslov);
-  font-weight: 700;
-  font-size: 1.6rem;
+  font-weight: 800;
+  font-size: 1.8rem;
   letter-spacing: 0.04em;
   color: var(--tekst-na-tamnoj);
 }
@@ -319,6 +328,7 @@ img {
 .navigacija a.active {
   color: var(--tamna);
   background: var(--limeta);
+  box-shadow: 0 0 18px rgba(180, 240, 74, 0.45);
 }
 
 /* ---------- donja navigacija (mobitel) ---------- */
@@ -1981,4 +1991,38 @@ img {
   transform-box: fill-box;
   transform-origin: center;
   animation: eho 2.6s ease-out infinite;
+}
+
+/* =====================================================================
+   ZAGLAVLJE NA RAČUNARU (kao na mockupu)
+   ===================================================================== */
+@media (min-width: 960px) {
+  /* Tanka okomita crta između navigacije i prekidača uloge. */
+  .prekidac-uloge {
+    padding-left: 1.25rem;
+    border-left: 1px solid rgba(255, 255, 255, 0.22);
+  }
+
+  /* Napomena uz demo ulogu u jednom, diskretnom redu. */
+  .prekidac-napomena {
+    max-width: none;
+    white-space: nowrap;
+    opacity: 0.85;
+  }
+
+  /* Početna: zaglavlje je poluprovidno i leži preko slike, pa se planine vide ispod navigacije. */
+  .zaglavlje--preko-slike {
+    background: linear-gradient(180deg, rgba(10, 34, 27, 0.92) 0%, rgba(10, 34, 27, 0.62) 100%);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+
+  /* Slika na početnoj počinje ispod zaglavlja (zaglavlje je preko nje), a tekst ostaje na istom mjestu. */
+  .zaglavlje--preko-slike + main .hero {
+    margin-top: calc(-1.5rem - var(--visina-zaglavlja, 0px));
+  }
+
+  .zaglavlje--preko-slike + main .hero-sadrzaj {
+    padding-top: calc(4rem + var(--visina-zaglavlja, 0px));
+  }
 }
