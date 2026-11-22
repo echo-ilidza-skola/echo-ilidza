@@ -1,9 +1,9 @@
 {
-  "name": "echo-civic-ilidza",
+  "name": "echo-ilidza",
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "ECHO Civic – Ilidža: školski prototip za prijavu komunalnih problema (testni podaci)",
+  "description": "ECHO Ilidža: školski prototip za prijavu komunalnih problema (testni podaci)",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

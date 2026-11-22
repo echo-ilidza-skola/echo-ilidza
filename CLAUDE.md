@@ -1,10 +1,10 @@
-# ECHO Civic – Ilidža (Faza 1: školski prototip)
+# ECHO Ilidža (Faza 1: školski prototip)
 
 ## Šta je projekat
 ECHO je web aplikacija u kojoj građani prijavljuju komunalne probleme (rupe na cesti, rasvjeta,
 otpad, igrališta…), prate status prijave i vide prijave na mapi. Ovo je ŠKOLSKI PROTOTIP koji
 razvijaju učenici Četvrte gimnazije Ilidža uz mentoricu. Pilot-područje je Općina Ilidža (Kanton Sarajevo).
-Naziv: "ECHO Civic – Ilidža". Podnaslov: "Glas građana koji se čuje".
+Naziv: "ECHO Ilidža". Podnaslov: "Glas građana koji se čuje".
 Ideja imena: eho je glas koji se čuje i na koji stiže odgovor (građanin prijavi, a status mu odgovori).
 Akronim "Every Citizen Has One voice" može se spomenuti samo kao sitni detalj na ekranu O projektu.
 
@@ -65,7 +65,7 @@ Akronim "Every Citizen Has One voice" može se spomenuti samo kao sitni detalj n
   Sadržaj nikad ne smije ostati sakriven ako se animacija ne pokrene, a uz prefers-reduced-motion
   sve animacije se gase.
 - Ikone: vlastite jednostavne inline SVG ikone (bez biblioteke ikona).
-- Logo: riječ "ECHO" uz simbol zvučnog talasa, ispod "CIVIC · ILIDŽA". Nikad grb ni znak Općine.
+- Logo: riječ "ECHO" uz simbol zvučnog talasa, ispod "ILIDŽA". Nikad grb ni znak Općine.
 - Nikad linkovi na društvene mreže ni dugme "Prijava/login" (demo uloge nisu prijava korisnika).
 - Mobitel prvo (donja navigacija na mobitelu), zatim tablet i računar.
 - Pristupačnost: kontrast najmanje WCAG AA, dugmad najmanje 44 px, rad tastaturom, alt tekst za slike.

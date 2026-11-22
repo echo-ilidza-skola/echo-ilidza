@@ -1,5 +1,5 @@
 @echo off
-rem Pokreće aplikaciju ECHO Civic – Ilidža na ovom računaru i otvara je u pregledniku.
+rem Pokreće aplikaciju ECHO Ilidža na ovom računaru i otvara je u pregledniku.
 rem Prozor ostaviti otvorenim dok se aplikacija koristi; zatvaranjem prozora aplikacija se gasi.
 chcp 65001 >nul
 cd /d "%~dp0"
@@ -17,7 +17,7 @@ if not exist node_modules (
 )
 
 echo.
-echo Pokrećem ECHO Civic – Ilidža. Preglednik će se otvoriti sam.
+echo Pokrećem ECHO Ilidža. Preglednik će se otvoriti sam.
 echo Za gašenje zatvorite ovaj prozor ili pritisnite Ctrl+C.
 echo.
 call npm run dev -- --open
