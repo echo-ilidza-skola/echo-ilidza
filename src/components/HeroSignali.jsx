@@ -22,20 +22,21 @@ const OZNAKE_MOBITEL = [
 ]
 
 // Računar: gornji dio slike je odsječen i preko njega je zaglavlje, a lijevo je tekst.
-// Zato su sve oznake niže i desno od teksta, da ih zaglavlje ne "reže".
+// Zato su oznake niže i desno od teksta (da ih zaglavlje ne "reže"), raspoređene u lepezu
+// oko fontane, tako da se lukovi ne sijeku.
 const OZNAKE_RACUNAR = [
-  { x: 1130, y: 500 }, // iza fontane
-  { x: 1600, y: 640 }, // desno, uz rijeku
-  { x: 1462, y: 532 }, // desno
-  { x: 1238, y: 592 }, // kod parka
+  { x: 1150, y: 510 }, // iza fontane
+  { x: 1400, y: 540 }, // desno gore
+  { x: 1610, y: 625 }, // uz rijeku
+  { x: 1500, y: 800 }, // desno dolje
 ]
 
 // Oblik oznake (pin) čiji je vrh u tački (0, 0).
 const PIN = 'M0 0c-6-9-12-14.5-12-22a12 12 0 0 1 24 0c0 7.5-6 13-12 22z'
 
-// Luk od oznake do fontane: kriva koja se izdiže iznad obje tačke (za "visina" piksela slike).
-function putanjaLuka(o, visina) {
-  const vrhY = Math.min(FONTANA.y, o.y) - visina
+// Luk od oznake do fontane: kriva koja se izdiže iznad obje tačke.
+function putanjaLuka(o) {
+  const vrhY = Math.min(FONTANA.y, o.y) - 150
   return `M${o.x} ${o.y} Q${(FONTANA.x + o.x) / 2} ${vrhY} ${FONTANA.x} ${FONTANA.y}`
 }
 
@@ -59,8 +60,6 @@ export default function HeroSignali() {
   const manjePokreta = useManjePokreta()
   const sirokEkran = useSirokEkran()
   const OZNAKE = sirokEkran ? OZNAKE_RACUNAR : OZNAKE_MOBITEL
-  // Na računaru su lukovi niži, da ne ulaze pod zaglavlje.
-  const visinaLuka = sirokEkran ? 80 : 150
 
   return (
     <svg
@@ -105,8 +104,8 @@ export default function HeroSignali() {
       {/* Lukovi: puna svijetleća linija + svjetlo koje "teče" po njoj */}
       {OZNAKE.map((o, i) => (
         <g key={`luk-${o.x}`}>
-          <path id={`luk-${i}`} className="hero-luk" style={{ animationDelay: `${0.6 + i * 0.15}s` }} d={putanjaLuka(o, visinaLuka)} />
-          <path className="hero-luk-tok" style={{ animationDelay: `${i * 0.5}s` }} d={putanjaLuka(o, visinaLuka)} />
+          <path id={`luk-${i}`} className="hero-luk" style={{ animationDelay: `${0.6 + i * 0.15}s` }} d={putanjaLuka(o)} />
+          <path className="hero-luk-tok" style={{ animationDelay: `${i * 0.5}s` }} d={putanjaLuka(o)} />
         </g>
       ))}
 
