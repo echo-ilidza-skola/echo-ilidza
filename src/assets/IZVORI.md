@@ -8,7 +8,20 @@
   Original se čuva u folderu `slike-original/` (nije u gitu).
 - Napomena: privremena ilustracija; zamijenit će je fotografija koju snime učenici.
 
-Oznaka „Ilustracija generisana pomoću AI“ mora biti vidljiva u aplikaciji (podnožje).
+Oznaka da je ovo „ilustracija generisana pomoću AI“ navedena je na ekranu O projektu (odluka mentorice: ne u podnožju).
 
 ## Ranije korištena slika (uklonjena)
 - „Ilidža.jpg“, Petr Kraumann, Wikimedia Commons, CC BY 3.0 – korištena do 21. 11. 2026., više nije u projektu.
+
+## Fotografije testnih prijava (src/assets/testne-fotografije/)
+Slobodne fotografije s Wikimedia Commonsa, preuzete 22. 11. 2026. uz odobrenje mentorice. Nisu snimljene u Ilidži.
+Izmjene: smanjene na najviše 800 px, JPEG bez EXIF podataka; t02 i t08 izrezane da se ne vide auta i tablice.
+
+| Prijava | Autor | Licenca | Izvor |
+|---|---|---|---|
+| t02 (kontejner) | ŠJů | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Fibichova,_kontejnery_na_t%C5%99%C3%ADd%C4%9Bn%C3%BD_odpad,_bordel_kolem.jpg |
+| t03 (nadstrešnica) | Coastal Elite from Halifax, Canada | CC BY-SA 2.0 | https://commons.wikimedia.org/wiki/File:Damaged_Bus_Stop_Shelter_-_Montreal_(26111781270).jpg |
+| t04 (udarna rupa) | Santeri Viinamäki | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Potholes_on_asphalt_road_20171023.jpg |
+| t08 (otpad) | Alan Stanton | CC BY-SA 2.0 | https://commons.wikimedia.org/wiki/File:Ferndale_Road_N15_-_Dumped_Rubbish_(16246615431).jpg |
+| t12 (šaht) | Aethonatic | CC0 | https://commons.wikimedia.org/wiki/File:Open_manhole_-_24_September_2026.jpg |
+| t15 (rasvjeta) | Santeri Viinamäki | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Damaged_dangerous_street_light_pole_20180524.jpg |

@@ -10,8 +10,9 @@ Akronim "Every Citizen Has One voice" može se spomenuti samo kao sitni detalj n
 
 ## Nepregovorna pravila
 1. Aplikacija NIKAD ne komunicira s Općinom ni sa bilo kojom institucijom i to nigdje ne sugeriše.
-2. Svi podaci su testni. Na SVAKOM ekranu je vidljiva traka:
-   "Demonstracijska verzija – testni podaci, nisu stvarne prijave Općine Ilidža".
+2. Svi podaci su testni. To se vidi na SVAKOM ekranu: u zaglavlju uz prekidač uloge piše
+   „Demo verzija · testni podaci“, a podnožje kaže da je ovo školski prototip s testnim podacima.
+   (Mentorica je uklonila posebnu traku na vrhu ekrana.)
 3. Status "Proslijeđeno službi" uvijek nosi oznaku "(simulacija)".
 4. Prijedlozi kategorije i prioriteta su PRAVILA, ne AI. U UI uvijek piše:
    "Prijedlog na osnovu ključnih riječi (pravila, ne AI)". Aplikacija nikad ne tvrdi da je analizirala fotografiju.
@@ -19,10 +20,12 @@ Akronim "Every Citizen Has One voice" može se spomenuti samo kao sitni detalj n
 6. Nijedna prijava nije javna dok je administrator ne odobri.
 7. Autor prijave, interna napomena i predloženi prioritet NIKAD se ne prikazuju u javnom prikazu.
 8. Nema pozadinskog servera, nema API ključeva, nema vanjskih AI servisa, nema analitike ni praćenja.
-9. Ne preuzimaj slike s interneta. Testne prijave nemaju fotografije ili koriste neutralnu ikonu kategorije.
-   Jedini izuzetak (odobrila mentorica): slika za hero dio (`src/assets/hero-ilidza-ai.jpg`), AI ilustracija
-   koju je napravila mentorica, uz vidljivu oznaku „ilustracija generisana pomoću AI“ (podnožje); izvor je
-   zapisan u `src/assets/IZVORI.md`. Privremena je – zamijenit će je fotografija koju snime učenici.
+9. Ne preuzimaj slike s interneta bez odobrenja mentorice. Odobreni izuzeci (izvori u `src/assets/IZVORI.md`
+   i na ekranu O projektu, ne u podnožju):
+   - slika za hero dio (`src/assets/hero-ilidza-ai.jpg`), AI ilustracija koju je napravila mentorica;
+   - fotografije nekih testnih prijava (`src/assets/testne-fotografije/`, `src/data/testneFotografije.js`):
+     slobodne licence s Wikimedia Commonsa, bez lica i registarskih oznaka, uz autora i licencu.
+   Sve su privremene – zamijenit će ih fotografije koje snime učenici. Ostale testne prijave koriste ikonu kategorije.
 10. Demo uloge (Gost / Građanin / Administrator) NISU prijava korisnika ni zaštita podataka. Uz prekidač
     vidljivo piše „Demo verzija“ (odluka mentorice), a puna napomena je u oblačiću i za čitač ekrana;
     detaljno objašnjenje je na ekranu O projektu i na ekranima za koje treba druga uloga.

@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { napraviTestnePodatke } from './testniPodaci.js'
+import { TESTNE_FOTOGRAFIJE } from './testneFotografije.js'
 import {
   STATUSI,
   KATEGORIJE,
@@ -139,7 +140,17 @@ describe('testni podaci', () => {
     expect(moje.some((p) => STATUSI[p.status].javno)).toBe(true)
   })
 
-  it('nema fotografija preuzetih s interneta', () => {
-    expect(prijave.every((p) => p.fotografijaId === null)).toBe(true)
+  it('fotografije testnih prijava su samo one iz testneFotografije.js (s navedenim autorom i licencom)', () => {
+    const saFotografijom = prijave.filter((p) => p.fotografijaId)
+    expect(saFotografijom.length).toBeGreaterThan(0)
+    for (const p of saFotografijom) {
+      expect(p.fotografijaId).toBe(`test:${p.id}`)
+      const f = TESTNE_FOTOGRAFIJE[p.id]
+      expect(f.autor).toBeTruthy()
+      expect(f.licenca).toMatch(/CC0|CC BY/)
+      expect(f.izvor).toMatch(/^https:\/\/commons\.wikimedia\.org\//)
+      // Fotografije su samo na javnim (odobrenim) testnim prijavama.
+      expect(STATUSI[p.status].javno).toBe(true)
+    }
   })
 })

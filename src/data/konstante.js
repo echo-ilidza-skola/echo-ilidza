@@ -132,5 +132,3 @@ export const ULOGE = {
   administrator: 'Administrator',
 }
 
-export const TEKST_TESTNI_PODACI =
-  'Demonstracijska verzija – testni podaci, nisu stvarne prijave Općine Ilidža'

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { EhoZnak } from '../components/Logo.jsx'
 import Ikona from '../components/Ikona.jsx'
 import { PRAG_DUPLIKATA_M } from '../data/konstante.js'
+import { TESTNE_FOTOGRAFIJE } from '../data/testneFotografije.js'
 import { OZNAKA_PRAVILA } from '../components/prijava/PrijedlogKategorije.jsx'
 
 function Odjeljak({ ikona, naslov, children }) {
@@ -188,6 +189,17 @@ export default function OProjektu() {
             Leaflet; toplotna mapa pomoću dodatka Leaflet.heat (licenca BSD).
           </li>
           <li>Slika na početnoj stranici je ilustracija generisana pomoću AI, a ne stvarna fotografija Ilidže.</li>
+          <li>
+            Fotografije uz testne prijave nisu snimljene u Ilidži – to su slobodne fotografije s Wikimedia Commonsa,
+            koje će zamijeniti fotografije učenika:
+            <ul className="mali-tekst">
+              {Object.values(TESTNE_FOTOGRAFIJE).map((f) => (
+                <li key={f.izvor}>
+                  <a href={f.izvor}>{f.autor}</a>, {f.licenca}
+                </li>
+              ))}
+            </ul>
+          </li>
           <li>Font naslova: Montserrat (licenca SIL Open Font License).</li>
           <li>Izrađeno u React-u i Vite-u; ikone i znak eha su nacrtani posebno za ovaj projekat.</li>
         </ul>

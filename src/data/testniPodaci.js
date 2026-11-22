@@ -5,6 +5,7 @@
 import { OPCINA, DEMO_KORISNIK_ID, TOK_STATUSA } from './konstante.js'
 import { predloziKategoriju } from '../logic/prijedlogKategorije.js'
 import { predloziPrioritet } from '../logic/prioritet.js'
+import { kljucTestneFotografije } from './testneFotografije.js'
 
 const DEMO = DEMO_KORISNIK_ID
 
@@ -291,7 +292,8 @@ function napraviPrijavu(osnova, redniBroj, sada) {
     naselje: osnova.naselje,
     lat: osnova.lat,
     lng: osnova.lng,
-    fotografijaId: null,
+    // Neke testne prijave imaju slobodnu fotografiju s Wikimedije (vidi testneFotografije.js).
+    fotografijaId: kljucTestneFotografije(osnova.id),
     fotografijaSkrivena: false,
     datumPrijave,
     status: osnova.status,

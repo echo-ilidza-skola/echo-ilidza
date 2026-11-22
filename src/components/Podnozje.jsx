@@ -1,9 +1,8 @@
-// Podnožje: napomena o prototipu i obavezna oznaka da je slika na početnoj generisana pomoću AI.
+// Podnožje: logo, slogan i napomena o prototipu. Izvori slika su navedeni na ekranu O projektu.
 // Nema grba Općine ni linkova na društvene mreže.
 
 import Logo from './Logo.jsx'
 import Talas from './Talas.jsx'
-import { HERO } from '../data/tekstovi.js'
 
 export default function Podnozje() {
   return (
@@ -18,9 +17,6 @@ export default function Podnozje() {
           <p>
             Školski prototip. Svi podaci su testni i čuvaju se samo u ovom pregledniku. Aplikacija ne šalje
             ništa Općini ni bilo kojoj instituciji.
-          </p>
-          <p className="podnozje-atribucija">
-            Slika na početnoj stranici je ilustracija generisana pomoću AI, a ne stvarna fotografija Ilidže.
           </p>
         </div>
       </div>

@@ -25,7 +25,7 @@ export default function Pocetna() {
         aria-labelledby="hero-naslov"
         style={{ '--hero-slika': `url(${heroSlika})` }}
       >
-        {/* Fotografija je samo ukras, pa ima prazan alt. Autor i licenca su u podnožju. */}
+        {/* Slika je samo ukras, pa ima prazan alt. Izvor je naveden na ekranu O projektu. */}
         {/* Slika, zatamnjenje i oznake su u istom okviru, pa se oznake poklapaju sa slikom. */}
         <div className="hero-slika-okvir">
           <img className="hero-slika" src={heroSlika} alt="" />
@@ -39,9 +39,7 @@ export default function Pocetna() {
               <span className="hero-naslov-red ulaz ulaz-1">{HERO.naslovPrviRed}</span>
               <span className="hero-naslov-red hero-naslov-isticanje ulaz ulaz-2">{HERO.naslovDrugiRed}</span>
             </h1>
-            <p className="hero-poruka ulaz ulaz-3">{HERO.poruka}</p>
-
-            <div className="hero-dugmad ulaz ulaz-4">
+            <div className="hero-dugmad ulaz ulaz-3">
               <Link to="/prijavi" className="dugme dugme-glavno dugme-veliko dugme-sjaj">
                 <Ikona ime="prijavi" velicina={20} />
                 {HERO.dugme}
@@ -49,9 +47,10 @@ export default function Pocetna() {
               </Link>
             </div>
 
-            <p className="hero-koraci ulaz ulaz-5">
+            {/* Znak eha + kratka poruka ispod dugmeta. */}
+            <p className="hero-koraci hero-koraci--poruka ulaz ulaz-4">
               <EhoZnak velicina={26} />
-              {HERO.koraci}
+              {HERO.poruka}
             </p>
             <p className="hero-napomena ulaz ulaz-5">{HERO.napomena}</p>
           </div>

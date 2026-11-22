@@ -27,7 +27,7 @@ const PUTANJE = {
     'M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3',
   ],
 
-  // Ikone kategorija (neutralne; testne prijave nemaju fotografija).
+  // Ikone kategorija (za prijave bez fotografije).
   ceste: ['M8 3 4 21', 'M16 3l4 18', 'M12 4v3', 'M12 10.5v3', 'M12 17v3'],
   rasvjeta: ['M9.5 18h5', 'M10.5 21h3', 'M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z'],
   otpad: ['M4 7h16', 'M9 7V4h6v3', 'M6 7l1 13h10l1-13', 'M10 11v5.5', 'M14 11v5.5'],

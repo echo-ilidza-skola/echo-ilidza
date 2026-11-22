@@ -1,4 +1,4 @@
-// Posljednjih 5 ODOBRENIH (javnih) prijava. Umjesto fotografije: neutralna ikona kategorije.
+// Posljednjih 5 ODOBRENIH (javnih) prijava, s fotografijom ako postoji, a inače s ikonom kategorije.
 
 import { Link } from 'react-router-dom'
 import Ikona from '../Ikona.jsx'

@@ -118,16 +118,6 @@ img {
   border: 0;
 }
 
-/* ---------- traka o testnim podacima (na svakom ekranu) ---------- */
-.traka-testni {
-  background: var(--upozorenje-podloga);
-  color: var(--upozorenje-tekst);
-  border-bottom: 2px solid var(--upozorenje);
-  padding: 0.4rem var(--razmak);
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-align: center;
-}
 
 /* ---------- link za preskakanje navigacije ---------- */
 .preskoci-link {
@@ -796,44 +786,69 @@ img {
   flex: none;
 }
 
+/* Mini-mapa: svijetlo zelena kartica s tamno zelenim stilizovanim oblikom (kao na mockupu). */
 .mini-mapa {
-  background: var(--tamna);
-  border-color: var(--tamna-linija);
-  color: var(--tekst-na-tamnoj);
+  background: linear-gradient(160deg, #e9f6ea 0%, #d7efd9 100%);
+  border-color: #c3e3c7;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
 .mini-mapa h2 {
-  color: var(--tekst-na-tamnoj);
   margin-bottom: 0;
 }
 
-.mini-mapa-slika {
-  width: 100%;
-  height: auto;
-  background: radial-gradient(ellipse at 50% 45%, #1f5a46 0%, #143d31 70%);
-  border-radius: 12px;
+.mini-mapa-okvir {
+  position: relative;
 }
 
-.mini-mapa-mreza {
-  stroke: rgba(180, 240, 74, 0.12);
+.mini-mapa-slika {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.mini-mapa-oblik {
+  fill: #1f5a3c;
+  stroke: #3e8a4f;
+  stroke-width: 2;
+  filter: drop-shadow(0 6px 10px rgba(20, 70, 40, 0.25));
+}
+
+.mini-mapa-linija {
+  stroke: rgba(180, 240, 74, 0.45);
   stroke-width: 1;
 }
 
 .mini-mapa-sjaj {
-  fill: rgba(180, 240, 74, 0.25);
+  fill: rgba(180, 240, 74, 0.3);
 }
 
 .mini-mapa-tacka {
   fill: var(--limeta);
 }
 
+/* "Zajedno za bolji grad!" rukopisnim fontom koji postoji na uređaju (bez preuzimanja fontova). */
+.mini-mapa-poruka {
+  position: absolute;
+  right: 2%;
+  bottom: -4%;
+  margin: 0;
+  font-family: 'Segoe Script', 'Bradley Hand', 'Brush Script MT', 'Comic Sans MS', cursive;
+  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: right;
+  color: var(--tamna);
+  transform: rotate(-6deg);
+  text-shadow: 0 0 6px #e9f6ea, 0 0 12px #e9f6ea;
+}
+
 .mini-mapa-tekst {
   margin: 0;
   font-size: 0.85rem;
-  color: var(--tekst-na-tamnoj-prigusen);
+  color: var(--tekst-prigusen);
 }
 
 .mini-mapa .dugme {
@@ -2216,5 +2231,117 @@ img {
     width: 40px;
     height: 40px;
     border-radius: 10px;
+  }
+}
+
+/* =====================================================================
+   NIŽE ZAGLAVLJE, NASLOVNA SEKCIJA I PODNOŽJE (zahtjev mentorice)
+   ===================================================================== */
+.logo-znak {
+  width: 32px;
+  height: 38px;
+}
+
+.logo-naziv {
+  font-size: 1.55rem;
+}
+
+.prekidac-uloge {
+  gap: 0.05rem;
+}
+
+/* Poruka ispod dugmeta (uz znak eha) umjesto "Primijeti · Prijavi · Prati". */
+.hero-koraci--poruka {
+  margin-top: 1.1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #e3eee9;
+}
+
+.hero-dugmad {
+  margin-top: 1.25rem;
+}
+
+/* Podnožje: niže, u jednom redu na širem ekranu. */
+.podnozje {
+  margin-top: 1rem;
+}
+
+.podnozje-talas {
+  height: 18px;
+}
+
+.podnozje-sadrzaj {
+  padding-top: 0.4rem;
+  padding-bottom: 0.6rem;
+}
+
+.podnozje-red {
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.podnozje-red .logo-znak {
+  width: 26px;
+  height: 30px;
+}
+
+.podnozje-red .logo-naziv {
+  font-size: 1.25rem;
+}
+
+.podnozje p {
+  margin: 0;
+}
+
+@media (min-width: 960px) {
+  /* Naslovna sekcija niža od pune slike; slika i oznake se jednako sijeku, pa znak ostaje na fontani. */
+  .hero {
+    aspect-ratio: auto;
+    height: clamp(500px, 42vw, 620px);
+  }
+
+  .hero-naslov {
+    font-size: clamp(2.3rem, 3.4vw, 3.6rem);
+  }
+
+  .zaglavlje-sadrzaj {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+}
+
+@media (min-width: 960px) {
+  /* Niža naslovna sekcija: slika se siječe ODOZGO (nebo), a dno slike s fontanom ostaje vidljivo.
+     Oznake (HeroSignali, xMidYMax slice) sijeku se isto, pa glavni znak ostaje na fontani. */
+  .hero {
+    height: clamp(560px, 46vw, 660px);
+  }
+
+  .hero-slika {
+    object-position: 50% 100%;
+  }
+
+  /* Statistika dolje desno, ispod prstenova oko fontane. */
+  .statistika-traka {
+    bottom: 3%;
+  }
+}
+
+/* Veće minijature fotografija u "Posljednjim prijavama" (kao na mockupu). */
+.prijava-minijatura,
+.posljednje-lista .kategorija-plocica {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+}
+
+@media (min-width: 960px) {
+  .prijava-minijatura,
+  .posljednje-lista .kategorija-plocica {
+    width: 52px;
+    height: 52px;
   }
 }

@@ -2,7 +2,7 @@
 // i svjetleći signali koji putuju po lukovima (glas → odjek).
 //
 // VAŽNO: SVG koristi ISTE koordinate kao slika (1672 × 941 px) i isto "rezanje" kao slika
-// (preserveAspectRatio="xMidYMid slice" = object-fit: cover). Zato glavna oznaka uvijek stoji
+// (preserveAspectRatio="xMidYMax slice" = object-fit: cover). Zato glavna oznaka uvijek stoji
 // tačno na fontani, bez obzira na veličinu ekrana.
 // Samo dekoracija – čitač ekrana je preskače (aria-hidden).
 
@@ -14,8 +14,8 @@ const FONTANA = { x: 1003, y: 716 }
 // Ostale oznake, raspoređene po cijeloj slici (vrh oznake je tačka na slici).
 // Na računaru zaobilaze tekst (lijevo u sredini) i panel statistike (gore desno).
 const OZNAKE = [
-  { x: 330, y: 232 }, // udaljenija tačka, lijevo
-  { x: 760, y: 258 }, // središnji dio
+  { x: 330, y: 330 }, // udaljenija tačka, lijevo
+  { x: 760, y: 330 }, // središnji dio
   { x: 1462, y: 532 }, // desno
   { x: 1238, y: 592 }, // kod parka
 ]
@@ -52,7 +52,7 @@ export default function HeroSignali() {
     <svg
       className="hero-signali"
       viewBox="0 0 1672 941"
-      preserveAspectRatio="xMidYMid slice"
+      preserveAspectRatio="xMidYMax slice"
       aria-hidden="true"
       focusable="false"
     >

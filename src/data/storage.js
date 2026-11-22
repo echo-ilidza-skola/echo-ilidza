@@ -8,6 +8,7 @@
 
 import { createStore, get, set, del, clear } from 'idb-keyval'
 import { napraviTestnePodatke } from './testniPodaci.js'
+import { TESTNE_FOTOGRAFIJE, PREFIKS_TESTNE_FOTOGRAFIJE } from './testneFotografije.js'
 import { uJavniPrikaz } from '../logic/javniPrikaz.js'
 import { napraviNovuPrijavu, povecajBrojPrijavitelja, noviId } from '../logic/novaPrijava.js'
 import {
@@ -219,6 +220,17 @@ export async function sacuvajFotografiju(blob) {
 // Vraća Blob fotografije ili null ako je nema (npr. obrisani podaci preglednika).
 export async function ucitajFotografiju(id) {
   if (!id) return null
+  // Fotografije testnih prijava su u projektu (src/assets), a ne u IndexedDB.
+  if (id.startsWith(PREFIKS_TESTNE_FOTOGRAFIJE)) {
+    const testna = TESTNE_FOTOGRAFIJE[id.slice(PREFIKS_TESTNE_FOTOGRAFIJE.length)]
+    if (!testna) return null
+    try {
+      const odgovor = await fetch(testna.url)
+      return odgovor.ok ? await odgovor.blob() : null
+    } catch {
+      return null
+    }
+  }
   try {
     return (await get(id, spremiste())) || null
   } catch {

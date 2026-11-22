@@ -8,7 +8,7 @@ gimnazije Ilidža uz mentoricu. Pilot-područje je Općina Ilidža (Kanton Saraj
 
 Ime dolazi od eha: građanin pošalje prijavu (glas), a status prijave mu „odgovori“.
 
-> ⚠ **Demonstracijska verzija – testni podaci, nisu stvarne prijave Općine Ilidža.**
+> ⚠ **Demo verzija – testni podaci, nisu stvarne prijave Općine Ilidža.**
 > Aplikacija **ne komunicira s Općinom ni sa bilo kojom institucijom**. Status „Proslijeđeno službi
 > (simulacija)“ je samo simulacija.
 
