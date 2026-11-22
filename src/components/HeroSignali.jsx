@@ -22,13 +22,13 @@ const OZNAKE_MOBITEL = [
 ]
 
 // Računar: gornji dio slike je odsječen i preko njega je zaglavlje, a lijevo je tekst.
-// Zato su oznake niže i desno od teksta (da ih zaglavlje ne "reže"), raspoređene u lepezu
-// oko fontane, tako da se lukovi ne sijeku.
+// Raspored oponaša mobitel (dvije udaljene oznake i dvije bliže, desno), ali niže i desno od teksta,
+// da ih zaglavlje ne "reže".
 const OZNAKE_RACUNAR = [
-  { x: 1150, y: 510 }, // iza fontane
-  { x: 1400, y: 540 }, // desno gore
-  { x: 1610, y: 625 }, // uz rijeku
-  { x: 1500, y: 800 }, // desno dolje
+  { x: 960, y: 505 }, // udaljenija, iza fontane
+  { x: 1250, y: 500 }, // udaljenija, desno
+  { x: 1560, y: 565 }, // desno, uz rijeku
+  { x: 1330, y: 645 }, // kod parka
 ]
 
 // Oblik oznake (pin) čiji je vrh u tački (0, 0).
@@ -60,6 +60,12 @@ export default function HeroSignali() {
   const manjePokreta = useManjePokreta()
   const sirokEkran = useSirokEkran()
   const OZNAKE = sirokEkran ? OZNAKE_RACUNAR : OZNAKE_MOBITEL
+  // Na računaru je slika veća, pa su oznake manje da ne dominiraju slikom.
+  const mjeriloOznake = sirokEkran ? 0.95 : 1.7
+  const mjeriloGlavne = sirokEkran ? 1.7 : 3.1
+  // Sjaj i prstenovi oko fontane: na računaru manji (umanjeni oko središta fontane).
+  const mjeriloFontane = sirokEkran ? 0.7 : 1
+  const umanjiFontanu = `translate(${FONTANA.x} ${FONTANA.y}) scale(${mjeriloFontane}) translate(${-FONTANA.x} ${-FONTANA.y})`
 
   return (
     <svg
@@ -82,24 +88,26 @@ export default function HeroSignali() {
         </radialGradient>
       </defs>
 
-      {/* Sjaj na tlu oko fontane */}
-      <ellipse className="hero-sjaj-tla" cx={FONTANA.x} cy={FONTANA.y} rx="205" ry="86" fill="url(#sjaj-fontane)" />
+      <g transform={umanjiFontanu}>
+        {/* Sjaj na tlu oko fontane */}
+        <ellipse className="hero-sjaj-tla" cx={FONTANA.x} cy={FONTANA.y} rx="205" ry="86" fill="url(#sjaj-fontane)" />
 
-      {/* Stalne elipse na tlu (kao krugovi na vodi) i elipse koje se šire (eho) */}
-      {[65, 115, 165].map((rx) => (
-        <ellipse key={`krug-${rx}`} className="hero-krug" cx={FONTANA.x} cy={FONTANA.y} rx={rx} ry={rx * 0.34} />
-      ))}
-      {[0, 1, 2].map((i) => (
-        <ellipse
-          key={`eho-${i}`}
-          className="hero-eho"
-          style={{ animationDelay: `${1 + i * 1.1}s` }}
-          cx={FONTANA.x}
-          cy={FONTANA.y}
-          rx="95"
-          ry="32"
-        />
-      ))}
+        {/* Stalne elipse na tlu (kao krugovi na vodi) i elipse koje se šire (eho) */}
+        {[65, 115, 165].map((rx) => (
+          <ellipse key={`krug-${rx}`} className="hero-krug" cx={FONTANA.x} cy={FONTANA.y} rx={rx} ry={rx * 0.34} />
+        ))}
+        {[0, 1, 2].map((i) => (
+          <ellipse
+            key={`eho-${i}`}
+            className="hero-eho"
+            style={{ animationDelay: `${1 + i * 1.1}s` }}
+            cx={FONTANA.x}
+            cy={FONTANA.y}
+            rx="95"
+            ry="32"
+          />
+        ))}
+      </g>
 
       {/* Lukovi: puna svijetleća linija + svjetlo koje "teče" po njoj */}
       {OZNAKE.map((o, i) => (
@@ -128,10 +136,10 @@ export default function HeroSignali() {
         ))}
 
       {OZNAKE.map((o, i) => (
-        <Oznaka key={`pin-${o.x}`} x={o.x} y={o.y} mjerilo={1.7} kasnjenje={0.35 + i * 0.12} />
+        <Oznaka key={`pin-${o.x}`} x={o.x} y={o.y} mjerilo={mjeriloOznake} kasnjenje={0.35 + i * 0.12} />
       ))}
       {/* Glavna oznaka stoji na fontani */}
-      <Oznaka x={FONTANA.x} y={FONTANA.y} mjerilo={3.1} glavna kasnjenje={0.2} />
+      <Oznaka x={FONTANA.x} y={FONTANA.y} mjerilo={mjeriloGlavne} glavna kasnjenje={0.2} />
     </svg>
   )
 }
