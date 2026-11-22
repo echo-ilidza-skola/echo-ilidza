@@ -786,69 +786,44 @@ img {
   flex: none;
 }
 
-/* Mini-mapa: svijetlo zelena kartica s tamno zelenim stilizovanim oblikom (kao na mockupu). */
 .mini-mapa {
-  background: linear-gradient(160deg, #e9f6ea 0%, #d7efd9 100%);
-  border-color: #c3e3c7;
+  background: var(--tamna);
+  border-color: var(--tamna-linija);
+  color: var(--tekst-na-tamnoj);
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
 .mini-mapa h2 {
+  color: var(--tekst-na-tamnoj);
   margin-bottom: 0;
 }
 
-.mini-mapa-okvir {
-  position: relative;
-}
-
 .mini-mapa-slika {
-  display: block;
   width: 100%;
   height: auto;
+  background: radial-gradient(ellipse at 50% 45%, #1f5a46 0%, #143d31 70%);
+  border-radius: 12px;
 }
 
-.mini-mapa-oblik {
-  fill: #1f5a3c;
-  stroke: #3e8a4f;
-  stroke-width: 2;
-  filter: drop-shadow(0 6px 10px rgba(20, 70, 40, 0.25));
-}
-
-.mini-mapa-linija {
-  stroke: rgba(180, 240, 74, 0.45);
+.mini-mapa-mreza {
+  stroke: rgba(180, 240, 74, 0.12);
   stroke-width: 1;
 }
 
 .mini-mapa-sjaj {
-  fill: rgba(180, 240, 74, 0.3);
+  fill: rgba(180, 240, 74, 0.25);
 }
 
 .mini-mapa-tacka {
   fill: var(--limeta);
 }
 
-/* "Zajedno za bolji grad!" rukopisnim fontom koji postoji na uređaju (bez preuzimanja fontova). */
-.mini-mapa-poruka {
-  position: absolute;
-  right: 2%;
-  bottom: -4%;
-  margin: 0;
-  font-family: 'Segoe Script', 'Bradley Hand', 'Brush Script MT', 'Comic Sans MS', cursive;
-  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
-  font-weight: 700;
-  line-height: 1.15;
-  text-align: right;
-  color: var(--tamna);
-  transform: rotate(-6deg);
-  text-shadow: 0 0 6px #e9f6ea, 0 0 12px #e9f6ea;
-}
-
 .mini-mapa-tekst {
   margin: 0;
   font-size: 0.85rem;
-  color: var(--tekst-prigusen);
+  color: var(--tekst-na-tamnoj-prigusen);
 }
 
 .mini-mapa .dugme {

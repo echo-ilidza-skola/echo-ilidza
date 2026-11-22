@@ -15,7 +15,8 @@ Oznaka da je ovo „ilustracija generisana pomoću AI“ navedena je na ekranu O
 
 ## Fotografije testnih prijava (src/assets/testne-fotografije/)
 Slobodne fotografije s Wikimedia Commonsa, preuzete 22. 11. 2026. uz odobrenje mentorice. Nisu snimljene u Ilidži.
-Izmjene: smanjene na najviše 800 px, JPEG bez EXIF podataka; t02 i t08 izrezane da se ne vide auta i tablice.
+Izmjene: smanjene na najviše 800 px, JPEG bez EXIF podataka; t02 i t08 izrezane da se ne vide auta i tablice;
+t11 izrezana (bez ljudi u blizini) i s pikseliziranom registarskom tablicom autobusa.
 
 | Prijava | Autor | Licenca | Izvor |
 |---|---|---|---|
@@ -23,5 +24,6 @@ Izmjene: smanjene na najviše 800 px, JPEG bez EXIF podataka; t02 i t08 izrezane
 | t03 (nadstrešnica) | Coastal Elite from Halifax, Canada | CC BY-SA 2.0 | https://commons.wikimedia.org/wiki/File:Damaged_Bus_Stop_Shelter_-_Montreal_(26111781270).jpg |
 | t04 (udarna rupa) | Santeri Viinamäki | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Potholes_on_asphalt_road_20171023.jpg |
 | t08 (otpad) | Alan Stanton | CC BY-SA 2.0 | https://commons.wikimedia.org/wiki/File:Ferndale_Road_N15_-_Dumped_Rubbish_(16246615431).jpg |
+| t11 (autobus) | Pjotr Mahhonin | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Iveco_Bus_at_Bus_Stop_City_Bus_Station_Odos_7th_Martiou_Rhodes_4_September_2018.jpg |
 | t12 (šaht) | Aethonatic | CC0 | https://commons.wikimedia.org/wiki/File:Open_manhole_-_24_September_2026.jpg |
 | t15 (rasvjeta) | Santeri Viinamäki | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Damaged_dangerous_street_light_pole_20180524.jpg |

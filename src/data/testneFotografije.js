@@ -1,13 +1,14 @@
 // Fotografije za TESTNE prijave. Ovo su slobodne fotografije s Wikimedia Commonsa (nisu snimljene
 // u Ilidži) – služe samo da demonstracija izgleda stvarnije. Autori i licence su navedeni ovdje,
 // u src/assets/IZVORI.md i na ekranu O projektu. Fotografije su smanjene na 800 px, bez EXIF podataka,
-// a gdje je trebalo, izrezane tako da se ne vide auta ni registarske oznake.
+// a gdje je trebalo, izrezane tako da se ne vide auta ni registarske oznake (tablica autobusa t11 je pikselizirana).
 // Zamijenit će ih fotografije koje snime učenici (bez lica i registarskih oznaka).
 
 import t02 from '../assets/testne-fotografije/t02.jpg'
 import t03 from '../assets/testne-fotografije/t03.jpg'
 import t04 from '../assets/testne-fotografije/t04.jpg'
 import t08 from '../assets/testne-fotografije/t08.jpg'
+import t11 from '../assets/testne-fotografije/t11.jpg'
 import t12 from '../assets/testne-fotografije/t12.jpg'
 import t15 from '../assets/testne-fotografije/t15.jpg'
 
@@ -38,6 +39,12 @@ export const TESTNE_FOTOGRAFIJE = {
     autor: 'Alan Stanton',
     licenca: 'CC BY-SA 2.0',
     izvor: 'https://commons.wikimedia.org/wiki/File:Ferndale_Road_N15_-_Dumped_Rubbish_(16246615431).jpg',
+  },
+  t11: {
+    url: t11,
+    autor: 'Pjotr Mahhonin',
+    licenca: 'CC BY-SA 4.0',
+    izvor: 'https://commons.wikimedia.org/wiki/File:Iveco_Bus_at_Bus_Stop_City_Bus_Station_Odos_7th_Martiou_Rhodes_4_September_2018.jpg',
   },
   t12: {
     url: t12,
