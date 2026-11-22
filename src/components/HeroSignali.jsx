@@ -7,15 +7,25 @@
 // Samo dekoracija – čitač ekrana je preskače (aria-hidden).
 
 import { useManjePokreta } from '../hooks/useManjePokreta.js'
+import { useSirokEkran } from '../hooks/useSirokEkran.js'
 
 // Sredina fontane na slici hero-ilidza-ai.jpg (u pikselima slike).
 const FONTANA = { x: 1003, y: 716 }
 
-// Ostale oznake, raspoređene po cijeloj slici (vrh oznake je tačka na slici).
-// Na računaru zaobilaze tekst (lijevo u sredini) i panel statistike (gore desno).
-const OZNAKE = [
+// Ostale oznake (vrh oznake je tačka na slici).
+// Mobitel i tablet: slika se vidi cijela, pa su oznake raspoređene po cijeloj slici.
+const OZNAKE_MOBITEL = [
   { x: 330, y: 330 }, // udaljenija tačka, lijevo
   { x: 760, y: 330 }, // središnji dio
+  { x: 1462, y: 532 }, // desno
+  { x: 1238, y: 592 }, // kod parka
+]
+
+// Računar: gornji dio slike je odsječen i preko njega je zaglavlje, a lijevo je tekst.
+// Zato su sve oznake niže i desno od teksta, da ih zaglavlje ne "reže".
+const OZNAKE_RACUNAR = [
+  { x: 1130, y: 500 }, // iza fontane
+  { x: 1600, y: 640 }, // desno, uz rijeku
   { x: 1462, y: 532 }, // desno
   { x: 1238, y: 592 }, // kod parka
 ]
@@ -23,9 +33,9 @@ const OZNAKE = [
 // Oblik oznake (pin) čiji je vrh u tački (0, 0).
 const PIN = 'M0 0c-6-9-12-14.5-12-22a12 12 0 0 1 24 0c0 7.5-6 13-12 22z'
 
-// Luk od oznake do fontane: kriva koja se izdiže iznad obje tačke.
-function putanjaLuka(o) {
-  const vrhY = Math.min(FONTANA.y, o.y) - 150
+// Luk od oznake do fontane: kriva koja se izdiže iznad obje tačke (za "visina" piksela slike).
+function putanjaLuka(o, visina) {
+  const vrhY = Math.min(FONTANA.y, o.y) - visina
   return `M${o.x} ${o.y} Q${(FONTANA.x + o.x) / 2} ${vrhY} ${FONTANA.x} ${FONTANA.y}`
 }
 
@@ -47,6 +57,10 @@ function Oznaka({ x, y, mjerilo, glavna, kasnjenje }) {
 
 export default function HeroSignali() {
   const manjePokreta = useManjePokreta()
+  const sirokEkran = useSirokEkran()
+  const OZNAKE = sirokEkran ? OZNAKE_RACUNAR : OZNAKE_MOBITEL
+  // Na računaru su lukovi niži, da ne ulaze pod zaglavlje.
+  const visinaLuka = sirokEkran ? 80 : 150
 
   return (
     <svg
@@ -91,8 +105,8 @@ export default function HeroSignali() {
       {/* Lukovi: puna svijetleća linija + svjetlo koje "teče" po njoj */}
       {OZNAKE.map((o, i) => (
         <g key={`luk-${o.x}`}>
-          <path id={`luk-${i}`} className="hero-luk" style={{ animationDelay: `${0.6 + i * 0.15}s` }} d={putanjaLuka(o)} />
-          <path className="hero-luk-tok" style={{ animationDelay: `${i * 0.5}s` }} d={putanjaLuka(o)} />
+          <path id={`luk-${i}`} className="hero-luk" style={{ animationDelay: `${0.6 + i * 0.15}s` }} d={putanjaLuka(o, visinaLuka)} />
+          <path className="hero-luk-tok" style={{ animationDelay: `${i * 0.5}s` }} d={putanjaLuka(o, visinaLuka)} />
         </g>
       ))}
 

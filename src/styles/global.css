@@ -2367,11 +2367,6 @@ img {
 /* =====================================================================
    PODNASLOV "Glas građana koji se čuje" (iznad naslova i u podnožju)
    ===================================================================== */
-.hero {
-  /* Visina malog reda iznad naslova (s razmakom ispod), da se na mobitelu zna koliko ide preko slike. */
-  --visina-iznad-naslova: 1.75rem;
-}
-
 .hero-iznad-naslova {
   margin: 0 0 0.7rem;
   font-family: var(--font-naslov);
@@ -2384,13 +2379,11 @@ img {
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
 }
 
+/* Na mobitelu i tabletu ga nema: ekran je uzak, a ime je već u zaglavlju.
+   Podnaslov se tamo vidi u podnožju. */
 @media (max-width: 959px) {
   .hero-iznad-naslova {
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-  }
-  .hero-sadrzaj {
-    padding-top: calc(var(--visina-slike) - var(--preklop-naslova) - var(--visina-iznad-naslova));
+    display: none;
   }
 }
 

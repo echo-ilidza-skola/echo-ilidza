@@ -6,8 +6,8 @@
 export const PODNASLOV = 'Glas građana koji se čuje'
 
 export const HERO = {
-  // Mali red iznad naslova.
-  iznadNaslova: 'ECHO Ilidža · ' + PODNASLOV,
+  // Mali red iznad naslova (samo na računaru; ime "ECHO Ilidža" je već u logotipu).
+  iznadNaslova: PODNASLOV,
   naslovPrviRed: 'Vidiš problem?',
   naslovDrugiRed: 'Pokreni promjenu.',
   // Rečenica ispod naslova.
