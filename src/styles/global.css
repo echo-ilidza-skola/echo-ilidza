@@ -2325,3 +2325,41 @@ img {
 .hero-poruka + .hero-dugmad {
   margin-top: 0;
 }
+
+/* =====================================================================
+   MOBITEL I TABLET: "VIDIŠ PROBLEM?" leži preko donjeg (tamnog) dijela slike,
+   a tamna podloga počinje tek kod "POKRENI PROMJENU." (zahtjev mentorice)
+   ===================================================================== */
+@media (max-width: 959px) {
+  .hero {
+    /* Visina prvog reda naslova ("VIDIŠ PROBLEM?" u dva reda na uskom ekranu). */
+    --preklop-naslova: calc(2 * 0.98 * clamp(2.3rem, 10.5vw, 4.6rem) + 0.3rem);
+  }
+
+  .hero-sadrzaj {
+    padding-top: calc(var(--visina-slike) - var(--preklop-naslova));
+  }
+
+  /* Slika se stapa s tamnom pozadinom tek na samom dnu (ispod "VIDIŠ PROBLEM?"). */
+  .hero-slika-okvir {
+    -webkit-mask-image: linear-gradient(180deg, #000 88%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 88%, transparent 100%);
+  }
+
+  /* Blago zatamnjenje donjeg dijela slike i sjena teksta, da bijeli naslov ostane čitljiv. */
+  .hero-zatamnjenje {
+    background: linear-gradient(180deg, rgba(10, 34, 27, 0.25) 0%, rgba(10, 34, 27, 0) 35%,
+      rgba(10, 34, 27, 0) 55%, rgba(10, 34, 27, 0.55) 100%);
+  }
+
+  .hero-naslov-red:first-child {
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55), 0 0 2px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* Na tabletu "VIDIŠ PROBLEM?" stane u jedan red, pa preko slike ide samo jedan red. */
+@media (min-width: 720px) and (max-width: 959px) {
+  .hero {
+    --preklop-naslova: calc(0.98 * clamp(2.3rem, 10.5vw, 4.6rem) + 0.3rem);
+  }
+}
