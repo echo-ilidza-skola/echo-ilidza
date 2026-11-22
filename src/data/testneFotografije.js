@@ -64,3 +64,18 @@ export const TESTNE_FOTOGRAFIJE = {
 export function kljucTestneFotografije(idPrijave) {
   return TESTNE_FOTOGRAFIJE[idPrijave] ? PREFIKS_TESTNE_FOTOGRAFIJE + idPrijave : null
 }
+
+// Dopuna za podatke spremljene PRIJE nego što su testne prijave dobile fotografije:
+// testnoj prijavi koja nema nikakvu fotografiju upisuje ključ njene testne fotografije.
+// Nove prijave građana i prijave koje već imaju fotografiju ostaju nepromijenjene.
+// Vraća novu listu i broj dopunjenih prijava.
+export function dopuniTestneFotografije(prijave) {
+  let dopunjeno = 0
+  const nove = prijave.map((p) => {
+    const kljuc = kljucTestneFotografije(p.id)
+    if (!p.testniPodatak || !kljuc || p.fotografijaId) return p
+    dopunjeno += 1
+    return { ...p, fotografijaId: kljuc }
+  })
+  return { prijave: nove, dopunjeno }
+}

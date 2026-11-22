@@ -8,7 +8,7 @@
 
 import { createStore, get, set, del, clear } from 'idb-keyval'
 import { napraviTestnePodatke } from './testniPodaci.js'
-import { TESTNE_FOTOGRAFIJE, PREFIKS_TESTNE_FOTOGRAFIJE } from './testneFotografije.js'
+import { TESTNE_FOTOGRAFIJE, PREFIKS_TESTNE_FOTOGRAFIJE, dopuniTestneFotografije } from './testneFotografije.js'
 import { uJavniPrikaz } from '../logic/javniPrikaz.js'
 import { napraviNovuPrijavu, povecajBrojPrijavitelja, noviId } from '../logic/novaPrijava.js'
 import {
@@ -70,6 +70,9 @@ function sacuvajPrijave(prijave) {
 export function inicijalizuj() {
   const prijave = citajJson(KLJUC_PRIJAVE)
   if (Array.isArray(prijave)) {
+    // Podaci spremljeni u ranijoj verziji: testnim prijavama dodaj njihove testne fotografije.
+    const dopuna = dopuniTestneFotografije(prijave)
+    if (dopuna.dopunjeno > 0) sacuvajPrijave(dopuna.prijave)
     return { ucitaniTestniPodaci: false }
   }
   sacuvajPrijave(napraviTestnePodatke())

@@ -35,6 +35,8 @@ export default function Pocetna() {
 
         <div className="hero-sadrzaj">
           <div className="hero-tekst">
+            {/* Mali red iznad naslova: ime i podnaslov aplikacije. */}
+            <p className="hero-iznad-naslova ulaz ulaz-1">{HERO.iznadNaslova}</p>
             <h1 id="hero-naslov" className="hero-naslov">
               <span className="hero-naslov-red ulaz ulaz-1">{HERO.naslovPrviRed}</span>
               <span className="hero-naslov-red hero-naslov-isticanje ulaz ulaz-2">{HERO.naslovDrugiRed}</span>

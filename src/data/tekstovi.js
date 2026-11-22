@@ -1,7 +1,13 @@
 // Tekstovi istaknutog (hero) dijela početne stranice, na jednom mjestu da ih je lako promijeniti.
 // Naslov se prikazuje velikim slovima preko CSS-a; drugi red je istaknut limetom.
 
+// Podnaslov aplikacije (objašnjenje imena: eho je glas koji se čuje i na koji stiže odgovor).
+// Prikazuje se iznad naslova na početnoj stranici i u podnožju.
+export const PODNASLOV = 'Glas građana koji se čuje'
+
 export const HERO = {
+  // Mali red iznad naslova.
+  iznadNaslova: 'ECHO Ilidža · ' + PODNASLOV,
   naslovPrviRed: 'Vidiš problem?',
   naslovDrugiRed: 'Pokreni promjenu.',
   // Rečenica ispod naslova.
