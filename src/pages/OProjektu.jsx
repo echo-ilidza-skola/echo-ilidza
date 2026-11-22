@@ -2,7 +2,6 @@
 // Ograničenja se navode otvoreno (pravilo 11).
 
 import { Link } from 'react-router-dom'
-import { EhoZnak } from '../components/Logo.jsx'
 import Ikona from '../components/Ikona.jsx'
 import { PRAG_DUPLIKATA_M } from '../data/konstante.js'
 import { TESTNE_FOTOGRAFIJE } from '../data/testneFotografije.js'
@@ -26,7 +25,6 @@ export default function OProjektu() {
   return (
     <article className="o-projektu">
       <header className="projekat-uvod">
-        <EhoZnak velicina={56} />
         <div>
           <h1>O projektu</h1>
           <p className="uvod">

@@ -1930,14 +1930,6 @@ img {
   margin-bottom: 1rem;
 }
 
-.projekat-uvod .eho-znak {
-  margin-top: 0.4rem;
-  padding: 0.5rem;
-  box-sizing: content-box;
-  background: var(--tamna);
-  border-radius: 16px;
-}
-
 .projekat-odjeljak {
   margin: 1rem 0;
   padding: 1.1rem 1.25rem;
