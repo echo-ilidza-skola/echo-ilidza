@@ -39,7 +39,9 @@ export default function Pocetna() {
               <span className="hero-naslov-red ulaz ulaz-1">{HERO.naslovPrviRed}</span>
               <span className="hero-naslov-red hero-naslov-isticanje ulaz ulaz-2">{HERO.naslovDrugiRed}</span>
             </h1>
-            <div className="hero-dugmad ulaz ulaz-3">
+            <p className="hero-poruka ulaz ulaz-3">{HERO.opis}</p>
+
+            <div className="hero-dugmad ulaz ulaz-4">
               <Link to="/prijavi" className="dugme dugme-glavno dugme-veliko dugme-sjaj">
                 <Ikona ime="prijavi" velicina={20} />
                 {HERO.dugme}
@@ -48,7 +50,7 @@ export default function Pocetna() {
             </div>
 
             {/* Znak eha + kratka poruka ispod dugmeta. */}
-            <p className="hero-koraci hero-koraci--poruka ulaz ulaz-4">
+            <p className="hero-koraci hero-koraci--poruka ulaz ulaz-5">
               <EhoZnak velicina={26} />
               {HERO.poruka}
             </p>

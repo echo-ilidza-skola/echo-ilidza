@@ -2345,3 +2345,8 @@ img {
     height: 52px;
   }
 }
+
+/* Rečenica ispod naslova je vraćena; dugme odmah ispod nje. */
+.hero-poruka + .hero-dugmad {
+  margin-top: 0;
+}
