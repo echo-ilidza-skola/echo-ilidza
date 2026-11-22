@@ -158,12 +158,12 @@ describe('storage.js', () => {
     expect(storage.dohvatiPrijavu('t04').brojPrijavitelja).toBe(3)
   })
 
-  it('demo uloga: nepoznata vrijednost postaje Gost', () => {
-    expect(storage.ucitajUlogu()).toBe('gost')
+  it('demo uloga: početna i nepoznata vrijednost postaju Građanin', () => {
+    expect(storage.ucitajUlogu()).toBe('gradjanin')
     expect(storage.sacuvajUlogu('administrator')).toBe(true)
     expect(storage.ucitajUlogu()).toBe('administrator')
     expect(storage.sacuvajUlogu('haker')).toBe(false)
     localStorage.setItem('echo.uloga', '"nesto"')
-    expect(storage.ucitajUlogu()).toBe('gost')
+    expect(storage.ucitajUlogu()).toBe('gradjanin')
   })
 })

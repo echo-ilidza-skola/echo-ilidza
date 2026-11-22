@@ -259,9 +259,12 @@ export async function obrisiSveFotografije() {
 
 // ---------- demo uloga ----------
 
+// Početna demo uloga pri prvom pokretanju (odluka mentorice: Građanin, da se odmah vidi prijava problema).
+export const POCETNA_ULOGA = 'gradjanin'
+
 export function ucitajUlogu() {
   const uloga = citajJson(KLJUC_ULOGA)
-  return ULOGE[uloga] ? uloga : 'gost'
+  return ULOGE[uloga] ? uloga : POCETNA_ULOGA
 }
 
 export function sacuvajUlogu(uloga) {
