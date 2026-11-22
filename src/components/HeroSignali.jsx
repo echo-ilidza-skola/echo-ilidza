@@ -14,13 +14,10 @@ const FONTANA = { x: 1003, y: 716 }
 // Ostale oznake, raspoređene po cijeloj slici (vrh oznake je tačka na slici).
 // Na računaru zaobilaze tekst (lijevo u sredini) i panel statistike (gore desno).
 const OZNAKE = [
-  { x: 330, y: 232 }, // gore lijevo, naselje na brdu
-  { x: 760, y: 258 }, // gore u sredini, kod rijeke
-  { x: 1180, y: 388 }, // grad iza parka
-  { x: 1605, y: 305 }, // desno, zgrade u daljini
-  { x: 1462, y: 532 }, // desno, zgrade uz rijeku
-  { x: 1238, y: 592 }, // desno od parka, zgrada (dolje desno je panel statistike)
-  { x: 640, y: 792 }, // dolje lijevo, park ispod hotela
+  { x: 330, y: 232 }, // udaljenija tačka, lijevo
+  { x: 760, y: 258 }, // središnji dio
+  { x: 1462, y: 532 }, // desno
+  { x: 1238, y: 592 }, // kod parka
 ]
 
 // Oblik oznake (pin) čiji je vrh u tački (0, 0).
@@ -73,10 +70,10 @@ export default function HeroSignali() {
       </defs>
 
       {/* Sjaj na tlu oko fontane */}
-      <ellipse className="hero-sjaj-tla" cx={FONTANA.x} cy={FONTANA.y} rx="260" ry="110" fill="url(#sjaj-fontane)" />
+      <ellipse className="hero-sjaj-tla" cx={FONTANA.x} cy={FONTANA.y} rx="205" ry="86" fill="url(#sjaj-fontane)" />
 
       {/* Stalne elipse na tlu (kao krugovi na vodi) i elipse koje se šire (eho) */}
-      {[70, 125, 185].map((rx) => (
+      {[65, 115, 165].map((rx) => (
         <ellipse key={`krug-${rx}`} className="hero-krug" cx={FONTANA.x} cy={FONTANA.y} rx={rx} ry={rx * 0.34} />
       ))}
       {[0, 1, 2].map((i) => (

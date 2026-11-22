@@ -1,4 +1,4 @@
-# ECHO Civic – Ilidža
+# ECHO Ilidža
 
 **Glas građana koji se čuje.**
 

@@ -17,7 +17,7 @@ export default function MiniMapaGlasova({ javne: sveJavne }) {
   const okvir = okvirTacaka(javne, OKVIR_ILIDZE)
   return (
     <section className="pocetna-kartica mini-mapa" aria-labelledby="mini-mapa-naslov">
-      <h2 id="mini-mapa-naslov">Ilidža na mapi prijava</h2>
+      <h2 id="mini-mapa-naslov">Ilidža kroz prijave građana</h2>
       <svg className="mini-mapa-slika" viewBox={`0 0 ${SIRINA} ${VISINA}`} role="img" aria-label={`${javne.length} javnih prijava prikazano kao tačke`}>
         {/* Blaga mreža u pozadini */}
         {[1, 2, 3, 4, 5].map((i) => (
@@ -42,7 +42,7 @@ export default function MiniMapaGlasova({ javne: sveJavne }) {
           )
         })}
       </svg>
-      <p className="mini-mapa-tekst">Svaka tačka je jedna javna prijava.</p>
+      <p className="mini-mapa-tekst">Svjetleće tačke prikazuju lokacije javnih prijava.</p>
       <Link to="/mapa" className="dugme dugme-glavno">
         Pogledaj mapu
         <Ikona ime="strelica" velicina={18} />

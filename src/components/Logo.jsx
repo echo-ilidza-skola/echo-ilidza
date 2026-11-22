@@ -1,4 +1,4 @@
-// Logo: ZNAK EHA (izvor glasa + tri luka koji se šire) i ispod natpis "CIVIC · ILIDŽA".
+// Logo: ZNAK EHA (izvor glasa + tri luka koji se šire) i ispod natpis "ILIDŽA".
 // Ideja: građanin pošalje glas (tačka), a on se širi i vraća kao odjek (luci).
 // Nikad ne koristimo grb ni znak Općine.
 
@@ -37,7 +37,7 @@ export default function Logo() {
       <EhoZnak className="logo-znak" />
       <span className="logo-tekst">
         <span className="logo-naziv">ECHO</span>
-        <span className="logo-podnaslov">Civic · Ilidža</span>
+        <span className="logo-podnaslov">Ilidža</span>
       </span>
     </span>
   )

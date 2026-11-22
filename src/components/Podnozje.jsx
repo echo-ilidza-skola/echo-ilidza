@@ -12,7 +12,7 @@ export default function Podnozje() {
       <div className="podnozje-sadrzaj">
         <div className="podnozje-red">
           <Logo />
-          <p className="podnozje-slogan">{HERO.koraci}</p>
+          <p className="podnozje-slogan">Pametniji grad. Aktivniji građani.</p>
         </div>
         <div className="podnozje-napomene">
           <p>

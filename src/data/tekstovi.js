@@ -4,7 +4,7 @@
 export const HERO = {
   naslovPrviRed: 'Vidiš problem?',
   naslovDrugiRed: 'Pokreni promjenu.',
-  poruka: 'Prijavi komunalni problem u svom naselju. Označi lokaciju i prati šta se dešava s prijavom.',
+  poruka: 'Prijavi problem. Pošalji signal. Prati šta se dešava.',
   dugme: 'Pošalji prijavu',
   koraci: 'Primijeti · Prijavi · Prati',
   napomena: 'Školski prototip · testni podaci',

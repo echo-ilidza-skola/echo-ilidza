@@ -24,7 +24,7 @@ export default function Zaglavlje() {
   return (
     <header ref={ref} className={prekoSlike ? 'zaglavlje zaglavlje--preko-slike' : 'zaglavlje'}>
       <div className="zaglavlje-sadrzaj">
-        <Link to="/" className="logo-link" aria-label="ECHO Civic – Ilidža, početna stranica">
+        <Link to="/" className="logo-link" aria-label="ECHO Ilidža, početna stranica">
           <Logo />
         </Link>
         <Navigacija />

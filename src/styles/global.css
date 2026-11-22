@@ -2189,3 +2189,32 @@ img {
     white-space: nowrap;
   }
 }
+
+/* Kompaktniji izgled ECHO Ilidža; postojeći logo i funkcionalnosti se ne mijenjaju. */
+@media (min-width: 960px) {
+  .hero { min-height: 0; }
+  .hero-sadrzaj { padding-top: 3.4rem; padding-bottom: 4.5rem; }
+  .hero-naslov { font-size: clamp(2.45rem, 3.65vw, 4rem); }
+}
+.zaglavlje-sadrzaj { padding-top: .35rem; padding-bottom: .35rem; }
+.podnozje-sadrzaj { padding-top: .65rem; padding-bottom: .9rem; }
+.podnozje-red { padding-bottom: .6rem; margin-bottom: .6rem; }
+.podnozje-talas { height: 24px; }
+
+/* Minijatura fotografije u "Posljednjim prijavama" (iste mjere kao pločica s ikonom kategorije). */
+.prijava-minijatura {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: var(--podloga);
+}
+
+@media (min-width: 960px) {
+  .prijava-minijatura {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+}

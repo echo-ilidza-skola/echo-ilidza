@@ -2,6 +2,7 @@
 
 import { Link } from 'react-router-dom'
 import Ikona from '../Ikona.jsx'
+import MinijaturaPrijave from './MinijaturaPrijave.jsx'
 import StatusOznaka from '../StatusOznaka.jsx'
 import { kategorijaPoKljucu } from '../../data/konstante.js'
 import { posljednjePrijave } from '../../logic/statistika.js'
@@ -26,9 +27,7 @@ export default function PosljednjePrijave({ javne }) {
             const k = kategorijaPoKljucu(p.kategorija)
             return (
               <li key={p.id}>
-                <span className="kategorija-plocica" style={{ '--boja-kategorije': k?.boja }} aria-hidden="true">
-                  <Ikona ime={p.kategorija} velicina={24} />
-                </span>
+                <MinijaturaPrijave prijava={p} boja={k?.boja} />
                 <span className="posljednje-tekst">
                   <Link to={`/prijava/${p.id}`} className="posljednje-naslov">
                     {p.naslov}
