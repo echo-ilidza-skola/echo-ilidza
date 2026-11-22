@@ -8,35 +8,31 @@
 
 import { useManjePokreta } from '../hooks/useManjePokreta.js'
 import { useSirokEkran } from '../hooks/useSirokEkran.js'
+import { useVidljiviVrhSlike } from '../hooks/useVidljiviVrhSlike.js'
 
 // Sredina fontane na slici hero-ilidza-ai.jpg (u pikselima slike).
 const FONTANA = { x: 1003, y: 716 }
 
-// Ostale oznake (vrh oznake je tačka na slici).
-// Mobitel i tablet: slika se vidi cijela, pa su oznake raspoređene po cijeloj slici.
-const OZNAKE_MOBITEL = [
+// Ostale oznake (vrh oznake je tačka na slici), raspoređene po cijeloj slici.
+// Na računaru je vrh slike odsječen i preko njega je zaglavlje; tada se oznaka koja bi bila
+// prekrivena spušta tačno ispod zaglavlja (vidi visinaOznake i prviVidljiviRed).
+const OZNAKE = [
   { x: 330, y: 330 }, // udaljenija tačka, lijevo
   { x: 760, y: 330 }, // središnji dio
   { x: 1462, y: 532 }, // desno
   { x: 1238, y: 592 }, // kod parka
 ]
 
-// Računar: gornji dio slike je odsječen i preko njega je zaglavlje, a lijevo je tekst.
-// Raspored oponaša mobitel (dvije udaljene oznake i dvije bliže, desno), ali niže i desno od teksta,
-// da ih zaglavlje ne "reže".
-const OZNAKE_RACUNAR = [
-  { x: 960, y: 505 }, // udaljenija, iza fontane
-  { x: 1250, y: 500 }, // udaljenija, desno
-  { x: 1560, y: 565 }, // desno, uz rijeku
-  { x: 1330, y: 645 }, // kod parka
-]
+// Visina oblika oznake (pina) prije uvećanja, u pikselima slike.
+const VISINA_PINA = 34
 
 // Oblik oznake (pin) čiji je vrh u tački (0, 0).
 const PIN = 'M0 0c-6-9-12-14.5-12-22a12 12 0 0 1 24 0c0 7.5-6 13-12 22z'
 
 // Luk od oznake do fontane: kriva koja se izdiže iznad obje tačke.
-function putanjaLuka(o) {
-  const vrhY = Math.min(FONTANA.y, o.y) - 150
+// najvisiRed: luk se ne smije podići iznad ovog reda slike (da ne ode pod zaglavlje).
+function putanjaLuka(o, najvisiRed) {
+  const vrhY = Math.max(Math.min(FONTANA.y, o.y) - 150, najvisiRed)
   return `M${o.x} ${o.y} Q${(FONTANA.x + o.x) / 2} ${vrhY} ${FONTANA.x} ${FONTANA.y}`
 }
 
@@ -59,9 +55,13 @@ function Oznaka({ x, y, mjerilo, glavna, kasnjenje }) {
 export default function HeroSignali() {
   const manjePokreta = useManjePokreta()
   const sirokEkran = useSirokEkran()
-  const OZNAKE = sirokEkran ? OZNAKE_RACUNAR : OZNAKE_MOBITEL
+  // Ref na SVG i prvi red slike koji se vidi ispod zaglavlja.
+  const [svgRef, vidljiviVrh] = useVidljiviVrhSlike()
   // Na računaru je slika veća, pa su oznake manje da ne dominiraju slikom.
   const mjeriloOznake = sirokEkran ? 0.95 : 1.7
+  // Oznaka mora cijela stati ispod zaglavlja (visina pina, krug eha i mali razmak).
+  const najvisiVrhOznake = vidljiviVrh + VISINA_PINA * mjeriloOznake + 20
+  const oznake = OZNAKE.map((o) => ({ x: o.x, y: Math.max(o.y, najvisiVrhOznake) }))
   const mjeriloGlavne = sirokEkran ? 1.7 : 3.1
   // Sjaj i prstenovi oko fontane: na računaru manji (umanjeni oko središta fontane).
   const mjeriloFontane = sirokEkran ? 0.7 : 1
@@ -69,6 +69,7 @@ export default function HeroSignali() {
 
   return (
     <svg
+      ref={svgRef}
       className="hero-signali"
       viewBox="0 0 1672 941"
       preserveAspectRatio="xMidYMax slice"
@@ -110,16 +111,16 @@ export default function HeroSignali() {
       </g>
 
       {/* Lukovi: puna svijetleća linija + svjetlo koje "teče" po njoj */}
-      {OZNAKE.map((o, i) => (
+      {oznake.map((o, i) => (
         <g key={`luk-${o.x}`}>
-          <path id={`luk-${i}`} className="hero-luk" style={{ animationDelay: `${0.6 + i * 0.15}s` }} d={putanjaLuka(o)} />
-          <path className="hero-luk-tok" style={{ animationDelay: `${i * 0.5}s` }} d={putanjaLuka(o)} />
+          <path id={`luk-${i}`} className="hero-luk" style={{ animationDelay: `${0.6 + i * 0.15}s` }} d={putanjaLuka(o, vidljiviVrh + 10)} />
+          <path className="hero-luk-tok" style={{ animationDelay: `${i * 0.5}s` }} d={putanjaLuka(o, vidljiviVrh + 10)} />
         </g>
       ))}
 
       {/* Signali koji putuju od oznake do fontane i nazad (eho) */}
       {!manjePokreta &&
-        OZNAKE.map((o, i) => (
+        oznake.map((o, i) => (
           <circle key={`signal-${o.x}`} className="hero-signal" r="12" fill="url(#sjaj-signala)">
             <animateMotion
               dur={`${3.4 + i * 0.45}s`}
@@ -135,7 +136,7 @@ export default function HeroSignali() {
           </circle>
         ))}
 
-      {OZNAKE.map((o, i) => (
+      {oznake.map((o, i) => (
         <Oznaka key={`pin-${o.x}`} x={o.x} y={o.y} mjerilo={mjeriloOznake} kasnjenje={0.35 + i * 0.12} />
       ))}
       {/* Glavna oznaka stoji na fontani */}
