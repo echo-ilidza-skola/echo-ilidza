@@ -29,7 +29,7 @@ export default function OProjektu() {
           <h1>O projektu</h1>
           <p className="uvod">
             ECHO Ilidža je <strong>školski prototip</strong> aplikacije u kojoj građani prijavljuju komunalne
-            probleme, prate status prijave i vide prijave na mapi. Razvijaju ga učenici Četvrte gimnazije Ilidža uz mentoricu.
+            probleme, prate status prijave i vide prijave na mapi. Razvijaju ga učenici Četvrte gimnazije Ilidža sa profesoricom Abdić Sevletom.
           </p>
         </div>
       </header>
