@@ -1,0 +1,2202 @@
+/* Stilovi aplikacije ECHO Civic – Ilidža.
+   Sve boje i mjere su u CSS varijablama, da ih je lako promijeniti na jednom mjestu.
+   Mobitel prvo: osnovni stilovi su za uski ekran, a @media na dnu dodaje izmjene za šire ekrane.
+   Pravilo: sjaj i gradijent samo u hero dijelu i zaglavlju; kartice su ravne, bez sjenki. */
+
+:root {
+  /* tamni dijelovi: zaglavlje, hero, podnožje, donja navigacija */
+  --tamna: #0f2e25;
+  --tamna-2: #163d32;
+  --tamna-linija: #2c5446;
+  --tekst-na-tamnoj: #ffffff;
+  --tekst-na-tamnoj-prigusen: #b9d0c7;
+
+  --primarna: #1f7a63;
+  --primarna-tamna: #14523f;
+  --limeta: #b4f04a;
+  --limeta-tamnija: #9bd935;
+
+  /* svijetli sadržaj */
+  --podloga: #eef5f2;
+  --bijela: #ffffff;
+  --tekst: #22302c;
+  --tekst-prigusen: #5e6b66;
+  --linija: #d5dfda;
+  --upozorenje: #b9731f;
+  --upozorenje-podloga: #fbf3e7;
+  /* Tamnija nijansa upozorenja za tekst, da kontrast bude najmanje WCAG AA. */
+  --upozorenje-tekst: #7a4a10;
+
+  /* Font za naslove: Montserrat (paket @fontsource/montserrat, licenca OFL), uz rezervne sistemske fontove. */
+  --font-naslov: Montserrat, 'Segoe UI', system-ui, sans-serif;
+  --font-tekst: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+
+  --razmak: 1rem;
+  --zaobljenje: 14px;
+  --min-dugme: 44px;
+  --visina-donje-trake: 64px;
+  --sirina-sadrzaja: 1160px;
+  /* Blaga, mekana sjenka samo za kartice početne stranice (po uzoru na odobreni mockup). */
+  --sjena-kartice: 0 8px 28px rgba(15, 46, 37, 0.08);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-tekst);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--tekst);
+  background: var(--podloga);
+  /* Mjesto za donju navigaciju na mobitelu. */
+  padding-bottom: var(--visina-donje-trake);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-naslov);
+  font-weight: 800;
+  color: var(--tamna);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 0 0 0.5rem;
+}
+
+h2 {
+  font-size: 1.35rem;
+}
+
+a {
+  color: var(--primarna-tamna);
+}
+
+img {
+  max-width: 100%;
+}
+
+/* Jasno vidljiv fokus za rad tastaturom: tamni obrub na svijetloj podlozi, limeta na tamnoj. */
+:focus-visible {
+  outline: 3px solid var(--primarna-tamna);
+  outline-offset: 2px;
+}
+
+.zaglavlje :focus-visible,
+.hero :focus-visible,
+.podnozje :focus-visible,
+.donja-navigacija :focus-visible {
+  outline-color: var(--limeta);
+}
+
+.prigusen {
+  color: var(--tekst-prigusen);
+}
+
+.mali-tekst {
+  font-size: 0.875rem;
+}
+
+/* Tekst koji vidi samo čitač ekrana. */
+.vizuelno-skriveno {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- traka o testnim podacima (na svakom ekranu) ---------- */
+.traka-testni {
+  background: var(--upozorenje-podloga);
+  color: var(--upozorenje-tekst);
+  border-bottom: 2px solid var(--upozorenje);
+  padding: 0.4rem var(--razmak);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ---------- link za preskakanje navigacije ---------- */
+.preskoci-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--bijela);
+  padding: 0.5rem 1rem;
+  z-index: 2000;
+}
+
+.preskoci-link:focus {
+  left: 0.5rem;
+  top: 0.5rem;
+}
+
+/* ---------- zaglavlje ---------- */
+/* Zaglavlje: tamno zeleni prelaz umjesto ravne trake s oštrom linijom (gradijent je dozvoljen u zaglavlju). */
+.zaglavlje {
+  position: relative;
+  z-index: 20;
+  background: linear-gradient(180deg, #0c2a21 0%, var(--tamna) 100%);
+  color: var(--tekst-na-tamnoj);
+}
+
+.zaglavlje-sadrzaj {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  max-width: var(--sirina-sadrzaja);
+  margin: 0 auto;
+  padding: 0.6rem var(--razmak);
+}
+
+.logo-link {
+  display: inline-flex;
+  min-height: var(--min-dugme);
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 8px;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Znak eha: tačka (izvor glasa) i tri luka (odjek). Animacija je u odjeljku POKRET. */
+.eho-znak {
+  flex: none;
+  overflow: visible;
+}
+
+.eho-tacka {
+  fill: var(--limeta);
+}
+
+.eho-sjaj {
+  fill: rgba(180, 240, 74, 0.3);
+}
+
+.eho-luk {
+  stroke: var(--limeta);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+/* Bez animacije luci postepeno blijede, kao glas koji se udaljava. */
+.eho-luk-1 {
+  opacity: 1;
+}
+
+.eho-luk-2 {
+  opacity: 0.7;
+}
+
+.eho-luk-3 {
+  opacity: 0.4;
+}
+
+.logo-tekst {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+/* Znak eha u logu blago svijetli (sjaj je dozvoljen u zaglavlju). */
+.logo-znak {
+  width: 40px;
+  height: 48px;
+  filter: drop-shadow(0 0 7px rgba(180, 240, 74, 0.55));
+}
+
+.logo-naziv {
+  font-family: var(--font-naslov);
+  font-weight: 800;
+  font-size: 1.8rem;
+  letter-spacing: 0.04em;
+  color: var(--tekst-na-tamnoj);
+}
+
+.logo-podnaslov {
+  margin-top: 0.15rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tekst-na-tamnoj-prigusen);
+}
+
+/* ---------- prekidač demo uloge ---------- */
+.prekidac-uloge {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.2rem;
+}
+
+.prekidac-polje {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.prekidac-ikona {
+  position: absolute;
+  left: 0.85rem;
+  color: var(--limeta);
+  pointer-events: none;
+}
+
+.prekidac-uloge select {
+  min-height: var(--min-dugme);
+  padding: 0 2.2rem 0 2.4rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--tekst-na-tamnoj);
+  background: transparent
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23b4f04a' stroke-width='2'/%3E%3C/svg%3E")
+    no-repeat right 0.85rem center;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  appearance: none;
+  cursor: pointer;
+}
+
+.prekidac-uloge select:hover {
+  border-color: var(--limeta);
+}
+
+.prekidac-uloge select option {
+  color: var(--tekst);
+  background: var(--bijela);
+}
+
+.prekidac-napomena {
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.2;
+  text-align: right;
+  color: var(--tekst-na-tamnoj-prigusen);
+  max-width: 13rem;
+}
+
+/* ---------- navigacija u zaglavlju (od širine računara) ---------- */
+.navigacija {
+  display: none;
+}
+
+.navigacija ul {
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navigacija a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: var(--min-dugme);
+  padding: 0 1rem;
+  border-radius: 999px;
+  white-space: nowrap;
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--tekst-na-tamnoj);
+}
+
+.navigacija a:hover {
+  background: var(--tamna-2);
+}
+
+.navigacija a.active {
+  color: var(--tamna);
+  background: var(--limeta);
+  box-shadow: 0 0 18px rgba(180, 240, 74, 0.45);
+}
+
+/* ---------- donja navigacija (mobitel) ---------- */
+.donja-navigacija {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1100;
+  background: var(--tamna);
+  border-top: 1px solid var(--tamna-linija);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.donja-navigacija ul {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.donja-navigacija li {
+  flex: 1;
+}
+
+.donja-navigacija a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  height: var(--visina-donje-trake);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--tekst-na-tamnoj-prigusen);
+  border-top: 3px solid transparent;
+}
+
+.donja-navigacija a.active {
+  color: var(--limeta);
+  border-top-color: var(--limeta);
+}
+
+/* ---------- sadržaj ---------- */
+/* Svaki ekran je centriran i ograničene širine, osim dijelova s klasom .puna-sirina (npr. hero). */
+.sadrzaj {
+  padding: 1.5rem 0 2.5rem;
+}
+
+.sadrzaj > * {
+  max-width: var(--sirina-sadrzaja);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--razmak);
+  padding-right: var(--razmak);
+}
+
+.sadrzaj > .puna-sirina {
+  max-width: none;
+  padding: 0;
+}
+
+.sadrzaj:focus {
+  outline: none;
+}
+
+.uvod {
+  font-size: 1.05rem;
+  color: var(--tekst-prigusen);
+  margin-top: 0;
+  max-width: 60ch;
+}
+
+.kartica {
+  background: var(--bijela);
+  border: 1px solid var(--linija);
+  border-radius: var(--zaobljenje);
+  padding: 1.1rem;
+  margin: var(--razmak) 0;
+}
+
+.kartica h2 {
+  margin-top: 0;
+}
+
+/* ---------- dugmad ---------- */
+.dugme {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: var(--min-dugme);
+  padding: 0 1.25rem;
+  font: inherit;
+  font-weight: 700;
+  color: var(--bijela);
+  background: var(--primarna);
+  border: 2px solid var(--primarna);
+  border-radius: 999px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.dugme:hover {
+  background: var(--primarna-tamna);
+  border-color: var(--primarna-tamna);
+}
+
+/* Glavna radnja: limeta s tamnim tekstom. */
+.dugme-glavno {
+  color: var(--tamna);
+  background: var(--limeta);
+  border-color: var(--limeta);
+}
+
+.dugme-glavno:hover {
+  background: var(--limeta-tamnija);
+  border-color: var(--limeta-tamnija);
+}
+
+.dugme-veliko {
+  min-height: 56px;
+  padding: 0 1.6rem;
+  font-size: 1.05rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.dugme-obrub-svijetlo {
+  color: var(--tekst-na-tamnoj);
+  background: transparent;
+  border-color: var(--tekst-na-tamnoj-prigusen);
+}
+
+.dugme-obrub-svijetlo:hover {
+  background: var(--tamna-2);
+  border-color: var(--limeta);
+}
+
+.dugme-sporedno {
+  color: var(--primarna-tamna);
+  background: var(--bijela);
+  border-color: var(--primarna);
+}
+
+.dugme-sporedno:hover {
+  color: var(--bijela);
+}
+
+.dugme-upozorenje {
+  color: var(--upozorenje-tekst);
+  background: var(--upozorenje-podloga);
+  border-color: var(--upozorenje);
+}
+
+.dugme-upozorenje:hover {
+  color: var(--bijela);
+  background: var(--upozorenje-tekst);
+  border-color: var(--upozorenje-tekst);
+}
+
+/* ---------- hero (početna) ---------- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  margin-top: -1.5rem; /* poništava gornji razmak sadržaja */
+  color: var(--tekst-na-tamnoj);
+  /* Ispod slike (mobitel i tablet): meki zeleni odsjaji, kao brda u daljini, da se kroz
+     stakleni panel statistike ima šta vidjeti. */
+  background:
+    radial-gradient(ellipse 70% 30% at 15% 92%, rgba(30, 110, 60, 0.35) 0%, rgba(30, 110, 60, 0) 100%),
+    radial-gradient(ellipse 60% 28% at 85% 100%, rgba(80, 150, 40, 0.25) 0%, rgba(80, 150, 40, 0) 100%),
+    var(--tamna);
+  isolation: isolate;
+}
+
+/* Visina slike kad je široka koliko i ekran (slika je 1672 × 941 px, omjer 16 : 9). */
+.hero {
+  --visina-slike: calc(100vw * 941 / 1672);
+}
+
+/* Mobitel i tablet: CIJELA slika je na vrhu, a tekst ispod nje (kao na mockupu).
+   Donji dio slike se postepeno stapa s tamnom pozadinom. */
+.hero-slika-okvir {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--visina-slike);
+  z-index: -2;
+  -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 70%, transparent 100%);
+}
+
+.hero-slika {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Ilustracija je svijetla (zlatni sat); blago je zatamnimo i pojačamo zelenu. */
+  filter: brightness(0.95) saturate(1.1);
+}
+
+/* Zatamnjenje slike (ispod oznaka, iznad slike). Na mobitelu samo blago. */
+.hero-zatamnjenje {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 46, 37, 0.25) 0%, rgba(15, 46, 37, 0) 40%);
+}
+
+/* Oznake su u istom okviru i u istim koordinatama kao slika. */
+.hero-signali {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.hero-krug {
+  fill: none;
+  stroke: var(--limeta);
+  stroke-width: 2.5;
+  opacity: 0.55;
+}
+
+.hero-luk-tok {
+  fill: none;
+  stroke: #f4ffd9;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 40 900;
+  animation: tokSvjetla 3.2s linear infinite;
+}
+
+@keyframes tokSvjetla {
+  from { stroke-dashoffset: 940; }
+  to { stroke-dashoffset: 0; }
+}
+
+.hero-sadrzaj {
+  position: relative;
+  max-width: var(--sirina-sadrzaja);
+  margin: 0 auto;
+  /* Tekst počinje pri dnu slike, preko dijela koji se stapa s tamnom pozadinom. */
+  padding: calc(var(--visina-slike) - 2.5rem) var(--razmak) 4.5rem;
+}
+
+.hero-naslov {
+  margin: 0;
+  /* Montserrat je širok font, pa je naslov manji nego s uskim fontom. */
+  font-size: clamp(2.3rem, 10.5vw, 4.6rem);
+  font-weight: 900;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--tekst-na-tamnoj);
+}
+
+.dugme-sjaj {
+  box-shadow: 0 0 22px rgba(180, 240, 74, 0.45);
+}
+
+.hero-talas {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 46px;
+}
+
+/* ---------- statistika u hero dijelu ---------- */
+.statistika-traka {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 1.75rem 0 0;
+  padding: 0.9rem 0.5rem;
+  list-style: none;
+  /* Providno "staklo" (kao na mockupu): svjetlije od pozadine, s tankim svijetlim rubom
+     i zamućenjem onoga što je iza, pa se vidi slika ili zeleni odsjaji ispod. */
+  /* Tamno zeleno staklo: slika se nazire kroz panel, a boje ostaju jake (bez bijelog sloja). */
+  background: rgba(6, 28, 20, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 20px;
+  -webkit-backdrop-filter: blur(10px) saturate(1.5);
+  backdrop-filter: blur(10px) saturate(1.5);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0 0.4rem;
+  text-align: center;
+}
+
+.stat + .stat {
+  border-left: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+/* Ikone kao na mockupu: živo zeleni krug s bijelom ikonom, a "u obradi" samo žuto-zeleni obrub. */
+.stat-ikona {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: var(--bijela);
+}
+
+.stat-ikona--zelena {
+  background: #1fa64a;
+}
+
+.stat-ikona--zuta {
+  color: #e2ec3a;
+  background: rgba(40, 48, 8, 0.55);
+  border: 2.5px solid #d2de2e;
+}
+
+.stat-ikona--kvacica {
+  background: #2dbb4f;
+}
+
+.stat-tekst {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-broj {
+  font-family: var(--font-naslov);
+  font-weight: 800;
+  font-size: 1.75rem;
+  line-height: 1.05;
+  color: var(--tekst-na-tamnoj);
+}
+
+.stat-naziv {
+  font-size: 0.85rem;
+  font-weight: 600;
+  /* Svjetliji natpis, da bude čitljiv i preko slike kroz providnu traku. */
+  color: #eef6f2;
+}
+
+/* ---------- početna: tri kartice ispod hero dijela ---------- */
+.pocetna-mreza {
+  display: grid;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.pocetna-kartica {
+  background: var(--bijela);
+  border: 1px solid var(--linija);
+  border-radius: 18px;
+  padding: 1.25rem;
+  box-shadow: var(--sjena-kartice);
+}
+
+.pocetna-kartica h2 {
+  margin: 0 0 1rem;
+  font-size: 1.45rem;
+}
+
+.kartica-zaglavlje {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.link-strelica {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: var(--min-dugme);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.koraci {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.korak {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  text-align: center;
+}
+
+/* Strelica između koraka */
+.korak + .korak::before {
+  content: '→';
+  position: absolute;
+  left: -0.65rem;
+  top: 3.9rem;
+  color: #8fcf9f;
+  font-size: 1.2rem;
+}
+
+.korak-broj {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--primarna);
+  color: var(--bijela);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.korak-ikona {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  color: var(--primarna);
+  background: #e3f4ea;
+}
+
+.korak-naslov {
+  font-family: var(--font-naslov);
+  font-size: 1.05rem;
+  line-height: 1.15;
+  color: var(--tamna);
+}
+
+.korak-tekst {
+  font-size: 0.82rem;
+  line-height: 1.3;
+  color: var(--tekst-prigusen);
+}
+
+.kako-napomena {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.25rem 0 0;
+  padding: 0.7rem 0.85rem;
+  border-radius: 12px;
+  background: var(--podloga);
+  font-size: 0.85rem;
+  color: var(--primarna-tamna);
+}
+
+.kako-napomena svg {
+  flex: none;
+}
+
+.mini-mapa {
+  background: var(--tamna);
+  border-color: var(--tamna-linija);
+  color: var(--tekst-na-tamnoj);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mini-mapa h2 {
+  color: var(--tekst-na-tamnoj);
+  margin-bottom: 0;
+}
+
+.mini-mapa-slika {
+  width: 100%;
+  height: auto;
+  background: radial-gradient(ellipse at 50% 45%, #1f5a46 0%, #143d31 70%);
+  border-radius: 12px;
+}
+
+.mini-mapa-mreza {
+  stroke: rgba(180, 240, 74, 0.12);
+  stroke-width: 1;
+}
+
+.mini-mapa-sjaj {
+  fill: rgba(180, 240, 74, 0.25);
+}
+
+.mini-mapa-tacka {
+  fill: var(--limeta);
+}
+
+.mini-mapa-tekst {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--tekst-na-tamnoj-prigusen);
+}
+
+.mini-mapa .dugme {
+  align-self: flex-start;
+}
+
+.posljednje-lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.posljednje-lista li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  border-top: 1px solid var(--linija);
+}
+
+.kategorija-plocica {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  color: var(--bijela);
+  background: var(--boja-kategorije, var(--primarna));
+}
+
+.posljednje-tekst {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.posljednje-naslov {
+  font-weight: 700;
+  color: var(--tamna);
+  text-decoration: none;
+  line-height: 1.25;
+}
+
+.posljednje-naslov:hover {
+  text-decoration: underline;
+}
+
+.posljednje-naselje {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.82rem;
+  color: var(--tekst-prigusen);
+}
+
+.hero-naslov-isticanje {
+  display: block;
+  color: var(--limeta);
+}
+
+.hero-poruka {
+  max-width: 34rem;
+  margin: 1rem 0 1.5rem;
+  font-size: 1.1rem;
+  line-height: 1.45;
+  color: #e3eee9;
+}
+
+.hero-dugmad {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.hero-dugmad .dugme {
+  flex: 1 1 15rem;
+}
+
+.hero-koraci {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1.75rem 0 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.hero-napomena {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--tekst-na-tamnoj-prigusen);
+}
+
+/* Lukovi, oznake i krugovi eha u hero dijelu. Sjaj (drop-shadow) je dozvoljen samo ovdje. */
+/* Lukovi su pune svijetleće linije (kao na mockupu); svjetlo koje teče je .hero-luk-tok. */
+.hero-luk {
+  fill: none;
+  stroke: var(--limeta);
+  stroke-width: 3;
+  stroke-linecap: round;
+  opacity: 0.75;
+  filter: drop-shadow(0 0 6px rgba(180, 240, 74, 0.9));
+}
+
+.hero-pin {
+  fill: var(--limeta);
+  filter: drop-shadow(0 0 6px rgba(180, 240, 74, 0.9));
+}
+
+.hero-pin-glavni {
+  fill: #e9ffc6;
+}
+
+.hero-pin-srediste {
+  fill: var(--tamna);
+}
+
+.hero-sjena-pina {
+  fill: rgba(180, 240, 74, 0.35);
+}
+
+.hero-eho {
+  fill: none;
+  stroke: var(--limeta);
+  stroke-width: 2;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: eho 3.3s ease-out infinite;
+}
+
+@keyframes eho {
+  from {
+    transform: scale(0.3);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* Animacije (pokret) su sve na jednom mjestu, na kraju ovog fajla. */
+
+/* ---------- natpisi statusa i kategorije ---------- */
+.status-natpis {
+  display: inline-block;
+  padding: 0.15rem 0.65rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.status-natpis--na_cekanju {
+  background: #eef1f0;
+  border-color: #c9d3cf;
+  color: #3d4a45;
+}
+
+.status-natpis--odbijeno {
+  background: #fbeaea;
+  border-color: #e7b9b9;
+  color: #8a1f1f;
+}
+
+.status-natpis--zaprimljeno {
+  background: #e6f0fa;
+  border-color: #b9d2ec;
+  color: #164c7e;
+}
+
+.status-natpis--u_obradi {
+  background: var(--upozorenje-podloga);
+  border-color: #ebcf9f;
+  color: var(--upozorenje-tekst);
+}
+
+.status-natpis--proslijedjeno {
+  background: #f3ecfa;
+  border-color: #d6c4ea;
+  color: #5b3a86;
+}
+
+.status-natpis--rijeseno {
+  background: #e3f4ea;
+  border-color: #a9d8bd;
+  color: var(--primarna-tamna);
+}
+
+.kategorija-natpis {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.kategorija-tacka {
+  display: inline-block;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  flex: none;
+}
+
+/* ---------- oznake na mapi i u legendi ---------- */
+/* Boja oznake = kategorija (postavlja se u kodu), oblik = status. */
+.oznaka-omotac {
+  /* Leaflet bi inače dodao bijeli kvadrat iza oznake. */
+  background: none;
+  border: none;
+}
+
+.oznaka {
+  display: inline-block;
+  position: relative;
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--bijela);
+  outline: 2px solid var(--tamna);
+  flex: none;
+}
+
+.oznaka-omotac .oznaka {
+  margin: 4px;
+}
+
+.oznaka--krug {
+  border-radius: 50%;
+}
+
+.oznaka--kvadrat {
+  border-radius: 4px;
+}
+
+.oznaka--romb {
+  border-radius: 3px;
+  transform: rotate(45deg) scale(0.88);
+}
+
+.oznaka--kvacica {
+  border-radius: 50%;
+}
+
+.oznaka--kvacica::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bijela);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.oznaka--mala {
+  width: 18px;
+  height: 18px;
+  border-width: 2px;
+  outline-width: 1.5px;
+}
+
+.oznaka--mala.oznaka--kvacica::after {
+  font-size: 11px;
+}
+
+.oznaka--siva {
+  background: var(--tekst-prigusen);
+}
+
+.oznaka-broj {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 4px;
+  border-radius: 11px;
+  background: var(--limeta);
+  color: var(--tamna);
+  border: 2px solid var(--tamna);
+  font: 700 12px/18px var(--font-tekst);
+  text-align: center;
+}
+
+/* Fokus na oznaci kad se mapa koristi tastaturom. */
+.leaflet-marker-icon:focus-visible {
+  outline: 3px solid var(--upozorenje);
+  outline-offset: 2px;
+}
+
+/* ---------- mapa ---------- */
+.mapa-alati {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.mapa-brojac {
+  margin: 0;
+  color: var(--tekst-prigusen);
+}
+
+.mapa-brojac strong {
+  color: var(--tamna);
+}
+
+.mapa-raspored {
+  display: flex;
+  flex-direction: column;
+  gap: var(--razmak);
+}
+
+.mapa {
+  height: 62vh;
+  min-height: 340px;
+  border: 1px solid var(--linija);
+  border-radius: var(--zaobljenje);
+  z-index: 0;
+}
+
+.mapa-mala {
+  height: 260px;
+  min-height: 0;
+}
+
+/* Na mobitelu su legenda i filteri skriveni dok se ne otvore dugmetom. */
+.legenda {
+  display: none;
+  background: var(--bijela);
+  border: 1px solid var(--linija);
+  border-radius: var(--zaobljenje);
+  padding: 1.1rem;
+}
+
+.legenda.legenda-otvorena {
+  display: block;
+  order: -1; /* na mobitelu se otvaraju iznad mape */
+}
+
+.legenda h2 {
+  font-size: 1.25rem;
+  margin: 0 0 0.25rem;
+}
+
+.legenda fieldset {
+  border: none;
+  margin: 0 0 0.75rem;
+  padding: 0;
+}
+
+.legenda legend {
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.filter-opcija {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: var(--min-dugme);
+  cursor: pointer;
+}
+
+.filter-opcija input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--primarna);
+}
+
+.sazetak {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font: 0.9rem/1.4 var(--font-tekst);
+}
+
+.sazetak-naslov {
+  font-family: var(--font-naslov);
+  font-size: 1.1rem;
+  color: var(--tamna);
+}
+
+.sazetak a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--min-dugme);
+  font-weight: 700;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: var(--zaobljenje);
+}
+
+.lista-prijava {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.lista-prijava li {
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--linija);
+}
+
+.lista-prijava li:last-child {
+  border-bottom: none;
+}
+
+.lista-prijava a {
+  font-weight: 700;
+}
+
+.lista-detalji {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin-top: 0.3rem;
+}
+
+/* ---------- detalji prijave ---------- */
+.detalji-oznake {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-bottom: var(--razmak);
+}
+
+.detalji-polja {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.4rem 1rem;
+  margin: 0;
+  padding: 1rem 1.1rem;
+  background: var(--bijela);
+  border: 1px solid var(--linija);
+  border-radius: var(--zaobljenje);
+}
+
+.detalji-polja dt {
+  font-weight: 600;
+  color: var(--tekst-prigusen);
+}
+
+.detalji-polja dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.opis-tekst {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.historija {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.historija li {
+  margin-bottom: 0.85rem;
+}
+
+.historija li::marker {
+  color: var(--primarna);
+  font-weight: 700;
+}
+
+.historija-datum {
+  margin-left: 0.5rem;
+  color: var(--tekst-prigusen);
+  font-size: 0.9rem;
+}
+
+.historija-napomena {
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+}
+
+
+/* ---------- podnožje ---------- */
+.podnozje {
+  margin-top: 1.5rem;
+  color: var(--tekst-na-tamnoj-prigusen);
+  font-size: 0.85rem;
+}
+
+.podnozje-talas {
+  display: block;
+  width: 100%;
+  height: 40px;
+  margin-bottom: -1px;
+}
+
+.podnozje-sadrzaj {
+  background: var(--tamna);
+  padding: 1rem var(--razmak) 1.75rem;
+}
+
+.podnozje-red,
+.podnozje-napomene {
+  max-width: calc(var(--sirina-sadrzaja) - 2 * var(--razmak));
+  margin: 0 auto;
+}
+
+.podnozje-red {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 2rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--tamna-linija);
+}
+
+.podnozje-slogan {
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--tekst-na-tamnoj);
+}
+
+.podnozje p {
+  margin: 0 0 0.5rem;
+}
+
+.podnozje a {
+  color: var(--limeta);
+}
+
+/* Talasasta linija (ukras) */
+.talas-linija {
+  stroke: var(--limeta);
+  stroke-width: 2;
+  opacity: 0.6;
+  vector-effect: non-scaling-stroke;
+}
+
+/* ---------- tablet ---------- */
+@media (min-width: 640px) {
+  h1 {
+    font-size: 2.4rem;
+  }
+
+  .hero-dugmad .dugme {
+    flex: 0 0 auto;
+  }
+
+  .pocetna-mreza {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .pocetna-mreza .mreza-kako {
+    grid-column: 1 / -1;
+  }
+
+  .statistika-traka {
+    max-width: 34rem;
+  }
+
+  .stat {
+    flex-direction: row;
+    justify-content: center;
+    gap: 0.65rem;
+    text-align: left;
+  }
+}
+
+/* ---------- računar: navigacija u zaglavlju, bez donje trake ---------- */
+@media (min-width: 960px) {
+  body {
+    padding-bottom: 0;
+  }
+
+  .navigacija {
+    display: block;
+    margin: 0 auto;
+  }
+
+  .donja-navigacija {
+    display: none;
+  }
+
+  /* Računar: hero ima ISTI omjer kao slika, pa se vidi cijela slika (ništa se ne odsijeca).
+     Ako je tekst viši od slike (uzak prozor), hero naraste, a slika se samo malo odsiječe sa strana. */
+  .hero {
+    aspect-ratio: 1672 / 941;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hero-slika-okvir {
+    inset: 0;
+    height: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .hero-sadrzaj {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    align-items: end;
+    gap: 2rem;
+    width: 100%;
+    padding: 4rem var(--razmak) 5.5rem;
+  }
+
+  /* Statistika je DOLJE DESNO preko slike, kao na mockupu: desno od fontane i iznad talasa.
+     Kompaktnija je, da ne prekrije glavni znak na fontani (koji je dolje u sredini slike). */
+  .hero-sadrzaj {
+    position: static;
+  }
+
+  .hero-tekst {
+    grid-column: 1;
+  }
+
+  .statistika-traka {
+    position: absolute;
+    /* Desni rub poravnat sa sadržajem stranice (isti kao zaglavlje). */
+    right: max(var(--razmak), calc((100% - var(--sirina-sadrzaja)) / 2 + var(--razmak)));
+    bottom: 11%;
+    width: min(34%, 30rem);
+    margin: 0;
+    max-width: none;
+    padding: 0.7rem 0.4rem;
+  }
+
+  .statistika-traka .stat {
+    gap: 0.5rem;
+  }
+
+  .statistika-traka .stat-ikona {
+    width: 38px;
+    height: 38px;
+  }
+
+  .statistika-traka .stat-broj {
+    font-size: 1.5rem;
+  }
+
+  .statistika-traka .stat-naziv {
+    font-size: 0.78rem;
+  }
+
+  /* Tamnije lijevo (iza teksta) i blago pri dnu; desna strana slike ostaje svijetla, kao na mockupu. */
+  .hero-zatamnjenje {
+    background:
+      linear-gradient(90deg, rgba(10, 34, 27, 0.9) 0%, rgba(10, 34, 27, 0.65) 30%, rgba(10, 34, 27, 0.15) 58%, rgba(10, 34, 27, 0) 100%),
+      linear-gradient(180deg, rgba(10, 34, 27, 0.35) 0%, rgba(10, 34, 27, 0) 25%, rgba(10, 34, 27, 0) 70%, rgba(10, 34, 27, 0.55) 100%);
+  }
+
+  .hero-talas {
+    height: 70px;
+  }
+
+  .pocetna-mreza {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.8fr) minmax(0, 1.4fr);
+    align-items: stretch;
+  }
+
+  .pocetna-mreza .mreza-kako {
+    grid-column: auto;
+  }
+
+  .kako {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Koraci se raspoređuju po visini kartice, da sve tri kartice budu iste visine. */
+  .kako .koraci {
+    flex: 1;
+    align-content: center;
+  }
+
+  .mini-mapa-slika {
+    flex: 1;
+  }
+
+  /* Zbijenija lista posljednjih prijava, da kartice budu ujednačene visine. */
+  .posljednje-lista li {
+    padding: 0.45rem 0;
+  }
+
+  .kategorija-plocica {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+
+  .posljednje-naslov {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Na računaru je naslov u dva reda, kao na mockupu; redovi smiju preći u desnu kolonu. */
+  .hero-naslov {
+    font-size: clamp(2.6rem, 4.3vw, 4.2rem);
+  }
+
+  .hero-naslov-red {
+    white-space: nowrap;
+  }
+
+  .dugme-filteri {
+    display: none;
+  }
+
+  .mapa-raspored {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .mapa-glavni {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .legenda,
+  .legenda.legenda-otvorena {
+    display: block;
+    order: 0;
+    width: 300px;
+    flex: none;
+  }
+
+  .mapa {
+    height: 70vh;
+  }
+
+  .mapa-mala {
+    height: 300px;
+  }
+}
+
+/* =====================================================================
+   POKRET (animacije)
+   Sve animacije su ovdje. Na dnu je blok koji ih gasi kad korisnik
+   u sistemu traži manje pokreta (prefers-reduced-motion).
+   ===================================================================== */
+
+/* --- Ulaz hero dijela: elementi se pojavljuju jedan za drugim --- */
+.ulaz {
+  opacity: 0;
+  animation: ulaz 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+
+.ulaz-1 { animation-delay: 0.1s; }
+.ulaz-2 { animation-delay: 0.25s; }
+.ulaz-3 { animation-delay: 0.45s; }
+.ulaz-4 { animation-delay: 0.6s; }
+.ulaz-5 { animation-delay: 0.8s; }
+
+@keyframes ulaz {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+.hero-naslov-red {
+  display: block;
+}
+
+/* Blagi sjaj istaknutog dijela naslova (sjaj je dozvoljen u hero dijelu). */
+.hero-naslov-isticanje {
+  text-shadow: 0 0 28px rgba(180, 240, 74, 0.35);
+}
+
+/* --- Signali: lukovi se pojave pa "teku", oznake padnu pa lebde --- */
+.hero-luk {
+  opacity: 0;
+  animation: pojavaLuka 0.9s ease-out forwards;
+}
+
+@keyframes pojavaLuka {
+  to { opacity: 0.75; }
+}
+
+@keyframes tokLuka {
+  to { stroke-dashoffset: -24; }
+}
+
+.hero-signal {
+  filter: drop-shadow(0 0 6px rgba(180, 240, 74, 1));
+}
+
+.hero-pin-ulaz {
+  opacity: 0;
+  animation: padPina 0.7s cubic-bezier(0.3, 1.5, 0.5, 1) forwards;
+}
+
+@keyframes padPina {
+  from {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero-pin-lebdi {
+  animation: lebdenje 3.2s ease-in-out infinite;
+}
+
+@keyframes lebdenje {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.hero-sjena-pina {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: disanjeSjene 3.2s ease-in-out infinite;
+}
+
+@keyframes disanjeSjene {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(0.75); opacity: 0.6; }
+}
+
+/* --- Znak eha: tačka "pulsira", a luci se pale jedan za drugim, kao odjek koji putuje --- */
+.eho-znak--animiran .eho-tacka,
+.eho-znak--animiran .eho-sjaj,
+.eho-znak--animiran .eho-luk {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.eho-znak--animiran .eho-tacka {
+  animation: ehoTacka 2.8s ease-in-out infinite;
+}
+
+.eho-znak--animiran .eho-sjaj {
+  animation: ehoSjaj 2.8s ease-out infinite;
+}
+
+.eho-znak--animiran .eho-luk {
+  animation: ehoLuk 2.8s ease-in-out infinite;
+}
+
+.eho-znak--animiran .eho-luk-2 {
+  animation-delay: 0.25s;
+}
+
+.eho-znak--animiran .eho-luk-3 {
+  animation-delay: 0.5s;
+}
+
+/* Glas krene iz tačke… */
+@keyframes ehoTacka {
+  0%, 100% { transform: scale(1); }
+  8% { transform: scale(1.3); }
+  20% { transform: scale(1); }
+}
+
+@keyframes ehoSjaj {
+  0% { transform: scale(0.6); opacity: 0.9; }
+  45%, 100% { transform: scale(2); opacity: 0; }
+}
+
+/* …i putuje kroz lukove: svaki luk zasvijetli i malo se pomjeri prema van. */
+@keyframes ehoLuk {
+  0%, 100% { opacity: 0.25; transform: translateX(0); }
+  18% { opacity: 1; transform: translateX(1.5px); }
+  45% { opacity: 0.25; transform: translateX(0); }
+}
+
+/* Kad pređemo mišem preko loga, odjek se ubrza. */
+.logo-link:hover .eho-luk,
+.logo-link:hover .eho-tacka,
+.logo-link:hover .eho-sjaj {
+  animation-duration: 1.4s;
+}
+
+/* --- Dugmad: lagano podizanje, jači sjaj, strelica se pomakne --- */
+.dugme {
+  transition: transform 0.18s ease, background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.25s ease,
+    color 0.18s ease;
+}
+
+.dugme:hover {
+  transform: translateY(-2px);
+}
+
+.dugme:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.dugme-sjaj {
+  animation: sjajDugmeta 2.8s ease-in-out 1.5s infinite;
+}
+
+.dugme-sjaj:hover {
+  box-shadow: 0 0 34px rgba(180, 240, 74, 0.75);
+}
+
+@keyframes sjajDugmeta {
+  0%, 100% { box-shadow: 0 0 18px rgba(180, 240, 74, 0.35); }
+  50% { box-shadow: 0 0 30px rgba(180, 240, 74, 0.65); }
+}
+
+.ikona-strelica {
+  transition: transform 0.2s ease;
+}
+
+.dugme:hover .ikona-strelica,
+.link-strelica:hover svg {
+  transform: translateX(4px);
+}
+
+.link-strelica svg {
+  transition: transform 0.2s ease;
+}
+
+/* --- Kartice početne: pojave se dok skrolamo, i podignu se pod mišem --- */
+.pojava {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.pojava-vidljivo {
+  opacity: 1;
+  transform: none;
+}
+
+.pojava > * {
+  height: 100%;
+}
+
+.pocetna-kartica {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.pocetna-kartica:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(15, 46, 37, 0.14);
+}
+
+/* Koraci "iskoče" jedan za drugim kad kartica dođe na ekran. */
+.pojava .korak {
+  opacity: 0;
+}
+
+.pojava-vidljivo .korak {
+  animation: iskakanje 0.6s cubic-bezier(0.3, 1.4, 0.5, 1) forwards;
+}
+
+.pojava-vidljivo .korak:nth-child(2) { animation-delay: 0.2s; }
+.pojava-vidljivo .korak:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes iskakanje {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.korak-ikona {
+  transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+}
+
+.korak:hover .korak-ikona {
+  transform: scale(1.1) rotate(-4deg);
+  background: var(--primarna);
+  color: var(--bijela);
+}
+
+.korak + .korak::before {
+  animation: strelicaPuls 1.8s ease-in-out infinite;
+}
+
+@keyframes strelicaPuls {
+  0%, 100% { transform: translateX(0); opacity: 0.5; }
+  50% { transform: translateX(4px); opacity: 1; }
+}
+
+/* Redovi posljednjih prijava se lagano pomaknu pod mišem. */
+.posljednje-lista li {
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  border-radius: 10px;
+}
+
+.posljednje-lista li:hover {
+  transform: translateX(4px);
+}
+
+/* --- Mini-mapa: tačke trepere, najnovije šalju eho, linija skenira --- */
+.mini-mapa-sjaj {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: treptanje 3s ease-in-out infinite;
+}
+
+@keyframes treptanje {
+  0%, 100% { opacity: 0.35; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.25); }
+}
+
+.mini-mapa-eho {
+  fill: none;
+  stroke: var(--limeta);
+  stroke-width: 1.5;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: eho 2.7s ease-out infinite;
+}
+
+.mini-mapa-sken {
+  fill: rgba(180, 240, 74, 0.07);
+  animation: skeniranje 6s linear infinite;
+}
+
+@keyframes skeniranje {
+  from { transform: translateX(-60px); }
+  to { transform: translateX(300px); }
+}
+
+/* --- Prelaz između stranica: sadržaj se lagano pojavi --- */
+.sadrzaj > * {
+  animation: ulazStranice 0.45s ease-out both;
+}
+
+@keyframes ulazStranice {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- Manje pokreta: sve animacije se gase, sadržaj je odmah vidljiv --- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .ulaz,
+  .pojava,
+  .pojava .korak,
+  .hero-luk,
+  .hero-pin-ulaz {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  .hero-luk {
+    opacity: 0.75 !important;
+  }
+
+  .mini-mapa-sken {
+    display: none;
+  }
+}
+
+/* =====================================================================
+   O PROJEKTU
+   ===================================================================== */
+.o-projektu {
+  max-width: 860px !important;
+}
+
+.projekat-uvod {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.projekat-uvod .eho-znak {
+  margin-top: 0.4rem;
+  padding: 0.5rem;
+  box-sizing: content-box;
+  background: var(--tamna);
+  border-radius: 16px;
+}
+
+.projekat-odjeljak {
+  margin: 1rem 0;
+  padding: 1.1rem 1.25rem;
+  background: var(--bijela);
+  border: 1px solid var(--linija);
+  border-radius: var(--zaobljenje);
+}
+
+.projekat-odjeljak h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 0.6rem;
+  font-size: 1.25rem;
+}
+
+.projekat-ikona {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #e3f4ea;
+  color: var(--primarna);
+}
+
+.projekat-odjeljak ul {
+  margin: 0.4rem 0;
+  padding-left: 1.2rem;
+}
+
+.projekat-odjeljak li {
+  margin-bottom: 0.4rem;
+}
+
+.projekat-kraj {
+  margin: 1.5rem 0 0;
+}
+
+/* =====================================================================
+   PRISTUPAČNOST: dodirne površine na mapi (najmanje 44 px)
+   ===================================================================== */
+.leaflet-control-zoom a,
+.leaflet-touch .leaflet-control-zoom a {
+  width: 44px;
+  height: 44px;
+  line-height: 44px;
+  font-size: 22px;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  width: 36px;
+  height: 36px;
+  font-size: 24px;
+  line-height: 32px;
+}
+
+/* Mali krug eha ispod svake oznake u hero dijelu: širi se i nestaje, svaka oznaka u svom ritmu. */
+.hero-mali-eho {
+  fill: none;
+  stroke: var(--limeta);
+  stroke-width: 1.5;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: eho 2.6s ease-out infinite;
+}
+
+/* =====================================================================
+   ZAGLAVLJE NA RAČUNARU (kao na mockupu)
+   ===================================================================== */
+@media (min-width: 960px) {
+  /* Tanka okomita crta između navigacije i prekidača uloge. */
+  .prekidac-uloge {
+    padding-left: 1.25rem;
+    border-left: 1px solid rgba(255, 255, 255, 0.22);
+  }
+
+  /* Napomena uz demo ulogu u jednom, diskretnom redu. */
+  .prekidac-napomena {
+    max-width: none;
+    white-space: nowrap;
+    opacity: 0.85;
+  }
+
+  /* Početna: zaglavlje je poluprovidno i leži preko slike, pa se planine vide ispod navigacije. */
+  .zaglavlje--preko-slike {
+    background: linear-gradient(180deg, rgba(10, 34, 27, 0.92) 0%, rgba(10, 34, 27, 0.62) 100%);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+
+  /* Slika na početnoj počinje ispod zaglavlja (zaglavlje je preko nje), a tekst ostaje na istom mjestu. */
+  .zaglavlje--preko-slike + main .hero {
+    margin-top: calc(-1.5rem - var(--visina-zaglavlja, 0px));
+  }
+
+  .zaglavlje--preko-slike + main .hero-sadrzaj {
+    padding-top: calc(4rem + var(--visina-zaglavlja, 0px));
+  }
+}
+
+/* Tablet i mobitel: ispod slike (iza teksta i panela statistike) je zamućen, zatamnjen nastavak
+   iste slike, pa panel izgleda kao providno staklo – kroz njega se naziru zelena brda i park. */
+@media (max-width: 959px) {
+  .hero::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: var(--visina-slike);
+    bottom: 0;
+    z-index: -3;
+    background: var(--hero-slika) center bottom / cover no-repeat;
+    filter: blur(14px) brightness(0.55) saturate(1.3);
+    transform: scale(1.1);
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 35%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 35%);
+  }
+}
+
+/* =====================================================================
+   PREKIDAČ TOPLOTNE MAPE
+   ===================================================================== */
+.prekidac-toplotna {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: var(--min-dugme);
+  padding: 0 1rem 0 0.6rem;
+  margin-left: auto;
+  font: inherit;
+  font-weight: 700;
+  color: var(--tamna);
+  background: var(--bijela);
+  border: 1.5px solid var(--linija);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.prekidac-staza {
+  position: relative;
+  width: 42px;
+  height: 24px;
+  border-radius: 12px;
+  background: #b9c7c1;
+  transition: background-color 0.2s ease;
+  flex: none;
+}
+
+.prekidac-kruzic {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--bijela);
+  transition: transform 0.2s ease;
+}
+
+.prekidac-toplotna--ukljuceno {
+  border-color: var(--primarna);
+}
+
+.prekidac-toplotna--ukljuceno .prekidac-staza {
+  background: var(--primarna);
+}
+
+.prekidac-toplotna--ukljuceno .prekidac-kruzic {
+  transform: translateX(18px);
+}
+
+/* Toplotni sloj je ispod oznaka i malo providan, da se ulice i dalje vide. */
+.leaflet-heatmap-layer {
+  opacity: 0.8;
+}
+
+@media (max-width: 959px) {
+  .mapa-alati {
+    flex-wrap: wrap;
+  }
+}
+
+/* =====================================================================
+   DONJA NAVIGACIJA: okruglo dugme s kamerom ("Prijavi") u sredini
+   ===================================================================== */
+.donja-stavka-istaknuta {
+  position: relative;
+}
+
+.donje-dugme-kamera {
+  border-top-color: transparent !important;
+}
+
+.kamera-krug {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  margin-top: -30px;
+  border-radius: 50%;
+  background: var(--limeta);
+  color: var(--tamna);
+  border: 4px solid var(--tamna);
+  box-shadow: 0 0 18px rgba(180, 240, 74, 0.5);
+  transition: transform 0.18s ease;
+}
+
+.donje-dugme-kamera:hover .kamera-krug,
+.donje-dugme-kamera.active .kamera-krug {
+  transform: scale(1.06);
+}
+
+.donje-dugme-kamera.active {
+  color: var(--limeta);
+}
+
+/* Uži laptopi (960–1199 px): panel statistike dolje desno još kompaktniji, natpisi u jednom redu. */
+@media (min-width: 960px) and (max-width: 1199px) {
+  .statistika-traka .stat-ikona {
+    width: 32px;
+    height: 32px;
+  }
+
+  .statistika-traka .stat-ikona svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .statistika-traka .stat-broj {
+    font-size: 1.3rem;
+  }
+
+  .statistika-traka .stat-naziv {
+    font-size: 0.72rem;
+    white-space: nowrap;
+  }
+}
+
+/* Kompaktniji izgled ECHO Ilidža; postojeći logo i funkcionalnosti se ne mijenjaju. */
+@media (min-width: 960px) {
+  .hero { min-height: 0; }
+  .hero-sadrzaj { padding-top: 3.4rem; padding-bottom: 4.5rem; }
+  .hero-naslov { font-size: clamp(2.45rem, 3.65vw, 4rem); }
+}
+.zaglavlje-sadrzaj { padding-top: .35rem; padding-bottom: .35rem; }
+.podnozje-sadrzaj { padding-top: .65rem; padding-bottom: .9rem; }
+.podnozje-red { padding-bottom: .6rem; margin-bottom: .6rem; }
+.podnozje-talas { height: 24px; }
