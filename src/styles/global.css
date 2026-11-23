@@ -2889,15 +2889,29 @@ img {
     padding-bottom: var(--razmak-xl);
   }
 
-  /* Tekst stoji pri dnu prvog ekrana, a slika se produži do njega: prvi red naslova leži preko
-     donjeg (zatamnjenog) dijela slike, a tamna podloga počinje tek iza naslova.
+  /* Tekst stoji pri dnu prvog ekrana, a slika se produži do sredine prvog reda naslova.
      --vrh-naslova mjeri useHeroGeometrija.js; bez njega slika ostaje svoje prirodne visine.
      Viša slika se prikazuje kao "cover" (bočne ivice se malo odsijeku), a oznake prate sliku. */
   .hero-slika-okvir {
-    height: max(var(--visina-slike), calc(var(--vrh-naslova, 0px) + var(--preklop-naslova)));
+    height: max(var(--visina-slike), calc(var(--vrh-naslova, 0px) + var(--preklop-naslova) / 2));
+  }
+
+  /* Mekan, dug prelaz: donja trećina slike postepeno tamni i nestaje u tamnoj podlozi,
+     pa se podloga nazire već iznad naslova (bez oštre ivice). */
+  .hero-slika-okvir {
+    -webkit-mask-image: linear-gradient(180deg, #000 55%, rgba(0, 0, 0, 0.6) 80%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 55%, rgba(0, 0, 0, 0.6) 80%, transparent 100%);
+  }
+
+  .hero-zatamnjenje {
+    background: linear-gradient(180deg, rgba(var(--rgb-tamna-duboka), 0.25) 0%, rgba(var(--rgb-tamna-duboka), 0) 30%,
+      rgba(var(--rgb-tamna-duboka), 0) 45%, rgba(var(--rgb-tamna-duboka), 0.75) 100%);
   }
 
   .hero::after {
-    top: max(var(--visina-slike), calc(var(--vrh-naslova, 0px) + var(--preklop-naslova)));
+    /* Zamućena podloga počinje ispod sredine slike i postepeno se pojavljuje. */
+    top: calc(max(var(--visina-slike), calc(var(--vrh-naslova, 0px) + var(--preklop-naslova) / 2)) * 0.6);
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 45%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 45%);
   }
 }
