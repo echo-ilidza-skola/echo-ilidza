@@ -1,0 +1,119 @@
+/* =====================================================================
+   ZAJEDNIČKI IZGLED: traka s naslovom stranice i kartice
+   Ovaj fajl se učitava POSLJEDNJI, pa ima prednost pred ranijim pravilima za iste elemente.
+   ===================================================================== */
+
+/* ---------- Traka s naslovom stranice (unutrašnje stranice) ----------
+   Ista tamna podloga kao zaglavlje, odmah ispod njega, da sve stranice izgledaju kao jedna aplikacija. */
+.sadrzaj > .traka-stranice {
+  margin-top: calc(-1 * var(--razmak-l)); /* poništava gornji razmak sadržaja, traka dodiruje zaglavlje */
+  margin-bottom: var(--razmak-l);
+  background: var(--tamna);
+  border-top: 1px solid var(--tamna-linija);
+  color: var(--tekst-na-tamnoj);
+}
+
+.traka-stranice-sadrzaj {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--razmak-s) var(--razmak);
+  max-width: var(--sirina-sadrzaja);
+  margin: 0 auto;
+  padding: 0.9rem var(--razmak) 1rem;
+}
+
+.traka-stranice-tekst {
+  min-width: 0;
+}
+
+.traka-stranice h1 {
+  margin: 0;
+  font-family: var(--font-naslov);
+  font-weight: var(--tezina-naslova);
+  font-size: var(--velicina-naslova-stranice);
+  line-height: 1.2;
+  color: var(--tekst-na-tamnoj);
+  overflow-wrap: anywhere;
+}
+
+.traka-stranice-nazad {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--min-dugme);
+  font-size: 0.9rem;
+  color: var(--tekst-na-tamnoj-prigusen);
+}
+
+.traka-stranice-nazad:hover {
+  color: var(--tekst-na-tamnoj);
+}
+
+.traka-stranice-radnje {
+  flex: none;
+}
+
+/* ---------- Kartice: isti radijus, ista sjenka, isti unutrašnji razmak ---------- */
+.kartica,
+.pocetna-kartica,
+.projekat-odjeljak,
+.moja-prijava,
+.admin-prijava,
+.admin-filteri,
+.admin-kpi-stavka,
+.grafikon,
+.detalji-polja,
+.legenda,
+.mini-mapa {
+  background: var(--bijela);
+  color: var(--tekst);
+  border: 1px solid var(--linija);
+  border-radius: var(--radius-kartica);
+  box-shadow: var(--sjena-kartice);
+  padding: var(--kartica-razmak);
+}
+
+/* Prijava u administraciji zadržava obojenu lijevu ivicu (osim u redu s duplikatom). */
+.admin-prijava {
+  border-left: 5px solid var(--primarna);
+}
+
+.admin-red .admin-prijava {
+  border-left-width: 1px;
+}
+
+/* Isti stil naslova u svim karticama. */
+.kartica h2,
+.pocetna-kartica h2,
+.projekat-odjeljak h2,
+.mini-mapa h2,
+.legenda h2,
+.moja-prijava-naslov,
+.admin-prijava-naslov,
+.grafikon-naslov {
+  margin-top: 0;
+  font-family: var(--font-naslov);
+  font-weight: var(--tezina-naslova);
+  font-size: var(--velicina-naslova-kartice);
+  line-height: 1.25;
+  color: var(--tamna);
+}
+
+/* ---------- Mini-mapa: bijela kartica kao ostale; tamna je samo sama mapa unutra ---------- */
+.mini-mapa h2 {
+  margin-bottom: 0;
+}
+
+.mini-mapa-tekst {
+  color: var(--tekst-prigusen);
+}
+
+/* ---------- Brojevi u administraciji: bijela kartica, tamnozeleni broj (limeta nema kontrast na bijelom) ---------- */
+.admin-kpi-stavka .prigusen {
+  color: var(--tekst-prigusen);
+}
+
+.admin-kpi-broj {
+  color: var(--primarna-tamna);
+}

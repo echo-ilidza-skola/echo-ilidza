@@ -7,6 +7,7 @@ import SvePrijave from '../../components/admin/SvePrijave.jsx'
 import StatistikaAdmin from '../../components/admin/StatistikaAdmin.jsx'
 import { usePodaci } from '../../hooks/usePodaci.js'
 import { svePrijave, vratiTestnePodatke } from '../../data/storage.js'
+import TrakaStranice from '../../components/TrakaStranice.jsx'
 
 const KARTICE = [
   { kljuc: 'red', naziv: 'Red čekanja' },
@@ -29,44 +30,46 @@ export default function Administracija() {
   }
 
   return (
-    <section className="admin-stranica">
-      <h1>Administracija</h1>
-      <p className="uvod">
-        Demo uloga – nije prijava korisnika ni zaštita podataka. Aplikacija ne šalje ništa Općini ni službama;
-        „Proslijeđeno službi“ je samo simulacija.
-      </p>
+    <>
+      <TrakaStranice naslov="Administracija" />
+      <section className="admin-stranica">
+        <p className="uvod">
+          Demo uloga – nije prijava korisnika ni zaštita podataka. Aplikacija ne šalje ništa Općini ni službama;
+          „Proslijeđeno službi“ je samo simulacija.
+        </p>
 
-      <div className="admin-kartice" role="tablist" aria-label="Dijelovi administracije">
-        {KARTICE.map((k) => (
-          <button
-            key={k.kljuc}
-            type="button"
-            role="tab"
-            id={`kartica-${k.kljuc}`}
-            aria-selected={aktivna === k.kljuc}
-            aria-controls={`panel-${k.kljuc}`}
-            className={aktivna === k.kljuc ? 'admin-kartica admin-kartica--aktivna' : 'admin-kartica'}
-            onClick={() => postaviParametre({ kartica: k.kljuc })}
-          >
-            {k.naziv}
-            {k.kljuc === 'red' && <span className="admin-znacka">{brojNaCekanju}</span>}
+        <div className="admin-kartice" role="tablist" aria-label="Dijelovi administracije">
+          {KARTICE.map((k) => (
+            <button
+              key={k.kljuc}
+              type="button"
+              role="tab"
+              id={`kartica-${k.kljuc}`}
+              aria-selected={aktivna === k.kljuc}
+              aria-controls={`panel-${k.kljuc}`}
+              className={aktivna === k.kljuc ? 'admin-kartica admin-kartica--aktivna' : 'admin-kartica'}
+              onClick={() => postaviParametre({ kartica: k.kljuc })}
+            >
+              {k.naziv}
+              {k.kljuc === 'red' && <span className="admin-znacka">{brojNaCekanju}</span>}
+            </button>
+          ))}
+        </div>
+
+        <div role="tabpanel" id={`panel-${aktivna}`} aria-labelledby={`kartica-${aktivna}`}>
+          {aktivna === 'red' && <RedCekanja sve={sve} />}
+          {aktivna === 'sve' && <SvePrijave sve={sve} />}
+          {aktivna === 'statistika' && <StatistikaAdmin sve={sve} />}
+        </div>
+
+        <div className="kartica admin-reset">
+          <h2>Testni podaci</h2>
+          <p>Vraća početnih 28 testnih prijava. Briše sve nove prijave, izmjene i fotografije u ovom pregledniku.</p>
+          <button type="button" className="dugme dugme-upozorenje" onClick={naVratiTestnePodatke}>
+            Vrati testne podatke
           </button>
-        ))}
-      </div>
-
-      <div role="tabpanel" id={`panel-${aktivna}`} aria-labelledby={`kartica-${aktivna}`}>
-        {aktivna === 'red' && <RedCekanja sve={sve} />}
-        {aktivna === 'sve' && <SvePrijave sve={sve} />}
-        {aktivna === 'statistika' && <StatistikaAdmin sve={sve} />}
-      </div>
-
-      <div className="kartica admin-reset">
-        <h2>Testni podaci</h2>
-        <p>Vraća početnih 28 testnih prijava. Briše sve nove prijave, izmjene i fotografije u ovom pregledniku.</p>
-        <button type="button" className="dugme dugme-upozorenje" onClick={naVratiTestnePodatke}>
-          Vrati testne podatke
-        </button>
-      </div>
-    </section>
+        </div>
+      </section>
+    </>
   )
 }

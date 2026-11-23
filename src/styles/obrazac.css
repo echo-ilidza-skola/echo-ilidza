@@ -799,7 +799,7 @@
 .napredak-korak--trenutni .napredak-tacka {
   background: var(--limeta);
   border-color: var(--primarna-tamna);
-  box-shadow: 0 0 0 4px rgba(var(--rgb-limeta), 0.35);
+  box-shadow: 0 0 0 4px var(--zelena-blijeda); /* obični prsten, ne sjaj */
 }
 
 .napredak-korak--odbijen .napredak-tacka {

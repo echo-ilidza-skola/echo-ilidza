@@ -25,7 +25,7 @@ export default function App() {
             <Route
               path="prijavi"
               element={
-                <ZasticenaRuta uloge={['gradjanin']}>
+                <ZasticenaRuta uloge={['gradjanin']} naslov="Prijavi problem">
                   <PrijaviProblem />
                 </ZasticenaRuta>
               }
@@ -33,7 +33,7 @@ export default function App() {
             <Route
               path="moje-prijave"
               element={
-                <ZasticenaRuta uloge={['gradjanin']}>
+                <ZasticenaRuta uloge={['gradjanin']} naslov="Moje prijave">
                   <MojePrijave />
                 </ZasticenaRuta>
               }
@@ -41,7 +41,7 @@ export default function App() {
             <Route
               path="admin"
               element={
-                <ZasticenaRuta uloge={['administrator']}>
+                <ZasticenaRuta uloge={['administrator']} naslov="Administracija">
                   <Administracija />
                 </ZasticenaRuta>
               }

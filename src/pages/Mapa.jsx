@@ -13,6 +13,7 @@ import { usePodaci } from '../hooks/usePodaci.js'
 import { javnePrijave } from '../data/storage.js'
 import { KATEGORIJE, JAVNI_STATUSI, CENTAR_MAPE } from '../data/konstante.js'
 import { grupisiZaMapu, filtrirajPrijave } from '../logic/mapa.js'
+import TrakaStranice from '../components/TrakaStranice.jsx'
 
 function sviFilteri() {
   return { kategorije: KATEGORIJE.map((k) => k.kljuc), statusi: [...JAVNI_STATUSI] }
@@ -30,84 +31,86 @@ export default function Mapa() {
   const prikazane = filtrirajPrijave(naMapi, filteri)
 
   return (
-    <section>
-      <h1>Mapa prijava</h1>
-      <p className="uvod">
-        Na mapi su samo prijave koje je administrator odobrio. Nove prijave postaju vidljive tek nakon provjere.
-      </p>
-
-      <div className="mapa-alati">
-        <p className="mapa-brojac" aria-live="polite">
-          Prikazano <strong>{prikazane.length}</strong> od {naMapi.length} oznaka
+    <>
+      <TrakaStranice naslov="Mapa prijava" />
+      <section>
+        <p className="uvod">
+          Na mapi su samo prijave koje je administrator odobrio. Nove prijave postaju vidljive tek nakon provjere.
         </p>
-        {/* Prekidač (switch): čitač ekrana pročita "Toplotna mapa, uključeno/isključeno". */}
-        <button
-          type="button"
-          role="switch"
-          aria-checked={toplotna}
-          className={toplotna ? 'prekidac-toplotna prekidac-toplotna--ukljuceno' : 'prekidac-toplotna'}
-          onClick={() => postaviToplotnu(!toplotna)}
-        >
-          <span className="prekidac-staza" aria-hidden="true">
-            <span className="prekidac-kruzic" />
-          </span>
-          Toplotna mapa
-        </button>
-        <button
-          type="button"
-          className="dugme dugme-sporedno dugme-filteri"
-          aria-expanded={filteriOtvoreni}
-          aria-controls="legenda-filteri"
-          onClick={() => postaviFiltereOtvorene(!filteriOtvoreni)}
-        >
-          <Ikona ime={filteriOtvoreni ? 'zatvori' : 'filter'} velicina={18} />
-          {filteriOtvoreni ? 'Sakrij filtere' : 'Legenda i filteri'}
-        </button>
-      </div>
 
-      <div className="mapa-raspored">
-        <div className="mapa-glavni">
-          <OsnovnaMapa centar={CENTAR_MAPE} zoom={13} className="mapa" oznaka="Mapa javnih prijava">
-            {toplotna && <ToplotniSloj prijave={prikazane} />}
-            {prikazane.map((p) => (
-              <OznakaPrijave key={p.id} prijava={p} />
-            ))}
-          </OsnovnaMapa>
-          <p className="prigusen mali-tekst">
-            Povezane prijave istog problema prikazane su kao jedna oznaka.
-            {toplotna &&
-              ' Toplotna mapa: što je boja toplija (od zelene prema narandžastoj), to je na tom mjestu više prijava i prijavitelja. Prati odabrane filtere.'}
+        <div className="mapa-alati">
+          <p className="mapa-brojac" aria-live="polite">
+            Prikazano <strong>{prikazane.length}</strong> od {naMapi.length} oznaka
           </p>
+          {/* Prekidač (switch): čitač ekrana pročita "Toplotna mapa, uključeno/isključeno". */}
+          <button
+            type="button"
+            role="switch"
+            aria-checked={toplotna}
+            className={toplotna ? 'prekidac-toplotna prekidac-toplotna--ukljuceno' : 'prekidac-toplotna'}
+            onClick={() => postaviToplotnu(!toplotna)}
+          >
+            <span className="prekidac-staza" aria-hidden="true">
+              <span className="prekidac-kruzic" />
+            </span>
+            Toplotna mapa
+          </button>
+          <button
+            type="button"
+            className="dugme dugme-sporedno dugme-filteri"
+            aria-expanded={filteriOtvoreni}
+            aria-controls="legenda-filteri"
+            onClick={() => postaviFiltereOtvorene(!filteriOtvoreni)}
+          >
+            <Ikona ime={filteriOtvoreni ? 'zatvori' : 'filter'} velicina={18} />
+            {filteriOtvoreni ? 'Sakrij filtere' : 'Legenda i filteri'}
+          </button>
         </div>
 
-        <LegendaFilteri
-          otvoreno={filteriOtvoreni}
-          filteri={filteri}
-          promijeniFiltere={postaviFiltere}
-          ponisti={() => postaviFiltere(sviFilteri())}
-        />
-      </div>
+        <div className="mapa-raspored">
+          <div className="mapa-glavni">
+            <OsnovnaMapa centar={CENTAR_MAPE} zoom={13} className="mapa" oznaka="Mapa javnih prijava">
+              {toplotna && <ToplotniSloj prijave={prikazane} />}
+              {prikazane.map((p) => (
+                <OznakaPrijave key={p.id} prijava={p} />
+              ))}
+            </OsnovnaMapa>
+            <p className="prigusen mali-tekst">
+              Povezane prijave istog problema prikazane su kao jedna oznaka.
+              {toplotna &&
+                ' Toplotna mapa: što je boja toplija (od zelene prema narandžastoj), to je na tom mjestu više prijava i prijavitelja. Prati odabrane filtere.'}
+            </p>
+          </div>
 
-      {/* Lista je zamjena za mapu za one koji ne mogu koristiti mapu (npr. čitač ekrana). */}
-      <section className="kartica">
-        <h2>Prijave prikazane na mapi</h2>
-        {prikazane.length === 0 ? (
-          <p>Nijedna prijava ne odgovara odabranim filterima.</p>
-        ) : (
-          <ul className="lista-prijava">
-            {prikazane.map((p) => (
-              <li key={p.id}>
-                <Link to={`/prijava/${p.id}`}>{p.naslov}</Link>
-                <span className="lista-detalji">
-                  <KategorijaOznaka kategorija={p.kategorija} />
-                  <StatusOznaka status={p.status} />
-                  {p.brojPrijavitelja > 1 && <span>Prijavitelja: {p.brojPrijavitelja}</span>}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
+          <LegendaFilteri
+            otvoreno={filteriOtvoreni}
+            filteri={filteri}
+            promijeniFiltere={postaviFiltere}
+            ponisti={() => postaviFiltere(sviFilteri())}
+          />
+        </div>
+
+        {/* Lista je zamjena za mapu za one koji ne mogu koristiti mapu (npr. čitač ekrana). */}
+        <section className="kartica">
+          <h2>Prijave prikazane na mapi</h2>
+          {prikazane.length === 0 ? (
+            <p>Nijedna prijava ne odgovara odabranim filterima.</p>
+          ) : (
+            <ul className="lista-prijava">
+              {prikazane.map((p) => (
+                <li key={p.id}>
+                  <Link to={`/prijava/${p.id}`}>{p.naslov}</Link>
+                  <span className="lista-detalji">
+                    <KategorijaOznaka kategorija={p.kategorija} />
+                    <StatusOznaka status={p.status} />
+                    {p.brojPrijavitelja > 1 && <span>Prijavitelja: {p.brojPrijavitelja}</span>}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
       </section>
-    </section>
+    </>
   )
 }

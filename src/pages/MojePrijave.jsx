@@ -12,6 +12,7 @@ import { prijaveAutora, javnePrijave } from '../data/storage.js'
 import { DEMO_KORISNIK_ID, STATUSI } from '../data/konstante.js'
 import { formatirajDatum } from '../logic/datum.js'
 import { posljednjePrijave } from '../logic/statistika.js'
+import TrakaStranice from '../components/TrakaStranice.jsx'
 
 function MojaPrijava({ prijava, javne }) {
   const javna = STATUSI[prijava.status].javno
@@ -79,29 +80,30 @@ export default function MojePrijave() {
   const javne = usePodaci(javnePrijave)
 
   return (
-    <section>
-      <div className="naslov-s-dugmetom">
-        <h1>Moje prijave</h1>
+    <>
+      <TrakaStranice naslov="Moje prijave">
         <Link to="/prijavi" className="dugme dugme-glavno">
           <Ikona ime="prijavi" velicina={18} />
           Nova prijava
         </Link>
-      </div>
-      <p className="uvod">
-        Prijave demo građanina u ovom pregledniku, i one koje još čekaju provjeru. Status vam „odgovara“ kao eho.
-      </p>
+      </TrakaStranice>
+      <section>
+        <p className="uvod">
+          Prijave demo građanina u ovom pregledniku, i one koje još čekaju provjeru. Status vam „odgovara“ kao eho.
+        </p>
 
-      {moje.length === 0 ? (
-        <div className="kartica">
-          <p>Još nemate prijava.</p>
-        </div>
-      ) : (
-        <ul className="moje-lista">
-          {moje.map((p) => (
-            <MojaPrijava key={p.id} prijava={p} javne={javne} />
-          ))}
-        </ul>
-      )}
-    </section>
+        {moje.length === 0 ? (
+          <div className="kartica">
+            <p>Još nemate prijava.</p>
+          </div>
+        ) : (
+          <ul className="moje-lista">
+            {moje.map((p) => (
+              <MojaPrijava key={p.id} prijava={p} javne={javne} />
+            ))}
+          </ul>
+        )}
+      </section>
+    </>
   )
 }

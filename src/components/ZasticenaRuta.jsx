@@ -3,28 +3,33 @@
 
 import { ULOGE } from '../data/konstante.js'
 import { useUloga } from '../context/UlogaContext.jsx'
+import TrakaStranice from './TrakaStranice.jsx'
 
-export default function ZasticenaRuta({ uloge, children }) {
+// naslov: naslov stranice koji se prikazuje u traci i kad je odabrana druga uloga.
+export default function ZasticenaRuta({ uloge, naslov, children }) {
   const { uloga, promijeniUlogu } = useUloga()
 
   if (uloge.includes(uloga)) return children
 
   const potrebna = uloge[0]
   return (
-    <section>
-      <div className="kartica">
-        <h1>Ovaj ekran je za demo ulogu „{ULOGE[potrebna]}“</h1>
-        <p>
-          Trenutno je odabrana uloga „{ULOGE[uloga]}“. Ulogu možete promijeniti u zaglavlju ili
-          dugmetom ispod.
-        </p>
-        <p className="prigusen">
-          Demo uloge su samo demonstracija. One nisu prijava korisnika ni zaštita podataka.
-        </p>
-        <button type="button" className="dugme" onClick={() => promijeniUlogu(potrebna)}>
-          Prebaci na ulogu „{ULOGE[potrebna]}“
-        </button>
-      </div>
-    </section>
+    <>
+      <TrakaStranice naslov={naslov} />
+      <section>
+        <div className="kartica">
+          <h2>Ovaj ekran je za demo ulogu „{ULOGE[potrebna]}“</h2>
+          <p>
+            Trenutno je odabrana uloga „{ULOGE[uloga]}“. Ulogu možete promijeniti u zaglavlju ili
+            dugmetom ispod.
+          </p>
+          <p className="prigusen">
+            Demo uloge su samo demonstracija. One nisu prijava korisnika ni zaštita podataka.
+          </p>
+          <button type="button" className="dugme" onClick={() => promijeniUlogu(potrebna)}>
+            Prebaci na ulogu „{ULOGE[potrebna]}“
+          </button>
+        </div>
+      </section>
+    </>
   )
 }

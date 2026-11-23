@@ -9,6 +9,7 @@ import KorakLokacija from '../components/prijava/KorakLokacija.jsx'
 import KorakPregled, { NAPOMENA_JAVNOST } from '../components/prijava/KorakPregled.jsx'
 import StatusOznaka from '../components/StatusOznaka.jsx'
 import Ikona from '../components/Ikona.jsx'
+import TrakaStranice from '../components/TrakaStranice.jsx'
 import { DEMO_KORISNIK_ID } from '../data/konstante.js'
 import { dodajPrijavu, javnePrijave, sacuvajFotografiju, obrisiFotografiju } from '../data/storage.js'
 import { provjeriOsnovno, provjeriLokaciju, imaGresaka } from '../logic/validacija.js'
@@ -120,101 +121,106 @@ export default function PrijaviProblem() {
 
   if (poslana) {
     return (
-      <section className="obrazac-stranica">
-        <div className="kartica uspjeh">
-          <span className="uspjeh-ikona" aria-hidden="true">
-            <Ikona ime="kvacica" velicina={40} />
-          </span>
-          <h1 ref={naslovRef} tabIndex={-1}>
-            Prijava je poslana
-          </h1>
-          <p>
-            Status: <StatusOznaka status={poslana.prijava.status} />
-          </p>
-          <p>{NAPOMENA_JAVNOST}</p>
-          {poslana.glavna && (
+      <>
+        <TrakaStranice naslov="Prijavi problem" />
+        <section className="obrazac-stranica">
+          <div className="kartica uspjeh">
+            <span className="uspjeh-ikona" aria-hidden="true">
+              <Ikona ime="kvacica" velicina={40} />
+            </span>
+            <h2 ref={naslovRef} tabIndex={-1}>
+              Prijava je poslana
+            </h2>
             <p>
-              Prijava je povezana s prijavom „{poslana.glavna.naslov}“. Taj problem sada ima{' '}
-              {poslana.glavna.brojPrijavitelja + 1} prijavitelja.
+              Status: <StatusOznaka status={poslana.prijava.status} />
             </p>
-          )}
-          <div className="obrazac-dugmad">
-            <Link to="/moje-prijave" className="dugme dugme-glavno">
-              Moje prijave
-            </Link>
-            <button type="button" className="dugme dugme-sporedno" onClick={novaPrijava}>
-              Nova prijava
-            </button>
+            <p>{NAPOMENA_JAVNOST}</p>
+            {poslana.glavna && (
+              <p>
+                Prijava je povezana s prijavom „{poslana.glavna.naslov}“. Taj problem sada ima{' '}
+                {poslana.glavna.brojPrijavitelja + 1} prijavitelja.
+              </p>
+            )}
+            <div className="obrazac-dugmad">
+              <Link to="/moje-prijave" className="dugme dugme-glavno">
+                Moje prijave
+              </Link>
+              <button type="button" className="dugme dugme-sporedno" onClick={novaPrijava}>
+                Nova prijava
+              </button>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </>
     )
   }
 
   return (
-    <section className="obrazac-stranica">
-      <h1>Prijavi problem</h1>
-      <TrakaKoraka trenutni={korak} />
+    <>
+      <TrakaStranice naslov="Prijavi problem" />
+      <section className="obrazac-stranica">
+        <TrakaKoraka trenutni={korak} />
 
-      <div className="kartica obrazac">
-        <h2 ref={naslovRef} tabIndex={-1} className="naslov-koraka">
-          Korak {korak}: {NASLOVI_KORAKA[korak]}
-        </h2>
+        <div className="kartica obrazac">
+          <h2 ref={naslovRef} tabIndex={-1} className="naslov-koraka">
+            Korak {korak}: {NASLOVI_KORAKA[korak]}
+          </h2>
 
-        {korak === 1 && (
-          <KorakOpis
-            unos={unos}
-            promijeni={promijeni}
-            greske={greske}
-            fotografija={{
-              foto,
-              obrada: fotoObrada,
-              greska: fotoGreska,
-              odaberi: odaberiFotografiju,
-              ukloni: () => postaviFoto(null),
-            }}
-          />
-        )}
+          {korak === 1 && (
+            <KorakOpis
+              unos={unos}
+              promijeni={promijeni}
+              greske={greske}
+              fotografija={{
+                foto,
+                obrada: fotoObrada,
+                greska: fotoGreska,
+                odaberi: odaberiFotografiju,
+                ukloni: () => postaviFoto(null),
+              }}
+            />
+          )}
 
-        {korak === 2 && (
-          <KorakLokacija
-            lokacija={lokacija}
-            postaviLokaciju={(l) => {
-              postaviLokaciju(l)
-              postaviGreske({})
-            }}
-            greska={greske.lokacija}
-          />
-        )}
+          {korak === 2 && (
+            <KorakLokacija
+              lokacija={lokacija}
+              postaviLokaciju={(l) => {
+                postaviLokaciju(l)
+                postaviGreske({})
+              }}
+              greska={greske.lokacija}
+            />
+          )}
 
-        {korak === 3 && (
-          <KorakPregled
-            unos={unos}
-            lokacija={lokacija}
-            foto={foto}
-            ukloniFoto={() => postaviFoto(null)}
-            duplikati={duplikati}
-            idiNaKorak={postaviKorak}
-            posalji={posalji}
-            salje={salje}
-            greska={greskaSlanja}
-          />
-        )}
+          {korak === 3 && (
+            <KorakPregled
+              unos={unos}
+              lokacija={lokacija}
+              foto={foto}
+              ukloniFoto={() => postaviFoto(null)}
+              duplikati={duplikati}
+              idiNaKorak={postaviKorak}
+              posalji={posalji}
+              salje={salje}
+              greska={greskaSlanja}
+            />
+          )}
 
-        {korak < 3 && (
-          <div className="obrazac-dugmad">
-            {korak > 1 && (
-              <button type="button" className="dugme" onClick={() => postaviKorak(korak - 1)}>
-                Nazad
+          {korak < 3 && (
+            <div className="obrazac-dugmad">
+              {korak > 1 && (
+                <button type="button" className="dugme" onClick={() => postaviKorak(korak - 1)}>
+                  Nazad
+                </button>
+              )}
+              <button type="button" className="dugme dugme-glavno" onClick={dalje} disabled={fotoObrada}>
+                Dalje
+                <Ikona ime="strelica" velicina={18} className="ikona-strelica" />
               </button>
-            )}
-            <button type="button" className="dugme dugme-glavno" onClick={dalje} disabled={fotoObrada}>
-              Dalje
-              <Ikona ime="strelica" velicina={18} className="ikona-strelica" />
-            </button>
-          </div>
-        )}
-      </div>
-    </section>
+            </div>
+          )}
+        </div>
+      </section>
+    </>
   )
 }

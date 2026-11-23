@@ -13,6 +13,8 @@ import './styles/tokeni.css'
 import './styles/global.css'
 import './styles/obrazac.css'
 import './styles/admin.css'
+// Zajednički izgled kartica i trake s naslovom stranice – učitava se posljednji.
+import './styles/kartice.css'
 
 // Prije prvog prikaza provjeravamo podatke; ako ih nema, učitavaju se testni podaci.
 inicijalizuj()
