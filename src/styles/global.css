@@ -413,6 +413,9 @@ img {
 .dugme-veliko {
   min-height: 56px;
   padding: 0 1.6rem;
+  /* Isti font kao naslov uvodnog dijela (Sora). */
+  font-family: var(--font-naslov);
+  font-weight: var(--tezina-naslova);
   font-size: 1.05rem;
   text-transform: uppercase;
   letter-spacing: 0.03em;
