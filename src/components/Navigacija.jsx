@@ -7,13 +7,16 @@ import { NavLink } from 'react-router-dom'
 import { useUloga } from '../context/UlogaContext.jsx'
 import Ikona from './Ikona.jsx'
 
+// naziv – puni naziv (zaglavlje na računaru i čitač ekrana)
+// kratko – kraći naziv u zaglavlju na užem računaru (960–1199 px)
+// mobitel – natpis ispod ikone u donjoj traci na mobitelu (odluka mentorice: "Slikaj" i "Prijave")
 const LINKOVI = [
-  { putanja: '/', naziv: 'Početna', kratko: 'Početna', ikona: 'pocetna', uloge: null },
-  { putanja: '/mapa', naziv: 'Mapa', kratko: 'Mapa', ikona: 'mapa', uloge: null },
-  { putanja: '/prijavi', naziv: 'Prijavi problem', kratko: 'Prijavi', ikona: 'prijavi', uloge: ['gradjanin'] },
-  { putanja: '/moje-prijave', naziv: 'Moje prijave', kratko: 'Moje', ikona: 'moje', uloge: ['gradjanin'] },
-  { putanja: '/admin', naziv: 'Administracija', kratko: 'Admin', ikona: 'admin', uloge: ['administrator'] },
-  { putanja: '/o-projektu', naziv: 'O projektu', kratko: 'O projektu', ikona: 'info', uloge: null },
+  { putanja: '/', naziv: 'Početna', kratko: 'Početna', mobitel: 'Početna', ikona: 'pocetna', uloge: null },
+  { putanja: '/mapa', naziv: 'Mapa', kratko: 'Mapa', mobitel: 'Mapa', ikona: 'mapa', uloge: null },
+  { putanja: '/prijavi', naziv: 'Prijavi problem', kratko: 'Prijavi', mobitel: 'Slikaj', ikona: 'prijavi', uloge: ['gradjanin'] },
+  { putanja: '/moje-prijave', naziv: 'Moje prijave', kratko: 'Moje', mobitel: 'Prijave', ikona: 'moje', uloge: ['gradjanin'] },
+  { putanja: '/admin', naziv: 'Administracija', kratko: 'Admin', mobitel: 'Admin', ikona: 'admin', uloge: ['administrator'] },
+  { putanja: '/o-projektu', naziv: 'O projektu', kratko: 'O projektu', mobitel: 'O projektu', ikona: 'info', uloge: null },
 ]
 
 function useVidljiviLinkovi() {
@@ -53,11 +56,18 @@ export function DonjaNavigacija() {
           const istaknuto = link.putanja === '/prijavi'
           return (
             <li key={link.putanja} className={istaknuto ? 'donja-stavka-istaknuta' : undefined}>
-              <NavLink to={link.putanja} end={link.putanja === '/'} className={istaknuto ? 'donje-dugme-kamera' : undefined}>
+              {/* Čitač ekrana čuje natpis i puni naziv (npr. "Slikaj – Prijavi problem"); natpis s ekrana
+                  mora biti dio imena, da i glasovne komande ("klikni Slikaj") rade. */}
+              <NavLink
+                to={link.putanja}
+                end={link.putanja === '/'}
+                className={istaknuto ? 'donje-dugme-kamera' : undefined}
+                aria-label={link.mobitel !== link.naziv ? `${link.mobitel} – ${link.naziv}` : undefined}
+              >
                 <span className={istaknuto ? 'kamera-krug' : undefined}>
                   <Ikona ime={istaknuto ? 'kamera' : link.ikona} velicina={istaknuto ? 26 : 22} />
                 </span>
-                <span>{link.kratko}</span>
+                <span>{link.mobitel}</span>
               </NavLink>
             </li>
           )
