@@ -6,6 +6,7 @@ import OsnovnaMapa from '../components/mapa/OsnovnaMapa.jsx'
 import OznakaPrijave from '../components/mapa/OznakaPrijave.jsx'
 import LegendaFilteri from '../components/mapa/LegendaFilteri.jsx'
 import ToplotniSloj from '../components/mapa/ToplotniSloj.jsx'
+import MojaLokacija from '../components/mapa/MojaLokacija.jsx'
 import StatusOznaka from '../components/StatusOznaka.jsx'
 import KategorijaOznaka from '../components/KategorijaOznaka.jsx'
 import Ikona from '../components/Ikona.jsx'
@@ -26,6 +27,8 @@ export default function Mapa() {
   const [filteriOtvoreni, postaviFiltereOtvorene] = useState(false)
   // Toplotna mapa je isključena dok je korisnik ne uključi.
   const [toplotna, postaviToplotnu] = useState(false)
+  // Poruka o "mojoj lokaciji" (traženje, uspjeh ili zašto GPS ne radi).
+  const [porukaLokacije, postaviPorukuLokacije] = useState(null)
 
   const naMapi = grupisiZaMapu(javne)
   const prikazane = filtrirajPrijave(naMapi, filteri)
@@ -71,10 +74,15 @@ export default function Mapa() {
           <div className="mapa-glavni">
             <OsnovnaMapa centar={CENTAR_MAPE} zoom={13} className="mapa" oznaka="Mapa javnih prijava">
               {toplotna && <ToplotniSloj prijave={prikazane} />}
+              <MojaLokacija naPoruku={postaviPorukuLokacije} />
               {prikazane.map((p) => (
                 <OznakaPrijave key={p.id} prijava={p} />
               ))}
             </OsnovnaMapa>
+            {/* Čitač ekrana pročita poruku čim se promijeni. */}
+            <p className="mapa-poruka-lokacije" aria-live="polite">
+              {porukaLokacije}
+            </p>
             <p className="prigusen mali-tekst">
               Povezane prijave istog problema prikazane su kao jedna oznaka.
               {toplotna &&

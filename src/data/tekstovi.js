@@ -2,7 +2,7 @@
 // Naslov se prikazuje velikim slovima preko CSS-a; drugi red je istaknut limetom.
 
 // Podnaslov aplikacije (objašnjenje imena: eho je glas koji se čuje i na koji stiže odgovor).
-// Prikazuje se uz znak eha ispod glavnog dugmeta na početnoj stranici i u podnožju.
+// Prikazuje se samo uz znak eha ispod glavnog dugmeta na početnoj stranici.
 export const PODNASLOV = 'Glas građana koji se čuje'
 
 export const HERO = {

@@ -2303,20 +2303,6 @@ img {
   }
 }
 
-/* =====================================================================
-   PODNASLOV "Glas građana koji se čuje" u podnožju (ispod dugmeta je .hero-koraci--poruka)
-   ===================================================================== */
-.podnozje .podnozje-podnaslov {
-  margin: 0 0 0.2rem;
-  font-weight: var(--tezina-naslova);
-  color: var(--limeta);
-}
-
-.podnozje .podnozje-slogan {
-  margin: 0;
-  font-size: 0.75rem;
-  color: var(--tekst-na-tamnoj-prigusen);
-}
 
 /* =====================================================================
    ZAGLAVLJE BEZ PRELIJEVANJA (320–1920 px)
@@ -2436,6 +2422,14 @@ img {
    a sama mapa ne hvata klikove (pointer-events: none), osim atribucije OpenStreetMap-a. */
 .mini-mapa {
   position: relative;
+}
+
+/* Dugme se ne pomjera pod mišem ni pri pritisku: pomjeranje (transform) bi smanjilo razvučeni sloj
+   na veličinu dugmeta, pa klik na sliku mape ne bi stigao do linka. */
+.mini-mapa-link,
+.mini-mapa-link:hover,
+.mini-mapa-link:active {
+  transform: none;
 }
 
 .mini-mapa-link::after {
@@ -2728,4 +2722,63 @@ img {
   .hero-napomena {
     color: var(--tekst-na-tamnoj-svijetli);
   }
+}
+
+/* =====================================================================
+   MOJA LOKACIJA NA MAPI
+   ===================================================================== */
+/* Donji desni ugao mape (lako dohvatljivo palcem), iznad atribucije OpenStreetMap-a. */
+.mapa-moja-lokacija {
+  position: absolute;
+  right: 10px;
+  bottom: 30px;
+  z-index: 1000;
+}
+
+.mapa-moja-lokacija button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--min-dugme);
+  height: var(--min-dugme);
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: var(--bijela);
+  color: var(--tamna);
+  cursor: pointer;
+}
+
+.mapa-moja-lokacija button:hover {
+  background: var(--zelena-blijeda-2);
+}
+
+.mapa-moja-lokacija button:disabled {
+  color: var(--tekst-prigusen);
+  cursor: progress;
+}
+
+.moja-lokacija-tacka {
+  fill: var(--moja-lokacija);
+  fill-opacity: 1;
+  stroke: var(--bijela);
+  stroke-width: 3;
+}
+
+.moja-lokacija-krug {
+  fill: var(--moja-lokacija);
+  fill-opacity: 0.12;
+  stroke: var(--moja-lokacija);
+  stroke-opacity: 0.5;
+  stroke-width: 1;
+}
+
+.mapa-poruka-lokacije:empty {
+  display: none;
+}
+
+.mapa-poruka-lokacije {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  color: var(--tekst);
 }

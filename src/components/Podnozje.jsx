@@ -1,9 +1,8 @@
-// Podnožje: logo, podnaslov, slogan i napomena o prototipu. Izvori slika su navedeni na ekranu O projektu.
+// Podnožje: logo, slogan i napomena o prototipu (podnaslov "Glas građana koji se čuje" je samo ispod dugmeta na Početnoj). Izvori slika su navedeni na ekranu O projektu.
 // Nema grba Općine ni linkova na društvene mreže.
 
 import Logo from './Logo.jsx'
 import Talas from './Talas.jsx'
-import { PODNASLOV } from '../data/tekstovi.js'
 
 export default function Podnozje() {
   return (
@@ -12,10 +11,7 @@ export default function Podnozje() {
       <div className="podnozje-sadrzaj">
         <div className="podnozje-red">
           <Logo />
-          <div>
-            <p className="podnozje-podnaslov">{PODNASLOV}</p>
-            <p className="podnozje-slogan">Pametniji grad. Aktivniji građani.</p>
-          </div>
+          <p className="podnozje-slogan">Pametniji grad. Aktivniji građani.</p>
         </div>
         <div className="podnozje-napomene">
           <p>

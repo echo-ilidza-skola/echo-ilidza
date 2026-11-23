@@ -111,6 +111,9 @@
   --toplotna-4: #f2c230;
   --toplotna-5: #e4572e;
 
+  /* ---------- moja lokacija na mapi (plava, da se ne miješa s oznakama prijava) ---------- */
+  --moja-lokacija: #1a73e8;
+
   /* ---------- status kao eho (EhoStatus) ----------
      Na svijetloj podlozi upaljeni luk je tamnozelen (limeta na bijelom nema dovoljan kontrast);
      na tamnoj podlozi (klasa .na-tamnoj) upaljeni luk je limeta. */

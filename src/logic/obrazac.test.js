@@ -150,3 +150,12 @@ describe('GPS poruke', () => {
     expect(porukaGps(GPS_ODBIJENO)).toContain('dozvol')
   })
 })
+
+describe('porukaGps – dodatak za stranicu Mapa', () => {
+  it('na mapi kaže da se mapa može pomjerati ručno (a ne kako odabrati lokaciju)', async () => {
+    const { porukaGps: poruka, DODATAK_ZA_MAPU, GPS_ODBIJENO: odbijeno } = await import('./gps.js')
+    const tekst = poruka(odbijeno, DODATAK_ZA_MAPU)
+    expect(tekst).toContain('pomjerati')
+    expect(tekst).not.toContain('klikom na mapu')
+  })
+})

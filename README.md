@@ -55,7 +55,8 @@ ili `npm run preview`), jer preglednici ne pokreću moderne JavaScript module s 
 
 **Ekrani**
 - **Početna** – predstavljanje, statistika javnih prijava, „Kako funkcioniše“, mini-mapa i posljednje prijave.
-- **Mapa** – odobrene prijave kao oznake (boja = kategorija, oblik = status), legenda, filteri,
+- **Mapa** – odobrene prijave kao oznake (boja = kategorija, značka = status, talasi = više prijavitelja),
+  dugme „Prikaži moju lokaciju“ (GPS uz dozvolu, lokacija se ne sprema), legenda, filteri,
   toplotna mapa i lista prijava (zamjena za mapu za čitače ekrana).
 - **Detalji prijave** – samo javna polja, traka napretka i historija statusa.
 - **Prijavi problem** – 3 koraka: (1) fotografija, naslov, opis, kategorija; (2) lokacija (GPS, klik na
