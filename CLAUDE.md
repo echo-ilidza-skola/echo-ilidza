@@ -72,6 +72,9 @@ Akronim "Every Citizen Has One voice" može se spomenuti samo kao sitni detalj n
   ciklus oko 3,6 s). Gradijent samo kao ukras u uvodnom dijelu i zaglavlju. Izuzetak: tamna sjena
   (--sjena-teksta-na-slici, nije sjaj) na naslovu preko slike na mobitelu, zbog kontrasta.
 - Sve kartice su iste: isti radijus, ista blaga sjenka (--sjena-kartice), isti unutrašnji razmak i naslov.
+- Status prijave se svuda prikazuje kao EhoStatus (tačka i do 4 luka, kao logo) UZ naziv statusa i aria-label;
+  logika (korak statusa, broj lukova za broj prijavitelja) je u src/logic/ehoStatus.js. Na svijetloj podlozi
+  upaljeni luk je tamnozelen (--eho-upaljen), na tamnoj limeta. Na mapi: lukovi lijevo od pina = više prijavitelja.
 - Talasasti prelazi (SVG) između tamnih i svijetlih dijelova stranice, kao na odobrenom mockupu.
 - Pokret (motion): samo CSS i SVG animacije, bez biblioteka; sve animacije su na kraju global.css.
   Sadržaj nikad ne smije ostati sakriven ako se animacija ne pokrene, a uz prefers-reduced-motion

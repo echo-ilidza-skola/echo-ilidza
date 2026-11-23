@@ -68,7 +68,8 @@ export default function AdminPrijava({ prijava, sve, naOdluku }) {
             <span>Id: {id}</span>
           </p>
         </div>
-        <StatusOznaka status={prijava.status} />
+        {/* Kad administrator promijeni status, lukovi eha se upale jedan za drugim (jednom). */}
+        <StatusOznaka status={prijava.status} velicinaEha={26} animacija="pri-promjeni" />
       </header>
 
       <div className="admin-prijava-tijelo">

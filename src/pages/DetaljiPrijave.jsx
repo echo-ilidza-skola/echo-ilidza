@@ -5,12 +5,13 @@ import { Link, useParams } from 'react-router-dom'
 import { Marker } from 'react-leaflet'
 import OsnovnaMapa from '../components/mapa/OsnovnaMapa.jsx'
 import { napraviIkonu } from '../components/mapa/ikonaOznake.js'
-import StatusOznaka from '../components/StatusOznaka.jsx'
 import KategorijaOznaka from '../components/KategorijaOznaka.jsx'
 import Fotografija from '../components/Fotografija.jsx'
-import TrakaNapretka from '../components/TrakaNapretka.jsx'
+import EhoStatus from '../components/EhoStatus.jsx'
+import EhoVremenskaLinija from '../components/EhoVremenskaLinija.jsx'
 import TrakaStranice from '../components/TrakaStranice.jsx'
 import { usePodaci } from '../hooks/usePodaci.js'
+import { nazivStatusa } from '../data/konstante.js'
 import { javnePrijave } from '../data/storage.js'
 import { formatirajDatum } from '../logic/datum.js'
 import { povezanePrijave } from '../logic/mapa.js'
@@ -53,12 +54,20 @@ export default function DetaljiPrijave() {
 
         <div className="detalji-oznake">
           <KategorijaOznaka kategorija={prijava.kategorija} />
-          <StatusOznaka status={prijava.status} />
         </div>
 
-        <div className="kartica">
-          <TrakaNapretka prijava={prijava} />
-        </div>
+        {/* Status kao eho: velika verzija (lukovi se upale jedan za drugim) i historija kao vremenska linija. */}
+        <section className="kartica eho-kartica" aria-labelledby="status-naslov">
+          <div className="eho-kartica-glava">
+            <EhoStatus status={prijava.status} velicina={72} animacija="pri-prikazu" />
+            <div>
+              <h2 id="status-naslov" className="eho-kartica-oznaka">Status prijave</h2>
+              {/* Naziv čitač ekrana već čuje iz znaka eha (aria-label), pa ga ovdje preskače. */}
+              <p className="eho-kartica-naziv" aria-hidden="true">{nazivStatusa(prijava.status)}</p>
+            </div>
+          </div>
+          <EhoVremenskaLinija prijava={prijava} />
+        </section>
 
         <dl className="detalji-polja">
           <dt>Prijavljeno</dt>
@@ -120,18 +129,6 @@ export default function DetaljiPrijave() {
           <p className="prigusen mali-tekst">Lokacija je onakva kakvu je odabrao građanin.</p>
         </section>
 
-        <section className="kartica">
-          <h2>Historija statusa</h2>
-          <ol className="historija">
-            {prijava.historijaStatusa.map((korak, i) => (
-              <li key={i}>
-                <StatusOznaka status={korak.status} />
-                <span className="historija-datum">{formatirajDatum(korak.datum, true)}</span>
-                {korak.napomena && <p className="historija-napomena">{korak.napomena}</p>}
-              </li>
-            ))}
-          </ol>
-        </section>
       </article>
     </>
   )

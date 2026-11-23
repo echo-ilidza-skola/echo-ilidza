@@ -13,13 +13,23 @@ const KRATKI_NAZIVI = {
   ODBIJENO: 'Odbijeno',
 }
 
-// Datum POSLJEDNJEG ulaska u dati status (ili null).
-function datumStatusa(historija, status) {
+// POSLJEDNJI ulazak u dati status iz historije (ili null).
+function zadnjiUlazak(historija, status) {
   const koraci = (historija || []).filter((k) => k.status === status)
-  return koraci.length ? koraci[koraci.length - 1].datum : null
+  return koraci.length ? koraci[koraci.length - 1] : null
 }
 
-// Vraća [{ status, naziv, punNaziv, stanje, datum }]
+// Datum posljednjeg ulaska u dati status (ili null).
+function datumStatusa(historija, status) {
+  return zadnjiUlazak(historija, status)?.datum ?? null
+}
+
+// Napomena uz posljednji ulazak u dati status (ili null).
+function napomenaStatusa(historija, status) {
+  return zadnjiUlazak(historija, status)?.napomena || null
+}
+
+// Vraća [{ status, naziv, punNaziv, stanje, datum, napomena }]
 //   stanje: 'gotov' (prošli korak), 'trenutni', 'buduci' ili 'odbijen'
 // Odbijena prijava ima samo dva koraka: Na čekanju → Odbijeno.
 export function koraciNapretka(prijava) {
@@ -34,6 +44,7 @@ export function koraciNapretka(prijava) {
       naziv: KRATKI_NAZIVI[k.status],
       punNaziv: nazivStatusa(k.status),
       datum: datumStatusa(historija, k.status),
+      napomena: napomenaStatusa(historija, k.status),
     }))
   }
 
@@ -47,6 +58,7 @@ export function koraciNapretka(prijava) {
       stanje,
       // Budući koraci nemaju datum (čak i ako je status nekad ranije bio postavljen pa vraćen).
       datum: stanje === 'buduci' ? null : datumStatusa(historija, status),
+      napomena: stanje === 'buduci' ? null : napomenaStatusa(historija, status),
     }
   })
 }

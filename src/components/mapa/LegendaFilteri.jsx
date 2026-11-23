@@ -4,8 +4,14 @@ import { KATEGORIJE, JAVNI_STATUSI, ZNACKE_STATUSA, nazivStatusa } from '../../d
 import { htmlPina } from './ikonaOznake.js'
 
 // Mala oznaka (isti crtež kao na mapi). HTML je naš, bez teksta korisnika, pa je ubacivanje sigurno.
-function MalaOznaka({ boja, status = null }) {
-  return <span className="legenda-pin" aria-hidden="true" dangerouslySetInnerHTML={{ __html: htmlPina(boja, status) }} />
+function MalaOznaka({ boja, status = null, brojPrijavitelja = 1 }) {
+  return (
+    <span
+      className={brojPrijavitelja > 1 ? 'legenda-pin legenda-pin--talasi' : 'legenda-pin'}
+      aria-hidden="true"
+      dangerouslySetInnerHTML={{ __html: htmlPina(boja, status, brojPrijavitelja) }}
+    />
+  )
 }
 
 // Dodaje vrijednost u listu ili je uklanja iz nje.
@@ -23,7 +29,6 @@ export default function LegendaFilteri({ otvoreno, filteri, promijeniFiltere, po
       <h2 id="legenda-naslov">Legenda i filteri</h2>
       <p className="prigusen mali-tekst">
         Sve oznake imaju isti oblik. Boja oznake je kategorija, a mala značka na oznaci je status.
-        Broj u sredini oznake je broj građana koji su prijavili isti problem.
       </p>
 
       <fieldset>
@@ -59,6 +64,15 @@ export default function LegendaFilteri({ otvoreno, filteri, promijeniFiltere, po
           </label>
         ))}
       </fieldset>
+
+      {/* Objašnjenje lukova eha oko oznake (nije filter). */}
+      <p className="legenda-talasi">
+        <MalaOznaka boja="var(--tekst-prigusen)" brojPrijavitelja={5} />
+        <span>
+          <strong>Talasi oko oznake:</strong> više građana prijavilo je isti problem. Što je talasa više, više je
+          prijavitelja (2–3: jedan, 4–6: dva, 7 i više: tri). Tačan broj piše kad kliknete oznaku.
+        </span>
+      </p>
 
       <button type="button" className="dugme dugme-sporedno" onClick={ponisti}>
         Prikaži sve

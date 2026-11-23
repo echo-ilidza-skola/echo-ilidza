@@ -926,8 +926,10 @@ img {
 
 /* ---------- natpisi statusa i kategorije ---------- */
 .status-natpis {
-  display: inline-block;
-  padding: 0.15rem 0.65rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.1rem 0.65rem 0.1rem 0.35rem;
   border: 1px solid transparent;
   border-radius: 999px;
   font-size: 0.82rem;
@@ -1011,7 +1013,7 @@ img {
   filter: drop-shadow(0 1px 2px rgba(var(--rgb-crna), 0.35));
 }
 
-.pin-oblik path {
+.pin-oblik .pin-tijelo {
   fill: var(--boja-pina);
   stroke: var(--bijela);
   stroke-width: 2.5;
@@ -1024,6 +1026,34 @@ img {
 .pin-broj {
   font: 700 11px var(--font-tekst);
   fill: var(--tamna);
+}
+
+/* Broj prijavitelja (bijeli krug s brojem) vidi se samo na odabranoj oznaci. */
+.pin-sredina--broj,
+.pin-broj {
+  visibility: hidden;
+}
+
+.oznaka-omotac--odabrana .pin-sredina--broj,
+.oznaka-omotac--odabrana .pin-broj {
+  visibility: visible;
+}
+
+/* Mirni lukovi eha oko oznake: više građana je prijavilo isti problem (bez sjaja). */
+.pin-luk,
+.pin-luk-podloga {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.pin-luk-podloga {
+  stroke: var(--bijela);
+  stroke-width: 5;
+}
+
+.pin-luk {
+  stroke: var(--boja-pina);
+  stroke-width: 2.5;
 }
 
 .pin-znacka {
@@ -2483,4 +2513,202 @@ img {
 
 .fotografija-okvir .fotografija-mala {
   margin: 0;
+}
+
+/* =====================================================================
+   STATUS KAO EHO (EhoStatus): tačka i do 4 luka
+   ===================================================================== */
+.eho-status {
+  flex: none;
+  overflow: visible;
+  vertical-align: middle;
+}
+
+.eho-status-luk {
+  fill: none;
+  stroke: var(--eho-ugasen);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+}
+
+.eho-status-luk--upaljen {
+  stroke: var(--eho-upaljen);
+}
+
+.eho-status-tacka {
+  fill: var(--eho-upaljen);
+}
+
+.eho-status-tacka--siva {
+  fill: var(--eho-sivo);
+}
+
+.eho-status-obris {
+  fill: none;
+  stroke: var(--eho-sivo);
+  stroke-width: 1.4;
+  stroke-dasharray: 2.2 2;
+}
+
+.eho-status-x {
+  stroke: var(--bijela);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.eho-status-kvacica circle {
+  fill: var(--eho-upaljen);
+  stroke: var(--bijela);
+  stroke-width: 1.5;
+}
+
+.eho-status-kvacica path {
+  fill: none;
+  stroke: var(--bijela);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Na tamnoj podlozi upaljeni lukovi su limeta. */
+.na-tamnoj {
+  --eho-upaljen: var(--limeta);
+  --eho-ugasen: var(--eho-ugasen-na-tamnoj);
+}
+
+/* Paljenje lukova jedan za drugim (jednom): 4 luka × 0,14 s + 0,22 s = ispod 0,8 s.
+   Bez animacije (ili uz prefers-reduced-motion) lukovi su odmah upaljeni. */
+.eho-status--animiraj .eho-status-luk--upaljen {
+  animation: paljenjeLuka 0.22s ease-out both;
+  animation-delay: calc(var(--i) * 0.14s);
+}
+
+@keyframes paljenjeLuka {
+  from { stroke: var(--eho-ugasen); }
+  to { stroke: var(--eho-upaljen); }
+}
+
+/* ---------- Vremenska linija eha (historija statusa) ---------- */
+.eho-linija {
+  display: grid;
+  grid-template-columns: repeat(var(--broj-koraka), minmax(0, 1fr));
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.eho-linija-korak {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  text-align: center;
+  min-width: 0;
+}
+
+.eho-linija-znak {
+  overflow: visible;
+}
+
+.eho-linija-tacka {
+  fill: var(--eho-upaljen);
+}
+
+.eho-linija-luk {
+  fill: none;
+  stroke: var(--eho-upaljen);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.eho-linija--ugasen {
+  fill: var(--eho-ugasen);
+  stroke: var(--eho-ugasen);
+}
+
+.eho-linija-luk.eho-linija--ugasen {
+  fill: none;
+}
+
+.eho-linija-x circle {
+  fill: var(--eho-sivo);
+}
+
+.eho-linija-x path {
+  stroke: var(--bijela);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.eho-linija-naziv {
+  font-size: 0.8rem;
+  line-height: 1.25;
+  color: var(--tekst-prigusen);
+  overflow-wrap: anywhere;
+}
+
+.eho-linija-korak--gotov .eho-linija-naziv,
+.eho-linija-korak--trenutni .eho-linija-naziv,
+.eho-linija-korak--odbijen .eho-linija-naziv {
+  font-weight: 700;
+  color: var(--tekst);
+}
+
+.eho-linija-datum {
+  font-size: 0.75rem;
+  color: var(--tekst-prigusen);
+}
+
+.eho-linija-napomena {
+  font-size: 0.72rem;
+  line-height: 1.3;
+  color: var(--tekst-prigusen);
+  font-style: italic;
+}
+
+/* ---------- Kartica statusa u detaljima prijave (velika verzija) ---------- */
+.eho-kartica-glava {
+  display: flex;
+  align-items: center;
+  gap: var(--razmak);
+  margin-bottom: var(--razmak);
+}
+
+/* Mali natpis "Status prijave" (h2, ali sitan; jače pravilo od zajedničkog stila naslova kartice). */
+.eho-kartica .eho-kartica-oznaka {
+  margin: 0;
+  font-family: var(--font-tekst);
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: var(--tekst-prigusen);
+}
+
+.eho-kartica-naziv {
+  margin: 0;
+  font-family: var(--font-naslov);
+  font-weight: var(--tezina-naslova);
+  font-size: 1.3rem;
+  line-height: 1.2;
+  color: var(--tamna);
+}
+
+.eho-kartica .eho-linija {
+  padding-top: var(--razmak);
+  border-top: 1px solid var(--linija);
+}
+
+/* Legenda: primjer oznake s talasima eha */
+.legenda-talasi {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin: 0.5rem 0 1rem;
+  font-size: 0.85rem;
+  color: var(--tekst-prigusen);
+}
+
+.legenda-pin--talasi {
+  width: 40px;
+  padding-left: 10px; /* mjesto za talase lijevo od pina */
 }

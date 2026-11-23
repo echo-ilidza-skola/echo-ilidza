@@ -49,3 +49,20 @@ describe('procenatNapretka', () => {
     expect(procenatNapretka({ status: 'ODBIJENO' })).toBe(100)
   })
 })
+
+describe('koraciNapretka – napomena', () => {
+  it('uz korak vraća napomenu posljednjeg ulaska u taj status', () => {
+    const prijava = {
+      status: 'U_OBRADI',
+      historijaStatusa: [
+        { status: 'NA_CEKANJU', datum: '2026-11-01T10:00:00Z' },
+        { status: 'ZAPRIMLJENO', datum: '2026-11-02T10:00:00Z', napomena: 'Provjereno.' },
+        { status: 'U_OBRADI', datum: '2026-11-03T10:00:00Z' },
+      ],
+    }
+    const koraci = koraciNapretka(prijava)
+    expect(koraci[1].napomena).toBe('Provjereno.')
+    expect(koraci[2].napomena).toBe(null)
+    expect(koraci[3].napomena).toBe(null)
+  })
+})

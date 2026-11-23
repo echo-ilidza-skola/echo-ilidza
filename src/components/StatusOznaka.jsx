@@ -1,7 +1,16 @@
-// Natpis statusa. Naziv dolazi iz konstanti, pa "Proslijeđeno službi" UVIJEK nosi "(simulacija)".
+// Natpis statusa: znak eha (EhoStatus) i naziv statusa. Naziv dolazi iz konstanti,
+// pa "Proslijeđeno službi" UVIJEK nosi "(simulacija)".
+// Status se nikad ne prikazuje samo crtežom – naziv je uvijek vidljiv uz znak eha.
+// Čitač ekrana pročita opis znaka (npr. "Status: U obradi, korak 2 od 4"), pa vidljivi naziv preskače.
 
+import EhoStatus from './EhoStatus.jsx'
 import { nazivStatusa } from '../data/konstante.js'
 
-export default function StatusOznaka({ status }) {
-  return <span className={`status-natpis status-natpis--${status.toLowerCase()}`}>{nazivStatusa(status)}</span>
+export default function StatusOznaka({ status, velicinaEha = 22, animacija = 'ne' }) {
+  return (
+    <span className={`status-natpis status-natpis--${status.toLowerCase()}`}>
+      <EhoStatus status={status} velicina={velicinaEha} animacija={animacija} />
+      <span aria-hidden="true">{nazivStatusa(status)}</span>
+    </span>
+  )
 }

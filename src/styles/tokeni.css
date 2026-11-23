@@ -111,6 +111,14 @@
   --toplotna-4: #f2c230;
   --toplotna-5: #e4572e;
 
+  /* ---------- status kao eho (EhoStatus) ----------
+     Na svijetloj podlozi upaljeni luk je tamnozelen (limeta na bijelom nema dovoljan kontrast);
+     na tamnoj podlozi (klasa .na-tamnoj) upaljeni luk je limeta. */
+  --eho-upaljen: var(--primarna);
+  --eho-ugasen: #c4d1cb;
+  --eho-sivo: #7d8a85;
+  --eho-ugasen-na-tamnoj: rgba(255, 255, 255, 0.22);
+
   /* ---------- sjenke (kartice) ---------- */
   --sjena-kartice: 0 6px 22px rgba(var(--rgb-tamna), 0.07);
   --sjena-kartice-hover: 0 12px 30px rgba(var(--rgb-tamna), 0.12);
