@@ -12,12 +12,13 @@ import { useEffect, useRef, useState } from 'react'
 import { BROJ_LUKOVA, ehoZaStatus, opisEha } from '../logic/ehoStatus.js'
 import { useJezik } from '../jezik/JezikContext.jsx'
 
-const TACKA = { x: 9, y: 16 }
-const POLUPRECNICI = [7, 12, 17, 22]
+// Isti crtež koristi i vremenska linija statusa (EhoVremenskaLinija.jsx).
+export const TACKA = { x: 9, y: 16 }
+export const POLUPRECNICI = [7, 12, 17, 22]
 const UGAO = (42 * Math.PI) / 180
 
 // Luk oko tačke (dio kruga od -42° do +42°, otvoren udesno).
-function putanjaLuka(r) {
+export function putanjaLuka(r) {
   const x = TACKA.x + r * Math.cos(UGAO)
   const dy = r * Math.sin(UGAO)
   return `M${x.toFixed(2)} ${(TACKA.y - dy).toFixed(2)} A${r} ${r} 0 0 1 ${x.toFixed(2)} ${(TACKA.y + dy).toFixed(2)}`

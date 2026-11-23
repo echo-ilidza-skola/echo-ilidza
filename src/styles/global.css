@@ -2527,17 +2527,17 @@ img {
 .eho-linija-luk {
   fill: none;
   stroke: var(--eho-upaljen);
-  stroke-width: 3;
+  stroke-width: 2.6;
   stroke-linecap: round;
 }
 
-.eho-linija--ugasen {
+/* Korak koji još nije dostignut: sivi crtež. */
+.eho-linija--ugasen .eho-linija-tacka {
   fill: var(--eho-ugasen);
-  stroke: var(--eho-ugasen);
 }
 
-.eho-linija-luk.eho-linija--ugasen {
-  fill: none;
+.eho-linija--ugasen .eho-linija-luk {
+  stroke: var(--eho-ugasen);
 }
 
 .eho-linija-x circle {
@@ -2554,7 +2554,7 @@ img {
   font-size: 0.8rem;
   line-height: 1.25;
   color: var(--tekst-prigusen);
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word; /* lomi se između riječi, ne usred riječi */
 }
 
 .eho-linija-korak--gotov .eho-linija-naziv,
@@ -2913,5 +2913,38 @@ img {
     top: calc(max(var(--visina-slike), calc(var(--vrh-naslova, 0px) + var(--preklop-naslova) / 2)) * 0.6);
     -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 45%);
     mask-image: linear-gradient(180deg, transparent 0%, #000 45%);
+  }
+}
+
+/* =====================================================================
+   MOBITEL: VREMENSKA LINIJA STATUSA JEDAN KORAK ISPOD DRUGOG
+   Pet kolona je preusko za nazive koraka (lomili su se usred riječi), pa na mobitelu svaki korak
+   ima svoj red: znak signala lijevo, naziv u sredini, datum desno, napomena ispod naziva.
+   ===================================================================== */
+@media (max-width: 639px) {
+  .eho-linija {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.3rem;
+  }
+
+  .eho-linija-korak {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    column-gap: 0.6rem;
+    align-items: center;
+    text-align: left;
+  }
+
+  .eho-linija-naziv {
+    font-size: 0.9rem;
+  }
+
+  .eho-linija-datum {
+    justify-self: end;
+    white-space: nowrap;
+  }
+
+  .eho-linija-napomena {
+    grid-column: 2 / -1;
   }
 }

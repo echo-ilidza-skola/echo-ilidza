@@ -7,24 +7,27 @@ import { koraciNapretka } from '../logic/napredak.js'
 import { formatirajDatum } from '../logic/datum.js'
 import { napomenaZaPrikaz } from '../logic/administracija.js'
 import { useJezik } from '../jezik/JezikContext.jsx'
+import { TACKA, POLUPRECNICI, putanjaLuka } from './EhoStatus.jsx'
 
-// Mali crtež koraka: tačka (početak), luk (koraci 1–4) ili x (odbijeno).
+// Mali crtež koraka, kao logo: tačka i onoliko lukova koliko je redni broj koraka
+// (Na čekanju samo tačka, Zaprimljeno 1 luk … Riješeno 4 luka). Dostignut korak je upaljen.
+// Odbijena prijava: siva tačka s x.
 function ZnakKoraka({ redniBroj, stanje, status }) {
-  const upaljen = stanje !== 'buduci'
+  const klasa = stanje === 'buduci' ? 'eho-linija--ugasen' : 'eho-linija--upaljen'
   return (
-    <svg className="eho-linija-znak" viewBox="0 0 24 32" width="24" height="32" aria-hidden="true">
+    <svg className="eho-linija-znak" viewBox="0 0 34 32" width="34" height="32" aria-hidden="true">
       {status === 'ODBIJENO' ? (
         <g className="eho-linija-x">
-          <circle cx="12" cy="16" r="7" />
-          <path d="M9 13l6 6M15 13l-6 6" />
+          <circle cx={TACKA.x} cy={TACKA.y} r="7" />
+          <path d={`M${TACKA.x - 3} ${TACKA.y - 3}l6 6M${TACKA.x + 3} ${TACKA.y - 3}l-6 6`} />
         </g>
-      ) : redniBroj === 0 ? (
-        <circle cx="12" cy="16" r="5" className={upaljen ? 'eho-linija-tacka' : 'eho-linija-tacka eho-linija--ugasen'} />
       ) : (
-        <path
-          d="M8 4.5A14 14 0 0 1 8 27.5"
-          className={upaljen ? 'eho-linija-luk' : 'eho-linija-luk eho-linija--ugasen'}
-        />
+        <g className={klasa}>
+          <circle cx={TACKA.x} cy={TACKA.y} r="4.5" className="eho-linija-tacka" />
+          {POLUPRECNICI.slice(0, redniBroj).map((r) => (
+            <path key={r} d={putanjaLuka(r)} className="eho-linija-luk" />
+          ))}
+        </g>
       )}
     </svg>
   )
