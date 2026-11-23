@@ -22,8 +22,9 @@ Ime dolazi od eha: građanin pošalje prijavu (glas), a status prijave mu „odg
 4. [Ograničenja (važno!)](#ograničenja-važno)
 5. [GPS i HTTPS](#gps-i-https)
 6. [Objava na GitHub Pages](#objava-na-github-pages)
-7. [Testovi](#testovi)
-8. [Izvori i licence](#izvori-i-licence)
+7. [Vraćanje na prethodnu verziju](#vraćanje-na-prethodnu-verziju)
+8. [Testovi](#testovi)
+9. [Izvori i licence](#izvori-i-licence)
 
 ---
 
@@ -158,6 +159,66 @@ Aplikacija je pripremljena za GitHub Pages: koristi `HashRouter` (adrese `…/#/
 
 **Napomena prije objave:** repozitorij će biti javan ako ga tako napravite. U njemu nema ličnih podataka
 (svi podaci su testni), ali provjerite da u `src/assets/` nema fotografija koje ne smiju biti javne.
+
+---
+
+## Vraćanje na prethodnu verziju
+
+Verzija koja je bila objavljena prije dorada sačuvana je pod oznakom (tagom) **`v1.0-prije-dorada`**,
+lokalno i na GitHubu. Dorade se rade na posebnoj grani **`dorade`**.
+
+**Kako se objavljuje:** stranicu objavljuje GitHub Actions (`.github/workflows/objava.yml`), i to
+**samo** kad se kod pošalje na granu `main` (ili kad se radni tok ručno pokrene na GitHubu).
+Rad na grani `dorade`, pa čak i njeno slanje na GitHub, NE mijenja objavljenu stranicu.
+Ne koristi se grana `gh-pages`.
+
+### 1. Pregled izmjena lokalno (prije objave)
+Na grani `dorade`:
+```powershell
+git switch dorade
+npm run dev
+```
+Aplikacija se otvori na `http://localhost:5173/`.
+
+Za pregled na mobitelu u istoj Wi-Fi mreži:
+```powershell
+npm run dev -- --host
+```
+Na mobitelu otvorite adresu koju ispiše Vite (npr. `http://192.168.1.20:5173/`).
+**GPS tada ne radi**, jer preglednik dozvoljava lokaciju samo na HTTPS-u ili na `localhost`-u
+(vidi [GPS i HTTPS](#gps-i-https)). To nije greška aplikacije; lokacija se može odabrati ručno na mapi.
+
+### 2. Odustajanje od izmjena prije objave
+Ako se dorade ne svide, a još nisu objavljene, vratite se na glavnu granu i obrišite granu dorade:
+```powershell
+git switch main
+git branch -D dorade
+```
+Ako je grana `dorade` bila poslana na GitHub, obrišite je i tamo:
+```powershell
+git push origin --delete dorade
+```
+Objavljena stranica se pritom ne mijenja.
+
+### 3. Vraćanje objavljene stranice na `v1.0-prije-dorada`
+Ako su dorade objavljene (spojene u `main`), a ne svide se, glavna grana se vraća na stari sadržaj
+novim commitom (historija se ne briše, pa se dorade kasnije mogu ponovo vratiti):
+```powershell
+git switch main
+git pull
+git restore --source=v1.0-prije-dorada --staged --worktree -- .
+git commit -m "Vraćena verzija v1.0-prije-dorada"
+git push origin main
+```
+Slanje na `main` automatski pokreće objavu; za par minuta stranica izgleda kao verzija `v1.0-prije-dorada`.
+Napredak se vidi na GitHubu, na kartici **Actions**.
+
+Starija verzija se uvijek može i samo pogledati lokalno, bez ikakve promjene objave:
+```powershell
+git switch --detach v1.0-prije-dorada
+npm run dev
+git switch main
+```
 
 ---
 
