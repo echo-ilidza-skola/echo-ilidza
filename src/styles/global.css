@@ -491,7 +491,7 @@ img {
   margin: 0;
   font-size: clamp(2.3rem, 10.5vw, 4.6rem);
   font-weight: var(--tezina-naslova);
-  line-height: 0.98;
+  line-height: 1.1; /* malo razmaka između "VIDIŠ PROBLEM?" i "POKRENI PROMJENU." */
   letter-spacing: -0.02em;
   text-transform: uppercase;
   color: var(--tekst-na-tamnoj);
@@ -2209,7 +2209,7 @@ img {
        bez pomjeranja stanu naslov, opis, dugme i statistika). */
     --velicina-naslova-hero: clamp(1.85rem, 8.2vw, 3.6rem);
     /* Preko slike ide samo prvi red naslova ("VIDIŠ PROBLEM?"). */
-    --preklop-naslova: calc(0.98 * var(--velicina-naslova-hero) + 0.3rem);
+    --preklop-naslova: calc(1.1 * var(--velicina-naslova-hero) + 0.3rem);
   }
 
   .hero-naslov {
@@ -2821,4 +2821,51 @@ img {
 .izbor-jezika button[aria-pressed='true'] {
   color: var(--tamna);
   background: var(--limeta);
+}
+
+/* =====================================================================
+   MOBITEL: visina zaglavlja kao ranije i statistika u jednom redu
+   ===================================================================== */
+@media (max-width: 959px) {
+  /* Zaglavlje iste visine kao prije (dok je ispod uloge bio natpis), da uvodni dio ne "poskoči" gore. */
+  .zaglavlje-sadrzaj {
+    min-height: 70px;
+  }
+}
+
+/* Na uskom mobitelu je statistika u jednom redu (ikona lijevo, broj i naziv desno), kao na računaru.
+   Tako je upola niža i cijela stane iznad donje trake i na telefonima kojima preglednik
+   zauzme dio ekrana (adresna traka i sistemska dugmad). */
+@media (max-width: 639px) {
+  .statistika-traka {
+    margin-top: 1.25rem;
+    padding: 0.6rem 0.25rem;
+  }
+
+  .stat {
+    flex-direction: row;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0 0.3rem;
+    text-align: left;
+  }
+
+  .stat-ikona {
+    width: 32px;
+    height: 32px;
+  }
+
+  .stat-ikona svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .stat-broj {
+    font-size: 1.3rem;
+  }
+
+  .stat-naziv {
+    font-size: 0.72rem;
+    line-height: 1.2;
+  }
 }
