@@ -4,7 +4,6 @@
 import { Link } from 'react-router-dom'
 import Ikona from '../components/Ikona.jsx'
 import { PRAG_DUPLIKATA_M } from '../data/konstante.js'
-import { TESTNE_FOTOGRAFIJE } from '../data/testneFotografije.js'
 import { OZNAKA_PRAVILA } from '../components/prijava/PrijedlogKategorije.jsx'
 
 function Odjeljak({ ikona, naslov, children }) {
@@ -103,7 +102,7 @@ export default function OProjektu() {
         </p>
       </Odjeljak>
 
-      <Odjeljak ikona="moje" naslov="Šta je javno, a šta nije">
+      <Odjeljak ikona="moje" naslov="Šta je javno, a šta nije?">
         <ul>
           <li>Nova prijava i njena fotografija postaju javne tek kad ih administrator provjeri i odobri.</li>
           <li>Odbijena prijava nije javna; razlog odbijanja vidi samo autor u „Mojim prijavama“.</li>
@@ -112,7 +111,7 @@ export default function OProjektu() {
         </ul>
       </Odjeljak>
 
-      <Odjeljak ikona="podaci" naslov="Gdje su podaci">
+      <Odjeljak ikona="podaci" naslov="Gdje su podaci?">
         <ul>
           <li>
             <strong>Podaci postoje samo u ovom pregledniku, na ovom uređaju.</strong> Nema zajedničke baze: prijava
@@ -129,7 +128,7 @@ export default function OProjektu() {
         </ul>
       </Odjeljak>
 
-      <Odjeljak ikona="mapa" naslov="Kada radi GPS">
+      <Odjeljak ikona="mapa" naslov="Kada radi GPS?">
         <ul>
           <li>
             GPS („Koristi moju lokaciju“) radi samo na <strong>sigurnoj adresi</strong> – https:// (npr. GitHub Pages)
@@ -149,7 +148,7 @@ export default function OProjektu() {
         </ul>
       </Odjeljak>
 
-      <Odjeljak ikona="admin" naslov="Kako bi radila stvarna verzija">
+      <Odjeljak ikona="admin" naslov="Kako bi radila stvarna verzija?">
         <p>
           Ovaj prototip namjerno nema prijavu korisnika: bez servera bi to bila lažna zaštita, a učenici ne trebaju
           ostavljati e-mailove ni lozinke. Kad bi ECHO jednog dana stvarno radio, predlažemo:
@@ -176,30 +175,6 @@ export default function OProjektu() {
           <li>
             U ovom školskom prototipu administratore glume mentorica i učenici – „dežurni moderatori“.
           </li>
-        </ul>
-      </Odjeljak>
-
-      <Odjeljak ikona="info" naslov="Zahvale i izvori">
-        <ul>
-          <li>
-            Mapa: ©{' '}
-            <a href="https://www.openstreetmap.org/copyright">saradnici OpenStreetMap-a</a>, prikaz pomoću biblioteke
-            Leaflet; toplotna mapa pomoću dodatka Leaflet.heat (licenca BSD).
-          </li>
-          <li>Slika na početnoj stranici je ilustracija generisana pomoću AI, a ne stvarna fotografija Ilidže.</li>
-          <li>
-            Fotografije uz testne prijave nisu snimljene u Ilidži – to su slobodne fotografije s Wikimedia Commonsa,
-            koje će zamijeniti fotografije učenika:
-            <ul className="mali-tekst">
-              {Object.values(TESTNE_FOTOGRAFIJE).map((f) => (
-                <li key={f.izvor}>
-                  <a href={f.izvor}>{f.autor}</a>, {f.licenca}
-                </li>
-              ))}
-            </ul>
-          </li>
-          <li>Font naslova: Montserrat (licenca SIL Open Font License).</li>
-          <li>Izrađeno u React-u i Vite-u; ikone i znak eha su nacrtani posebno za ovaj projekat.</li>
         </ul>
       </Odjeljak>
 
