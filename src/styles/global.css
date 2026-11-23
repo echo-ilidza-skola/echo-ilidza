@@ -202,60 +202,6 @@ img {
   color: var(--tekst-na-tamnoj-prigusen);
 }
 
-/* ---------- prekidač demo uloge ---------- */
-.prekidac-uloge {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.2rem;
-}
-
-.prekidac-polje {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.prekidac-ikona {
-  position: absolute;
-  left: 0.85rem;
-  color: var(--limeta);
-  pointer-events: none;
-}
-
-.prekidac-uloge select {
-  min-height: var(--min-dugme);
-  padding: 0 2.2rem 0 2.4rem;
-  font: inherit;
-  font-weight: 600;
-  color: var(--tekst-na-tamnoj);
-  background: transparent
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23b4f04a' stroke-width='2'/%3E%3C/svg%3E")
-    no-repeat right 0.85rem center;
-  border: 1.5px solid var(--linija-na-tamnoj-jaca);
-  border-radius: 999px;
-  appearance: none;
-  cursor: pointer;
-}
-
-.prekidac-uloge select:hover {
-  border-color: var(--limeta);
-}
-
-.prekidac-uloge select option {
-  color: var(--tekst);
-  background: var(--bijela);
-}
-
-.prekidac-napomena {
-  margin: 0;
-  font-size: 0.72rem;
-  line-height: 1.2;
-  text-align: right;
-  color: var(--tekst-na-tamnoj-prigusen);
-  max-width: 13rem;
-}
-
 /* ---------- navigacija u zaglavlju (od širine računara) ---------- */
 .navigacija {
   display: none;
@@ -1954,13 +1900,6 @@ img {
     border-left: 1px solid var(--linija-na-tamnoj);
   }
 
-  /* Napomena uz demo ulogu u jednom, diskretnom redu. */
-  .prekidac-napomena {
-    max-width: none;
-    white-space: nowrap;
-    opacity: 0.85;
-  }
-
   /* Početna: zaglavlje je poluprovidno i leži preko slike, pa se planine vide ispod navigacije. */
   .zaglavlje--preko-slike {
     background: linear-gradient(180deg, rgba(var(--rgb-tamna-duboka), 0.92) 0%, rgba(var(--rgb-tamna-duboka), 0.62) 100%);
@@ -2159,10 +2098,6 @@ img {
   font-size: 1.55rem;
 }
 
-.prekidac-uloge {
-  gap: 0.05rem;
-}
-
 /* Poruka ispod dugmeta (uz znak eha) umjesto "Primijeti · Prijavi · Prati". */
 .hero-koraci--poruka {
   margin-top: 1.1rem;
@@ -2352,10 +2287,6 @@ img {
     padding-left: 0.75rem;
   }
 
-  .zaglavlje .prekidac-napomena {
-    max-width: 9.5rem;
-    white-space: normal;
-  }
 }
 
 /* Najuži mobiteli (do 359 px): malo manji logo i prekidač uloge, da sve stane u jedan red. */
@@ -2368,10 +2299,6 @@ img {
     font-size: 1.3rem;
   }
 
-  .prekidac-uloge select {
-    padding-left: 2.1rem;
-    padding-right: 1.9rem;
-  }
 }
 
 /* Kolone se smiju suziti ispod širine najduže riječi (inače kartice izlaze van uskog ekrana).
@@ -2392,28 +2319,6 @@ img {
   }
 }
 
-/* Mali potpis na slici: "Ilustracija (AI)" (gornji desni ugao slike). */
-.hero-oznaka-ai {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  z-index: 2;
-  padding: 0.15rem 0.55rem;
-  font-size: 0.7rem;
-  line-height: 1.4;
-  color: var(--tekst-na-tamnoj-svijetli);
-  background: rgba(var(--rgb-tamna-duboka), 0.7);
-  border-radius: var(--radius-pun);
-  pointer-events: none;
-}
-
-/* Na računaru je vrh slike ispod providnog zaglavlja, pa potpis ide odmah ispod zaglavlja. */
-@media (min-width: 960px) {
-  .hero-oznaka-ai {
-    top: calc(var(--visina-zaglavlja, 70px) + 0.6rem);
-    right: 1rem;
-  }
-}
 
 /* =====================================================================
    MINI-MAPA NA POČETNOJ (prava Leaflet mapa, samo za gledanje)
@@ -2781,4 +2686,99 @@ img {
   margin: 0.5rem 0 0;
   font-size: 0.9rem;
   color: var(--tekst);
+}
+
+/* =====================================================================
+   PREKIDAČ DEMO ULOGE: ikona osobe i mali meni
+   ===================================================================== */
+.prekidac-uloge {
+  position: relative;
+}
+
+.prekidac-dugme {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--min-dugme);
+  height: var(--min-dugme);
+  padding: 0;
+  color: var(--limeta);
+  background: transparent;
+  border: 1.5px solid var(--linija-na-tamnoj-jaca);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.prekidac-dugme:hover,
+.prekidac-dugme[aria-expanded='true'] {
+  border-color: var(--limeta);
+  background: var(--tamna-2);
+}
+
+.meni-uloge {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  z-index: 50;
+  width: 15rem;
+  padding: 0.75rem;
+  color: var(--tekst);
+  background: var(--bijela);
+  border: 1px solid var(--linija);
+  border-radius: var(--radius-m);
+  box-shadow: var(--sjena-kartice-hover);
+}
+
+.meni-uloge-naslov {
+  margin: 0 0 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tekst-prigusen);
+}
+
+.meni-uloge ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.meni-uloge li button {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  min-height: var(--min-dugme);
+  padding: 0 0.5rem;
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  color: var(--tekst);
+  background: none;
+  border: none;
+  border-radius: var(--radius-s);
+  cursor: pointer;
+}
+
+.meni-uloge li button:hover {
+  background: var(--zelena-blijeda-2);
+}
+
+.meni-uloge li button[aria-pressed='true'] {
+  color: var(--primarna-tamna);
+}
+
+.meni-uloge-kvacica {
+  display: inline-flex;
+  width: 16px;
+}
+
+.meni-uloge-napomena {
+  margin: 0.5rem 0 0;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--linija);
+  font-size: 0.75rem;
+  line-height: 1.35;
+  color: var(--tekst-prigusen);
 }

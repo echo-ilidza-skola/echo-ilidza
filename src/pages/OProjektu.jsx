@@ -51,12 +51,13 @@ export default function OProjektu() {
               (simulacija)“ je samo simulacija – nijedna služba ne dobija prijavu.
             </li>
             <li>Nema servera, nema korisničkih računa, nema analitike ni praćenja korisnika.</li>
+            <li>Slika na početnoj stranici je privremena ilustracija napravljena pomoću AI, a ne fotografija Ilidže.</li>
           </ul>
         </Odjeljak>
 
         <Odjeljak ikona="admin" naslov="Demo uloge nisu prijava korisnika">
           <p>
-            Prekidač „Demo uloga: Gost / Građanin / Administrator“ u zaglavlju služi samo da se pokaže kako aplikacija
+            Ikona osobe u zaglavlju (meni „Demo uloga“: Gost / Građanin / Administrator) služi samo da se pokaže kako aplikacija
             izgleda iz različitih uglova. <strong>To nije prijava korisnika ni zaštita podataka</strong> – svako može
             odabrati bilo koju ulogu, pa i „Administrator“.
           </p>

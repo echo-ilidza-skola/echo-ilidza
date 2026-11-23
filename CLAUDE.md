@@ -10,9 +10,9 @@ Akronim "Every Citizen Has One voice" može se spomenuti samo kao sitni detalj n
 
 ## Nepregovorna pravila
 1. Aplikacija NIKAD ne komunicira s Općinom ni sa bilo kojom institucijom i to nigdje ne sugeriše.
-2. Svi podaci su testni. To se vidi na SVAKOM ekranu: u zaglavlju uz prekidač uloge piše
-   „Demo verzija · testni podaci“, a podnožje kaže da je ovo školski prototip s testnim podacima.
-   (Mentorica je uklonila posebnu traku na vrhu ekrana.)
+2. Svi podaci su testni. To se vidi na SVAKOM ekranu: podnožje kaže da je ovo školski prototip s testnim
+   podacima (na Početnoj i ispod glavnog dugmeta). Mentorica je uklonila traku na vrhu ekrana i natpis
+   „Demo verzija · testni podaci“ uz prekidač uloge.
 3. Status "Proslijeđeno službi" uvijek nosi oznaku "(simulacija)".
 4. Prijedlozi kategorije i prioriteta su PRAVILA, ne AI. U UI uvijek piše:
    "Prijedlog na osnovu ključnih riječi (pravila, ne AI)". Aplikacija nikad ne tvrdi da je analizirala fotografiju.
@@ -23,14 +23,15 @@ Akronim "Every Citizen Has One voice" može se spomenuti samo kao sitni detalj n
 9. Ne preuzimaj slike s interneta bez odobrenja mentorice. Odobreni izuzeci (izvori u `src/assets/IZVORI.md`;
    odjeljak „Zahvale i izvori“ na ekranu O projektu mentorica je privremeno uklonila, ne vraćaj ga bez pitanja):
    - slika za hero dio (`src/assets/hero-ilidza-ai.jpg`), AI ilustracija koju je napravila mentorica
-     (na samoj slici u uglu piše „Ilustracija (AI)“);
+     (to piše na ekranu O projektu; mentorica je uklonila natpis na samoj slici jer će sliku zamijeniti);
    - fotografije nekih testnih prijava (folder `src/assets/testne-fotografije/`, spisak `spisak.js` u istom
      folderu – jedan red po prijavi; u aplikaciji uz njih piše „Testna fotografija“):
      slobodne licence s Wikimedia Commonsa, bez lica i registarskih oznaka, uz autora i licencu.
    Sve su privremene – zamijenit će ih fotografije koje snime učenici. Ostale testne prijave koriste ikonu kategorije.
-10. Demo uloge (Gost / Građanin / Administrator) NISU prijava korisnika ni zaštita podataka. Uz prekidač
-    vidljivo piše „Demo verzija“ (odluka mentorice), a puna napomena je u oblačiću i za čitač ekrana;
-    detaljno objašnjenje je na ekranu O projektu i na ekranima za koje treba druga uloga.
+10. Demo uloge (Gost / Građanin / Administrator) NISU prijava korisnika ni zaštita podataka. Prekidač je
+    diskretna ikona osobe (odluka mentorice) koja otvara meni „Demo uloga“; u meniju piše da to nije prijava
+    korisnika, ikona ima oblačić i natpis za čitač ekrana „Demo uloga: …“; detaljno objašnjenje je na ekranu
+    O projektu i na ekranima za koje treba druga uloga.
 11. Nikad ne prikazuj nedovršenu ili neprovjerenu funkciju kao završenu. Greške i ograničenja se navode, ne skrivaju.
 
 ## Tehnologije

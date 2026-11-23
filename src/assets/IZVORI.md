@@ -8,8 +8,7 @@
   Original se čuva u folderu `slike-original/` (nije u gitu).
 - Napomena: privremena ilustracija; zamijenit će je fotografija koju snime učenici.
 
-Oznaka da je ovo „ilustracija generisana pomoću AI“ bila je na ekranu O projektu (odjeljak „Zahvale i izvori“).
-Taj odjeljak je mentorica privremeno uklonila 23. 11. 2026., pa se izvori trenutno navode samo u ovom fajlu.
+Da je ovo AI ilustracija, a ne fotografija Ilidže, piše na ekranu O projektu (odjeljak „Ovo je demonstracija“).
 
 ## Ranije korištena slika (uklonjena)
 - „Ilidža.jpg“, Petr Kraumann, Wikimedia Commons, CC BY 3.0 – korištena do 21. 11. 2026., više nije u projektu.

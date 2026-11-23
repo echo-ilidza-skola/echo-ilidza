@@ -32,8 +32,6 @@ export default function Pocetna() {
           <div className="hero-zatamnjenje" />
           <HeroSignali />
         </div>
-        {/* Slika je AI ilustracija, ne fotografija Ilidže – to se vidi i na samoj slici. */}
-        <span className="hero-oznaka-ai">Ilustracija (AI)</span>
 
         <div className="hero-sadrzaj">
           <div className="hero-tekst">
