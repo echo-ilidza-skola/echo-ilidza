@@ -8,7 +8,8 @@
 
 import { useManjePokreta } from '../hooks/useManjePokreta.js'
 import { useSirokEkran } from '../hooks/useSirokEkran.js'
-import { useVidljiviVrhSlike } from '../hooks/useVidljiviVrhSlike.js'
+import { useHeroGeometrija } from '../hooks/useHeroGeometrija.js'
+import { rasporediOznake } from '../logic/heroSlika.js'
 
 // Sredina fontane na slici hero-ilidza-ai.jpg (u pikselima slike).
 const FONTANA = { x: 1003, y: 716 }
@@ -55,13 +56,18 @@ function Oznaka({ x, y, mjerilo, glavna, kasnjenje }) {
 export default function HeroSignali() {
   const manjePokreta = useManjePokreta()
   const sirokEkran = useSirokEkran()
-  // Ref na SVG i prvi red slike koji se vidi ispod zaglavlja.
-  const [svgRef, vidljiviVrh] = useVidljiviVrhSlike()
+  // Ref na SVG, prvi red slike ispod zaglavlja i mjesto teksta na slici.
+  const [svgRef, { vidljiviVrh, tekst }] = useHeroGeometrija()
   // Na računaru je slika veća, pa su oznake manje da ne dominiraju slikom.
   const mjeriloOznake = sirokEkran ? 0.95 : 1.7
-  // Oznaka mora cijela stati ispod zaglavlja (visina pina, krug eha i mali razmak).
-  const najvisiVrhOznake = vidljiviVrh + VISINA_PINA * mjeriloOznake + 20
-  const oznake = OZNAKE.map((o) => ({ x: o.x, y: Math.max(o.y, najvisiVrhOznake) }))
+  // Oznake su cijele ispod zaglavlja i nikad ne stoje preko teksta (vidi rasporediOznake).
+  const oznake = rasporediOznake(OZNAKE, {
+    najvisiVrh: vidljiviVrh + VISINA_PINA * mjeriloOznake + 20,
+    tekst,
+    sirinaOznake: 32 * mjeriloOznake,
+    visinaOznake: VISINA_PINA * mjeriloOznake,
+    razmak: 24,
+  })
   const mjeriloGlavne = sirokEkran ? 1.7 : 3.1
   // Sjaj i prstenovi oko fontane: na računaru manji (umanjeni oko središta fontane).
   const mjeriloFontane = sirokEkran ? 0.7 : 1

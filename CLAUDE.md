@@ -22,7 +22,8 @@ Akronim "Every Citizen Has One voice" može se spomenuti samo kao sitni detalj n
 8. Nema pozadinskog servera, nema API ključeva, nema vanjskih AI servisa, nema analitike ni praćenja.
 9. Ne preuzimaj slike s interneta bez odobrenja mentorice. Odobreni izuzeci (izvori u `src/assets/IZVORI.md`;
    odjeljak „Zahvale i izvori“ na ekranu O projektu mentorica je privremeno uklonila, ne vraćaj ga bez pitanja):
-   - slika za hero dio (`src/assets/hero-ilidza-ai.jpg`), AI ilustracija koju je napravila mentorica;
+   - slika za hero dio (`src/assets/hero-ilidza-ai.jpg`), AI ilustracija koju je napravila mentorica
+     (na samoj slici u uglu piše „Ilustracija (AI)“);
    - fotografije nekih testnih prijava (`src/assets/testne-fotografije/`, `src/data/testneFotografije.js`):
      slobodne licence s Wikimedia Commonsa, bez lica i registarskih oznaka, uz autora i licencu.
    Sve su privremene – zamijenit će ih fotografije koje snime učenici. Ostale testne prijave koriste ikonu kategorije.

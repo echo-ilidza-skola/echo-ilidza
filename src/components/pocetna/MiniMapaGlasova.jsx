@@ -1,49 +1,86 @@
-// Stilizovani prikaz javnih prijava kao svijetlećih tačaka (nije prava mapa ni granica općine).
-// Položaj tačke se računa iz koordinata prijave (sjever je gore).
+// Mala, prava mapa Ilidže (Leaflet + OpenStreetMap) s javnim prijavama kao svijetlećim tačkama.
+// Mapa je samo za gledanje: nema zumiranja, povlačenja ni scrolla. Cijela kartica vodi na stranicu Mapa
+// (link "Pogledaj mapu" je razvučen preko kartice, vidi .mini-mapa-link u global.css).
+// Tamni izgled pravi CSS filter na sloju pločica – pločice su obične OpenStreetMap pločice (bez novog servisa).
 
 import { Link } from 'react-router-dom'
+import { useEffect, useMemo } from 'react'
+import { MapContainer, TileLayer, CircleMarker, useMap } from 'react-leaflet'
 import Ikona from '../Ikona.jsx'
-import { OKVIR_ILIDZE } from '../../data/konstante.js'
-import { projektujTacku, okvirTacaka } from '../../logic/mapa.js'
-import { posljednjePrijave } from '../../logic/statistika.js'
+import { OSM_ATRIBUCIJA } from '../mapa/OsnovnaMapa.jsx'
+import { CENTAR_MAPE } from '../../data/konstante.js'
 
-const SIRINA = 300
-const VISINA = 190
+// Sve interakcije s mapom su isključene (mapa se samo gleda).
+const BEZ_INTERAKCIJE = {
+  dragging: false,
+  touchZoom: false,
+  doubleClickZoom: false,
+  scrollWheelZoom: false,
+  boxZoom: false,
+  keyboard: false,
+  zoomControl: false,
+}
 
-export default function MiniMapaGlasova({ javne: sveJavne }) {
-  // Najnovije prvo, da tri najnovije prijave dobiju krug eha.
-  const javne = posljednjePrijave(sveJavne, sveJavne.length)
-  // Okvir prilagođen prijavama, da tačke budu raširene po cijeloj slici.
-  const okvir = okvirTacaka(javne, OKVIR_ILIDZE)
+// Okvir koji obuhvata sve prijave (ili null ako ih nema).
+function okvirPrijava(prijave) {
+  if (prijave.length === 0) return null
+  return prijave.map((p) => [p.lat, p.lng])
+}
+
+
+// Kartica dobije konačnu veličinu tek nakon prvog prikaza (raspored u tri kolone, pojavljivanje),
+// pa mapa ponovo izmjeri svoj okvir i prikaže sve prijave kad god se veličina promijeni.
+function PrilagodiPrikaz({ okvir }) {
+  const mapa = useMap()
+  useEffect(() => {
+    function prilagodi() {
+      mapa.invalidateSize()
+      if (okvir) mapa.fitBounds(okvir, { padding: [18, 18] })
+      else mapa.setView([CENTAR_MAPE.lat, CENTAR_MAPE.lng], 12)
+    }
+    prilagodi()
+    const posmatrac = new ResizeObserver(prilagodi)
+    posmatrac.observe(mapa.getContainer())
+    return () => posmatrac.disconnect()
+  }, [mapa, okvir])
+  return null
+}
+
+export default function MiniMapaGlasova({ javne }) {
+  // Okvir se računa ponovo samo kad se promijene prijave.
+  const okvir = useMemo(() => okvirPrijava(javne), [javne])
   return (
     <section className="pocetna-kartica mini-mapa" aria-labelledby="mini-mapa-naslov">
       <h2 id="mini-mapa-naslov">Ilidža kroz prijave građana</h2>
-      <svg className="mini-mapa-slika" viewBox={`0 0 ${SIRINA} ${VISINA}`} role="img" aria-label={`${javne.length} javnih prijava prikazano kao tačke`}>
-        {/* Blaga mreža u pozadini */}
-        {[1, 2, 3, 4, 5].map((i) => (
-          <line key={`v${i}`} className="mini-mapa-mreza" x1={i * 50} y1="0" x2={i * 50} y2={VISINA} />
-        ))}
-        {[1, 2, 3].map((i) => (
-          <line key={`h${i}`} className="mini-mapa-mreza" x1="0" y1={i * 47.5} x2={SIRINA} y2={i * 47.5} />
-        ))}
-        {/* Linija koja polako "skenira" mapu (samo ukras) */}
-        <rect className="mini-mapa-sken" x="0" y="0" width="60" height={VISINA} />
-
-        {javne.map((p, i) => {
-          const t = projektujTacku(p, okvir, SIRINA, VISINA)
-          // Svaka tačka treperi u svom ritmu; najnovije tri šalju i krug eha.
-          const kasnjenje = `${(i * 0.37) % 3}s`
-          return (
-            <g key={p.id}>
-              {i < 3 && <circle className="mini-mapa-eho" cx={t.x} cy={t.y} r="14" style={{ animationDelay: `${i * 0.9}s` }} />}
-              <circle className="mini-mapa-sjaj" cx={t.x} cy={t.y} r="9" style={{ animationDelay: kasnjenje }} />
-              <circle className="mini-mapa-tacka" cx={t.x} cy={t.y} r="3.5" />
-            </g>
-          )
-        })}
-      </svg>
+      <div className="mini-mapa-karta-okvir">
+        <MapContainer
+          className="mini-mapa-karta"
+          {...BEZ_INTERAKCIJE}
+          {...(okvir
+            ? { bounds: okvir, boundsOptions: { padding: [18, 18] } }
+            : { center: [CENTAR_MAPE.lat, CENTAR_MAPE.lng], zoom: 12 })}
+          aria-label={`Mala mapa Ilidže: ${javne.length} javnih prijava prikazano kao tačke`}
+        >
+          <TileLayer
+            url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution={OSM_ATRIBUCIJA}
+            className="mini-mapa-plocice"
+            maxZoom={19}
+          />
+          <PrilagodiPrikaz okvir={okvir} />
+          {javne.map((p) => (
+            <CircleMarker
+              key={p.id}
+              center={[p.lat, p.lng]}
+              radius={5}
+              interactive={false}
+              pathOptions={{ className: 'mini-mapa-tacka', stroke: false, fillOpacity: 1 }}
+            />
+          ))}
+        </MapContainer>
+      </div>
       <p className="mini-mapa-tekst">Svjetleće tačke prikazuju lokacije javnih prijava.</p>
-      <Link to="/mapa" className="dugme dugme-glavno">
+      <Link to="/mapa" className="dugme dugme-glavno mini-mapa-link">
         Pogledaj mapu
         <Ikona ime="strelica" velicina={18} />
       </Link>

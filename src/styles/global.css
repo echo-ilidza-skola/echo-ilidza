@@ -770,26 +770,6 @@ img {
   margin-bottom: 0;
 }
 
-.mini-mapa-slika {
-  width: 100%;
-  height: auto;
-  background: radial-gradient(ellipse at 50% 45%, var(--mapa-tamna-sredina) 0%, var(--mapa-tamna-rub) 70%);
-  border-radius: 12px;
-}
-
-.mini-mapa-mreza {
-  stroke: rgba(var(--rgb-limeta), 0.12);
-  stroke-width: 1;
-}
-
-.mini-mapa-sjaj {
-  fill: rgba(var(--rgb-limeta), 0.25);
-}
-
-.mini-mapa-tacka {
-  fill: var(--limeta);
-}
-
 .mini-mapa-tekst {
   margin: 0;
   font-size: 0.85rem;
@@ -1453,10 +1433,12 @@ img {
     font-size: 0.78rem;
   }
 
-  /* Tamnije lijevo (iza teksta) i blago pri dnu; desna strana slike ostaje svijetla, kao na mockupu. */
+  /* Tamnije lijevo (iza teksta) i blago pri dnu; desna strana slike ostaje svijetla, kao na mockupu.
+     Do 58 % širine (gdje može biti tekst) zatamnjenje je najmanje 66 %, pa i preko najsvjetlijeg dijela
+     slike bijeli i limeta tekst imaju kontrast najmanje WCAG AA (4,5 : 1). */
   .hero-zatamnjenje {
     background:
-      linear-gradient(90deg, rgba(var(--rgb-tamna-duboka), 0.9) 0%, rgba(var(--rgb-tamna-duboka), 0.65) 30%, rgba(var(--rgb-tamna-duboka), 0.15) 58%, rgba(var(--rgb-tamna-duboka), 0) 100%),
+      linear-gradient(90deg, rgba(var(--rgb-tamna-duboka), 0.9) 0%, rgba(var(--rgb-tamna-duboka), 0.82) 35%, rgba(var(--rgb-tamna-duboka), 0.66) 58%, rgba(var(--rgb-tamna-duboka), 0.25) 72%, rgba(var(--rgb-tamna-duboka), 0) 85%),
       linear-gradient(180deg, rgba(var(--rgb-tamna-duboka), 0.35) 0%, rgba(var(--rgb-tamna-duboka), 0) 25%, rgba(var(--rgb-tamna-duboka), 0) 70%, rgba(var(--rgb-tamna-duboka), 0.55) 100%);
   }
 
@@ -1484,7 +1466,7 @@ img {
     align-content: center;
   }
 
-  .mini-mapa-slika {
+  .mini-mapa-karta-okvir {
     flex: 1;
   }
 
@@ -1779,36 +1761,16 @@ img {
   transform: translateX(4px);
 }
 
-/* --- Mini-mapa: tačke trepere, najnovije šalju eho, linija skenira --- */
-.mini-mapa-sjaj {
+/* --- Mini-mapa: tačke prijava sporo i suptilno pulsiraju (sjaj je ovdje dozvoljen) --- */
+.mini-mapa-tacka {
   transform-box: fill-box;
   transform-origin: center;
   animation: treptanje 4s ease-in-out infinite;
 }
 
-/* Sporo i suptilno pulsiranje tačaka na mini-mapi. */
 @keyframes treptanje {
-  0%, 100% { opacity: 0.45; transform: scale(0.9); }
-  50% { opacity: 0.9; transform: scale(1.1); }
-}
-
-.mini-mapa-eho {
-  fill: none;
-  stroke: var(--limeta);
-  stroke-width: 1.5;
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: eho 2.7s ease-out infinite;
-}
-
-.mini-mapa-sken {
-  fill: rgba(var(--rgb-limeta), 0.07);
-  animation: skeniranje 6s linear infinite;
-}
-
-@keyframes skeniranje {
-  from { transform: translateX(-60px); }
-  to { transform: translateX(300px); }
+  0%, 100% { opacity: 0.75; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.15); }
 }
 
 /* --- Prelaz između stranica: sadržaj se lagano pojavi --- */
@@ -1850,9 +1812,6 @@ img {
     opacity: 0.75 !important;
   }
 
-  .mini-mapa-sken {
-    display: none;
-  }
 }
 
 /* =====================================================================
@@ -2263,8 +2222,15 @@ img {
    ===================================================================== */
 @media (max-width: 959px) {
   .hero {
-    /* Visina prvog reda naslova ("VIDIŠ PROBLEM?" u dva reda na uskom ekranu). */
-    --preklop-naslova: calc(2 * 0.98 * clamp(2.3rem, 10.5vw, 4.6rem) + 0.3rem);
+    /* Veličina naslova na mobitelu i tabletu (oko 22 % manja nego ranije, da na ekranu 375 × 812
+       bez pomjeranja stanu naslov, opis, dugme i statistika). */
+    --velicina-naslova-hero: clamp(1.85rem, 8.2vw, 3.6rem);
+    /* Preko slike ide samo prvi red naslova ("VIDIŠ PROBLEM?"). */
+    --preklop-naslova: calc(0.98 * var(--velicina-naslova-hero) + 0.3rem);
+  }
+
+  .hero-naslov {
+    font-size: var(--velicina-naslova-hero);
   }
 
   .hero-sadrzaj {
@@ -2289,35 +2255,9 @@ img {
   }
 }
 
-/* Na tabletu "VIDIŠ PROBLEM?" stane u jedan red, pa preko slike ide samo jedan red. */
-@media (min-width: 720px) and (max-width: 959px) {
-  .hero {
-    --preklop-naslova: calc(0.98 * clamp(2.3rem, 10.5vw, 4.6rem) + 0.3rem);
-  }
-}
-
 /* =====================================================================
-   PODNASLOV "Glas građana koji se čuje" (iznad naslova i u podnožju)
+   PODNASLOV "Glas građana koji se čuje" u podnožju (ispod dugmeta je .hero-koraci--poruka)
    ===================================================================== */
-.hero-iznad-naslova {
-  margin: 0 0 0.7rem;
-  font-family: var(--font-naslov);
-  font-size: 0.78rem;
-  font-weight: var(--tezina-naslova);
-  line-height: 1.3;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--limeta);
-}
-
-/* Na mobitelu i tabletu ga nema: ekran je uzak, a ime je već u zaglavlju.
-   Podnaslov se tamo vidi u podnožju. */
-@media (max-width: 959px) {
-  .hero-iznad-naslova {
-    display: none;
-  }
-}
-
 .podnozje .podnozje-podnaslov {
   margin: 0 0 0.2rem;
   font-weight: var(--tezina-naslova);
@@ -2416,4 +2356,77 @@ img {
   .korak-naslov {
     font-size: 0.92rem;
   }
+}
+
+/* Mali potpis na slici: "Ilustracija (AI)" (gornji desni ugao slike). */
+.hero-oznaka-ai {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 2;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.7rem;
+  line-height: 1.4;
+  color: var(--tekst-na-tamnoj-svijetli);
+  background: rgba(var(--rgb-tamna-duboka), 0.7);
+  border-radius: var(--radius-pun);
+  pointer-events: none;
+}
+
+/* Na računaru je vrh slike ispod providnog zaglavlja, pa potpis ide odmah ispod zaglavlja. */
+@media (min-width: 960px) {
+  .hero-oznaka-ai {
+    top: calc(var(--visina-zaglavlja, 70px) + 0.6rem);
+    right: 1rem;
+  }
+}
+
+/* =====================================================================
+   MINI-MAPA NA POČETNOJ (prava Leaflet mapa, samo za gledanje)
+   ===================================================================== */
+/* Kartica je "link": link "Pogledaj mapu" se razvuče preko cijele kartice (::after),
+   a sama mapa ne hvata klikove (pointer-events: none), osim atribucije OpenStreetMap-a. */
+.mini-mapa {
+  position: relative;
+}
+
+.mini-mapa-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: var(--radius-kartica);
+}
+
+.mini-mapa-karta-okvir {
+  flex: 1; /* mapa zauzme ostatak visine kartice kad je kartica viša (kolone iste visine) */
+  min-height: 220px;
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  background: var(--tamna);
+}
+
+.mini-mapa-karta {
+  height: 100%;
+  min-height: 220px;
+  background: var(--tamna);
+  pointer-events: none;
+}
+
+/* Tamni izgled: obične OSM pločice, pretvorene u tamne CSS filterom (bez drugog servisa pločica). */
+.mini-mapa-plocice {
+  filter: grayscale(1) invert(1) brightness(0.9) contrast(1.05);
+  opacity: 0.7;
+}
+
+/* Tačke prijava: limeta s blagim sjajem. */
+.mini-mapa-tacka {
+  fill: var(--limeta);
+  filter: var(--sjaj-filter);
+}
+
+/* Atribucija OpenStreetMap-a ostaje vidljiva i klikabilna (iznad razvučenog linka). */
+.mini-mapa .leaflet-control-attribution {
+  pointer-events: auto;
+  font-size: 0.65rem;
 }

@@ -32,11 +32,11 @@ export default function Pocetna() {
           <div className="hero-zatamnjenje" />
           <HeroSignali />
         </div>
+        {/* Slika je AI ilustracija, ne fotografija Ilidže – to se vidi i na samoj slici. */}
+        <span className="hero-oznaka-ai">Ilustracija (AI)</span>
 
         <div className="hero-sadrzaj">
           <div className="hero-tekst">
-            {/* Mali red iznad naslova: ime i podnaslov aplikacije. */}
-            <p className="hero-iznad-naslova ulaz ulaz-1">{HERO.iznadNaslova}</p>
             <h1 id="hero-naslov" className="hero-naslov">
               <span className="hero-naslov-red ulaz ulaz-1">{HERO.naslovPrviRed}</span>
               <span className="hero-naslov-red hero-naslov-isticanje ulaz ulaz-2">{HERO.naslovDrugiRed}</span>
@@ -51,7 +51,7 @@ export default function Pocetna() {
               </Link>
             </div>
 
-            {/* Znak eha + kratka poruka ispod dugmeta. */}
+            {/* Znak eha + podnaslov aplikacije ispod dugmeta. */}
             <p className="hero-koraci hero-koraci--poruka ulaz ulaz-5">
               <EhoZnak velicina={26} />
               {HERO.poruka}
