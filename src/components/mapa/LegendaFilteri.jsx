@@ -1,7 +1,12 @@
-// Legenda i filteri u jednom: svaka kvačica pokazuje i boju kategorije, odnosno oblik statusa.
+// Legenda i filteri u jednom: uz svaku kvačicu je mala oznaka u boji kategorije, odnosno sa značkom statusa.
 
-import { KATEGORIJE, JAVNI_STATUSI, OBLICI_STATUSA, nazivStatusa } from '../../data/konstante.js'
-import { klasaOblika } from './ikonaOznake.js'
+import { KATEGORIJE, JAVNI_STATUSI, ZNACKE_STATUSA, nazivStatusa } from '../../data/konstante.js'
+import { htmlPina } from './ikonaOznake.js'
+
+// Mala oznaka (isti crtež kao na mapi). HTML je naš, bez teksta korisnika, pa je ubacivanje sigurno.
+function MalaOznaka({ boja, status = null }) {
+  return <span className="legenda-pin" aria-hidden="true" dangerouslySetInnerHTML={{ __html: htmlPina(boja, status) }} />
+}
 
 // Dodaje vrijednost u listu ili je uklanja iz nje.
 function prebaci(lista, vrijednost) {
@@ -17,11 +22,12 @@ export default function LegendaFilteri({ otvoreno, filteri, promijeniFiltere, po
     >
       <h2 id="legenda-naslov">Legenda i filteri</h2>
       <p className="prigusen mali-tekst">
-        Boja oznake je kategorija, a oblik je status. Broj u uglu oznake je broj prijavitelja istog problema.
+        Sve oznake imaju isti oblik. Boja oznake je kategorija, a mala značka na oznaci je status.
+        Broj u sredini oznake je broj građana koji su prijavili isti problem.
       </p>
 
       <fieldset>
-        <legend>Kategorija (boja)</legend>
+        <legend>Kategorija (boja oznake)</legend>
         {KATEGORIJE.map((k) => (
           <label key={k.kljuc} className="filter-opcija">
             <input
@@ -29,14 +35,14 @@ export default function LegendaFilteri({ otvoreno, filteri, promijeniFiltere, po
               checked={filteri.kategorije.includes(k.kljuc)}
               onChange={() => promijeniFiltere({ ...filteri, kategorije: prebaci(filteri.kategorije, k.kljuc) })}
             />
-            <span className="oznaka oznaka--krug oznaka--mala" style={{ background: k.boja }} aria-hidden="true" />
+            <MalaOznaka boja={k.boja} />
             {k.naziv}
           </label>
         ))}
       </fieldset>
 
       <fieldset>
-        <legend>Status (oblik)</legend>
+        <legend>Status (značka na oznaci)</legend>
         {JAVNI_STATUSI.map((s) => (
           <label key={s} className="filter-opcija">
             <input
@@ -44,9 +50,12 @@ export default function LegendaFilteri({ otvoreno, filteri, promijeniFiltere, po
               checked={filteri.statusi.includes(s)}
               onChange={() => promijeniFiltere({ ...filteri, statusi: prebaci(filteri.statusi, s) })}
             />
-            <span className={`${klasaOblika(s)} oznaka--mala oznaka--siva`} aria-hidden="true" />
+            <MalaOznaka boja="var(--tekst-prigusen)" status={s} />
             {nazivStatusa(s)}
-            <span className="vizuelno-skriveno"> (oblik: {OBLICI_STATUSA[s].opis})</span>
+            <span className="vizuelno-skriveno">
+              {' '}
+              ({ZNACKE_STATUSA[s] ? `značka: ${ZNACKE_STATUSA[s].opis}` : 'bez značke'})
+            </span>
           </label>
         ))}
       </fieldset>

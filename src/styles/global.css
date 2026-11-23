@@ -986,86 +986,98 @@ img {
   flex: none;
 }
 
-/* ---------- oznake na mapi i u legendi ---------- */
-/* Boja oznake = kategorija (postavlja se u kodu), oblik = status. */
+/* ---------- oznake na mapi i u legendi ----------
+   Sve oznake imaju isti oblik (pin) u boji kategorije (--boja-pina, postavlja se u kodu).
+   Status je mala značka gore desno; broj prijavitelja je u sredini pina. */
 .oznaka-omotac {
   /* Leaflet bi inače dodao bijeli kvadrat iza oznake. */
   background: none;
   border: none;
 }
 
-.oznaka {
-  display: inline-block;
+.pin {
   position: relative;
-  width: 28px;
-  height: 28px;
-  border: 3px solid var(--bijela);
-  outline: 2px solid var(--tamna);
-  flex: none;
+  display: inline-block;
+  width: 32px;
+  height: 42px;
+  transform-origin: 50% 100%; /* povećanje "raste" iz vrha pina, pa pin ostaje na lokaciji */
+  transition: transform 0.15s ease;
 }
 
-.oznaka-omotac .oznaka {
-  margin: 4px;
+.pin-oblik {
+  display: block;
+  overflow: visible;
+  /* Blaga tamna sjena (nije sjaj), da se pin odvoji od svijetle mape. */
+  filter: drop-shadow(0 1px 2px rgba(var(--rgb-crna), 0.35));
 }
 
-.oznaka--krug {
-  border-radius: 50%;
+.pin-oblik path {
+  fill: var(--boja-pina);
+  stroke: var(--bijela);
+  stroke-width: 2.5;
 }
 
-.oznaka--kvadrat {
-  border-radius: 4px;
+.pin-sredina {
+  fill: var(--bijela);
 }
 
-.oznaka--romb {
-  border-radius: 3px;
-  transform: rotate(45deg) scale(0.88);
+.pin-broj {
+  font: 700 11px var(--font-tekst);
+  fill: var(--tamna);
 }
 
-.oznaka--kvacica {
-  border-radius: 50%;
-}
-
-.oznaka--kvacica::after {
-  content: '✓';
+.pin-znacka {
   position: absolute;
-  inset: 0;
+  top: -4px;
+  right: -6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--bijela);
-  font-size: 15px;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.oznaka--mala {
   width: 18px;
   height: 18px;
-  border-width: 2px;
-  outline-width: 1.5px;
+  border-radius: 50%;
+  background: var(--bijela);
+  border: 1.5px solid var(--tamna);
 }
 
-.oznaka--mala.oznaka--kvacica::after {
-  font-size: 11px;
+.pin-znacka path {
+  fill: none;
+  stroke: var(--tamna);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-.oznaka--siva {
-  background: var(--tekst-prigusen);
+/* Odabrana oznaka (otvoren sažetak): malo veća i s blagim sjajem (jedino mjesto na mapi sa sjajem). */
+.oznaka-omotac--odabrana {
+  z-index: 1000 !important; /* iznad susjednih oznaka */
 }
 
-.oznaka-broj {
-  position: absolute;
-  top: -8px;
-  right: -10px;
-  min-width: 22px;
-  height: 22px;
-  padding: 0 4px;
-  border-radius: 11px;
-  background: var(--limeta);
-  color: var(--tamna);
-  border: 2px solid var(--tamna);
-  font: 700 12px/18px var(--font-tekst);
-  text-align: center;
+.oznaka-omotac--odabrana .pin {
+  transform: scale(1.2);
+}
+
+.oznaka-omotac--odabrana .pin-oblik {
+  filter: var(--sjaj-filter);
+}
+
+/* Mala oznaka u legendi */
+.legenda-pin {
+  display: inline-flex;
+  flex: none;
+  width: 30px;
+  height: 28px;
+}
+
+.legenda-pin .pin {
+  transform: scale(0.62);
+  transform-origin: 0 0;
+}
+
+/* Značka u legendi ostaje iste veličine kao na mapi (pin je umanjen, značka nije), da se dobro vidi. */
+.legenda-pin .pin-znacka {
+  transform: scale(1.5);
+  transform-origin: 0 100%;
 }
 
 /* Fokus na oznaci kad se mapa koristi tastaturom. */

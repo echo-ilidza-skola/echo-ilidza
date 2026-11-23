@@ -87,11 +87,13 @@ export const TOK_STATUSA = ['NA_CEKANJU', 'ZAPRIMLJENO', 'U_OBRADI', 'PROSLIJEDJ
 export const JAVNI_STATUSI = Object.keys(STATUSI).filter((s) => STATUSI[s].javno)
 
 // Oblik oznake na mapi za svaki javni status (boja oznake = kategorija, oblik = status).
-export const OBLICI_STATUSA = {
-  ZAPRIMLJENO: { oblik: 'krug', opis: 'krug' },
-  U_OBRADI: { oblik: 'kvadrat', opis: 'kvadrat' },
-  PROSLIJEDJENO: { oblik: 'romb', opis: 'romb' },
-  RIJESENO: { oblik: 'kvacica', opis: 'krug s kvačicom' },
+// Mala značka statusa na oznaci na mapi (sve oznake imaju isti oblik; boja je kategorija).
+// Zaprimljeno nema značku. "putanja" je SVG crtež ikone (polje 16 × 16, crta se linijom).
+export const ZNACKE_STATUSA = {
+  ZAPRIMLJENO: null,
+  U_OBRADI: { opis: 'sat', putanja: 'M8 3.6a4.4 4.4 0 1 0 0 8.8a4.4 4.4 0 1 0 0-8.8zM8 5.6V8l1.7 1.2' },
+  PROSLIJEDJENO: { opis: 'strelica', putanja: 'M3.8 8h7.6M8.4 5l3 3-3 3' },
+  RIJESENO: { opis: 'kvačica', putanja: 'M4.2 8.3l2.5 2.5 5-5.4' },
 }
 
 export function nazivStatusa(status) {
