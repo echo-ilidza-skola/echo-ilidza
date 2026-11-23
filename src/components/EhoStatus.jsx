@@ -10,6 +10,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { BROJ_LUKOVA, ehoZaStatus, opisEha } from '../logic/ehoStatus.js'
+import { useJezik } from '../jezik/JezikContext.jsx'
 
 const TACKA = { x: 9, y: 16 }
 const POLUPRECNICI = [7, 12, 17, 22]
@@ -41,6 +42,7 @@ function useKljucAnimacije(status, animacija) {
 
 export default function EhoStatus({ status, velicina = 26, animacija = 'ne', className = '' }) {
   const { upaljeno, naCekanju, odbijeno, rijeseno } = ehoZaStatus(status)
+  const { jezik } = useJezik()
   const [kljuc, animiraj] = useKljucAnimacije(status, animacija)
   const bezLukova = naCekanju || odbijeno
 
@@ -52,7 +54,7 @@ export default function EhoStatus({ status, velicina = 26, animacija = 'ne', cla
       width={(velicina * 34) / 32}
       height={velicina}
       role="img"
-      aria-label={opisEha(status)}
+      aria-label={opisEha(status, jezik)}
     >
       {!bezLukova &&
         POLUPRECNICI.slice(0, BROJ_LUKOVA).map((r, i) => (

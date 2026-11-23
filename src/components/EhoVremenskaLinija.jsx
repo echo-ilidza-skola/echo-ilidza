@@ -5,6 +5,8 @@
 
 import { koraciNapretka } from '../logic/napredak.js'
 import { formatirajDatum } from '../logic/datum.js'
+import { napomenaZaPrikaz } from '../logic/administracija.js'
+import { useJezik } from '../jezik/JezikContext.jsx'
 
 // Mali crtež koraka: tačka (početak), luk (koraci 1–4) ili x (odbijeno).
 function ZnakKoraka({ redniBroj, stanje, status }) {
@@ -29,7 +31,8 @@ function ZnakKoraka({ redniBroj, stanje, status }) {
 }
 
 export default function EhoVremenskaLinija({ prijava }) {
-  const koraci = koraciNapretka(prijava)
+  const { jezik, t } = useJezik()
+  const koraci = koraciNapretka(prijava, jezik)
 
   return (
     <ol className="eho-linija" style={{ '--broj-koraka': koraci.length }}>
@@ -44,13 +47,13 @@ export default function EhoVremenskaLinija({ prijava }) {
             {k.naziv}
             {/* Za čitač ekrana: da li je korak prošao, trenutni ili tek dolazi. */}
             <span className="vizuelno-skriveno">
-              {k.stanje === 'gotov' && ' (završeno)'}
-              {k.stanje === 'trenutni' && ' (trenutni status)'}
-              {k.stanje === 'buduci' && ' (još nije)'}
+              {k.stanje === 'gotov' && t('linija.zavrseno')}
+              {k.stanje === 'trenutni' && t('linija.trenutni')}
+              {k.stanje === 'buduci' && t('linija.buduci')}
             </span>
           </span>
-          {k.datum && <span className="eho-linija-datum">{formatirajDatum(k.datum)}</span>}
-          {k.napomena && <span className="eho-linija-napomena">{k.napomena}</span>}
+          {k.datum && <span className="eho-linija-datum">{formatirajDatum(k.datum, false, jezik)}</span>}
+          {k.napomena && <span className="eho-linija-napomena">{napomenaZaPrikaz(k.napomena, jezik)}</span>}
         </li>
       ))}
     </ol>

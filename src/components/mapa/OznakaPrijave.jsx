@@ -9,6 +9,7 @@ import { napraviIkonu } from './ikonaOznake.js'
 import StatusOznaka from '../StatusOznaka.jsx'
 import KategorijaOznaka from '../KategorijaOznaka.jsx'
 import { formatirajDatum } from '../../logic/datum.js'
+import { useJezik } from '../../jezik/JezikContext.jsx'
 
 const KLASA_ODABRANE = 'oznaka-omotac--odabrana'
 
@@ -18,10 +19,11 @@ const DOGADJAJI = {
 }
 
 export default function OznakaPrijave({ prijava }) {
-  // Ikonu pravimo ponovo samo kad se promijeni nešto što se na njoj vidi.
+  const { jezik, t } = useJezik()
+  // Ikonu pravimo ponovo samo kad se promijeni nešto što se na njoj vidi (ili jezik opisa).
   const ikona = useMemo(
-    () => napraviIkonu(prijava),
-    [prijava.naslov, prijava.kategorija, prijava.status, prijava.brojPrijavitelja],
+    () => napraviIkonu(prijava, jezik),
+    [prijava.naslov, prijava.kategorija, prijava.status, prijava.brojPrijavitelja, jezik],
   )
 
   return (
@@ -31,9 +33,9 @@ export default function OznakaPrijave({ prijava }) {
           <strong className="sazetak-naslov">{prijava.naslov}</strong>
           <KategorijaOznaka kategorija={prijava.kategorija} />
           <StatusOznaka status={prijava.status} />
-          <span>Prijavljeno: {formatirajDatum(prijava.datumPrijave)}</span>
-          {prijava.brojPrijavitelja > 1 && <span>Broj prijavitelja: {prijava.brojPrijavitelja}</span>}
-          <Link to={`/prijava/${prijava.id}`}>Pogledaj detalje</Link>
+          <span>{t('sazetak.prijavljeno', { datum: formatirajDatum(prijava.datumPrijave, false, jezik) })}</span>
+          {prijava.brojPrijavitelja > 1 && <span>{t('sazetak.brojPrijavitelja', { broj: prijava.brojPrijavitelja })}</span>}
+          <Link to={`/prijava/${prijava.id}`}>{t('sazetak.detalji')}</Link>
         </div>
       </Popup>
     </Marker>

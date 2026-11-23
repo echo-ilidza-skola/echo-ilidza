@@ -1,32 +1,28 @@
 // Prikazuje ekran samo ako je odabrana odgovarajuća DEMO uloga.
 // Ovo NIJE zaštita podataka: svako može promijeniti ulogu u zaglavlju.
 
-import { ULOGE } from '../data/konstante.js'
 import { useUloga } from '../context/UlogaContext.jsx'
 import TrakaStranice from './TrakaStranice.jsx'
+import { useJezik } from '../jezik/JezikContext.jsx'
 
-// naslov: naslov stranice koji se prikazuje u traci i kad je odabrana druga uloga.
+// naslov: KLJUČ naslova stranice u rječniku (npr. 'nav.prijavi'), prikazuje se u traci i kad je odabrana druga uloga.
 export default function ZasticenaRuta({ uloge, naslov, children }) {
   const { uloga, promijeniUlogu } = useUloga()
+  const { t } = useJezik()
 
   if (uloge.includes(uloga)) return children
 
   const potrebna = uloge[0]
   return (
     <>
-      <TrakaStranice naslov={naslov} />
+      <TrakaStranice naslov={t(naslov)} />
       <section>
         <div className="kartica">
-          <h2>Ovaj ekran je za demo ulogu „{ULOGE[potrebna]}“</h2>
-          <p>
-            Trenutno je odabrana uloga „{ULOGE[uloga]}“. Ulogu možete promijeniti u zaglavlju ili
-            dugmetom ispod.
-          </p>
-          <p className="prigusen">
-            Demo uloge su samo demonstracija. One nisu prijava korisnika ni zaštita podataka.
-          </p>
+          <h2>{t('zasticena.naslov', { uloga: t(`uloge.${potrebna}`) })}</h2>
+          <p>{t('zasticena.trenutna', { uloga: t(`uloge.${uloga}`) })}</p>
+          <p className="prigusen">{t('zasticena.napomena')}</p>
           <button type="button" className="dugme" onClick={() => promijeniUlogu(potrebna)}>
-            Prebaci na ulogu „{ULOGE[potrebna]}“
+            {t('zasticena.dugme', { uloga: t(`uloge.${potrebna}`) })}
           </button>
         </div>
       </section>

@@ -8,9 +8,11 @@ import { Circle, CircleMarker, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import Ikona from '../Ikona.jsx'
 import { porukaGps, razlogNedostupnostiGps, DODATAK_ZA_MAPU } from '../../logic/gps.js'
+import { useJezik } from '../../jezik/JezikContext.jsx'
 
 export default function MojaLokacija({ naPoruku }) {
   const mapa = useMap()
+  const { jezik, t } = useJezik()
   const dugmeRef = useRef(null)
   const [trazi, postaviTrazi] = useState(false)
   const [lokacija, postaviLokaciju] = useState(null) // { lat, lng, tacnost }
@@ -26,11 +28,11 @@ export default function MojaLokacija({ naPoruku }) {
       podrzano: 'geolocation' in navigator,
     })
     if (razlog) {
-      naPoruku(porukaGps(razlog, DODATAK_ZA_MAPU))
+      naPoruku(porukaGps(razlog, DODATAK_ZA_MAPU, jezik))
       return
     }
     postaviTrazi(true)
-    naPoruku('Tražim vašu lokaciju…')
+    naPoruku(t('lokacija.trazim'))
     navigator.geolocation.getCurrentPosition(
       (pozicija) => {
         const nova = {
@@ -41,11 +43,11 @@ export default function MojaLokacija({ naPoruku }) {
         postaviLokaciju(nova)
         postaviTrazi(false)
         mapa.setView([nova.lat, nova.lng], Math.max(mapa.getZoom(), 15))
-        naPoruku(`Prikazana je vaša trenutna lokacija (tačnost oko ${nova.tacnost} m). Lokacija se ne sprema.`)
+        naPoruku(t('lokacija.prikazana', { tacnost: nova.tacnost }))
       },
       (greska) => {
         postaviTrazi(false)
-        naPoruku(porukaGps(greska.code, DODATAK_ZA_MAPU))
+        naPoruku(porukaGps(greska.code, DODATAK_ZA_MAPU, jezik))
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 },
     )
@@ -58,8 +60,8 @@ export default function MojaLokacija({ naPoruku }) {
           type="button"
           onClick={prikaziLokaciju}
           disabled={trazi}
-          title="Prikaži moju lokaciju"
-          aria-label="Prikaži moju lokaciju na mapi"
+          title={t('lokacija.dugmeKratko')}
+          aria-label={t('lokacija.dugme')}
         >
           <Ikona ime="lokacija" velicina={20} />
         </button>

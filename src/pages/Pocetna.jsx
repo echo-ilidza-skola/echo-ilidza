@@ -10,12 +10,13 @@ import MiniMapaGlasova from '../components/pocetna/MiniMapaGlasova.jsx'
 import PosljednjePrijave from '../components/pocetna/PosljednjePrijave.jsx'
 import { usePodaci } from '../hooks/usePodaci.js'
 import { javnePrijave } from '../data/storage.js'
-import { HERO } from '../data/tekstovi.js'
 import heroSlika from '../assets/hero-ilidza-ai.jpg'
+import { useJezik } from '../jezik/JezikContext.jsx'
 
 // Klase "ulaz ulaz-N" pokreću animaciju pojavljivanja jednog elementa za drugim (vidi global.css).
 export default function Pocetna() {
   const javne = usePodaci(javnePrijave)
+  const { t } = useJezik()
 
   return (
     <>
@@ -36,15 +37,15 @@ export default function Pocetna() {
         <div className="hero-sadrzaj">
           <div className="hero-tekst">
             <h1 id="hero-naslov" className="hero-naslov">
-              <span className="hero-naslov-red ulaz ulaz-1">{HERO.naslovPrviRed}</span>
-              <span className="hero-naslov-red hero-naslov-isticanje ulaz ulaz-2">{HERO.naslovDrugiRed}</span>
+              <span className="hero-naslov-red ulaz ulaz-1">{t('pocetna.naslovPrviRed')}</span>
+              <span className="hero-naslov-red hero-naslov-isticanje ulaz ulaz-2">{t('pocetna.naslovDrugiRed')}</span>
             </h1>
-            <p className="hero-poruka ulaz ulaz-3">{HERO.opis}</p>
+            <p className="hero-poruka ulaz ulaz-3">{t('pocetna.opis')}</p>
 
             <div className="hero-dugmad ulaz ulaz-4">
               <Link to="/prijavi" className="dugme dugme-glavno dugme-veliko dugme-sjaj">
                 <Ikona ime="prijavi" velicina={20} />
-                {HERO.dugme}
+                {t('pocetna.dugme')}
                 <Ikona ime="strelica" velicina={20} className="ikona-strelica" />
               </Link>
             </div>
@@ -52,9 +53,9 @@ export default function Pocetna() {
             {/* Znak eha + podnaslov aplikacije ispod dugmeta. */}
             <p className="hero-koraci hero-koraci--poruka ulaz ulaz-5">
               <EhoZnak velicina={26} />
-              {HERO.poruka}
+              {t('pocetna.podnaslov')}
             </p>
-            <p className="hero-napomena ulaz ulaz-5">{HERO.napomena}</p>
+            <p className="hero-napomena ulaz ulaz-5">{t('pocetna.napomena')}</p>
           </div>
 
           <StatistikaTraka javne={javne} />

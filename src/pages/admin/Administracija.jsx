@@ -8,37 +8,31 @@ import StatistikaAdmin from '../../components/admin/StatistikaAdmin.jsx'
 import { usePodaci } from '../../hooks/usePodaci.js'
 import { svePrijave, vratiTestnePodatke } from '../../data/storage.js'
 import TrakaStranice from '../../components/TrakaStranice.jsx'
+import { useJezik } from '../../jezik/JezikContext.jsx'
 
-const KARTICE = [
-  { kljuc: 'red', naziv: 'Red čekanja' },
-  { kljuc: 'sve', naziv: 'Sve prijave' },
-  { kljuc: 'statistika', naziv: 'Statistika' },
-]
+// Nazivi kartica su u rječniku: admin.kartice.red, admin.kartice.sve, admin.kartice.statistika
+const KARTICE = [{ kljuc: 'red' }, { kljuc: 'sve' }, { kljuc: 'statistika' }]
 
 export default function Administracija() {
   const sve = usePodaci(svePrijave)
+  const { t } = useJezik()
   // Odabrana kartica je u adresi (#/admin?kartica=sve), pa ostaje i nakon osvježavanja.
   const [parametri, postaviParametre] = useSearchParams()
   const aktivna = KARTICE.some((k) => k.kljuc === parametri.get('kartica')) ? parametri.get('kartica') : 'red'
   const brojNaCekanju = sve.filter((p) => p.status === 'NA_CEKANJU').length
 
   function naVratiTestnePodatke() {
-    const potvrda = window.confirm(
-      'Ovo briše SVE prijave i fotografije u ovom pregledniku (i vaše izmjene) i ponovo učitava 28 testnih prijava. Ovo se ne može poništiti. Nastaviti?',
-    )
+    const potvrda = window.confirm(t('admin.resetPotvrda'))
     if (potvrda) vratiTestnePodatke()
   }
 
   return (
     <>
-      <TrakaStranice naslov="Administracija" />
+      <TrakaStranice naslov={t('nav.admin')} />
       <section className="admin-stranica">
-        <p className="uvod">
-          Demo uloga – nije prijava korisnika ni zaštita podataka. Aplikacija ne šalje ništa Općini ni službama;
-          „Proslijeđeno službi“ je samo simulacija.
-        </p>
+        <p className="uvod">{t('admin.uvod')}</p>
 
-        <div className="admin-kartice" role="tablist" aria-label="Dijelovi administracije">
+        <div className="admin-kartice" role="tablist" aria-label={t('admin.dijelovi')}>
           {KARTICE.map((k) => (
             <button
               key={k.kljuc}
@@ -50,7 +44,7 @@ export default function Administracija() {
               className={aktivna === k.kljuc ? 'admin-kartica admin-kartica--aktivna' : 'admin-kartica'}
               onClick={() => postaviParametre({ kartica: k.kljuc })}
             >
-              {k.naziv}
+              {t(`admin.kartice.${k.kljuc}`)}
               {k.kljuc === 'red' && <span className="admin-znacka">{brojNaCekanju}</span>}
             </button>
           ))}
@@ -63,10 +57,10 @@ export default function Administracija() {
         </div>
 
         <div className="kartica admin-reset">
-          <h2>Testni podaci</h2>
-          <p>Vraća početnih 28 testnih prijava. Briše sve nove prijave, izmjene i fotografije u ovom pregledniku.</p>
+          <h2>{t('admin.testniPodaci')}</h2>
+          <p>{t('admin.resetOpis')}</p>
           <button type="button" className="dugme dugme-upozorenje" onClick={naVratiTestnePodatke}>
-            Vrati testne podatke
+            {t('admin.resetDugme')}
           </button>
         </div>
       </section>

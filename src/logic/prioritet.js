@@ -8,8 +8,9 @@
 
 import { pronadjiKljucneRijeci } from './tekst.js'
 
-export const RIJECI_OPASNOSTI = ['opasno', 'povrijed', 'otvoren šaht', 'pao', 'ozlijed']
-export const RIJECI_DJECA = ['škola', 'vrtić', 'igralište']
+// Drugi dio svake liste su engleske riječi (za prijave napisane na engleskom).
+export const RIJECI_OPASNOSTI = ['opasno', 'povrijed', 'otvoren šaht', 'pao', 'ozlijed', 'danger', 'injur', 'open manhole', 'fell', 'hurt']
+export const RIJECI_DJECA = ['škola', 'vrtić', 'igralište', 'school', 'kindergarten', 'playground']
 
 export const BODOVI_OPASNOST = 3
 export const BODOVI_DJECA = 2
@@ -21,25 +22,32 @@ export function prioritetIzBodova(bodovi) {
   return 'nizak'
 }
 
-// Vraća { prioritet, bodovi, razlozi: [{ pravilo, bodovi }] }.
+// Vraća { prioritet, bodovi, razlozi: [{ pravilo, bodovi, kljuc, parametri }] }.
 // Razlozi su lista pravila koja su se aktivirala; prikazuju se administratoru.
+// "pravilo" je tekst na bosanskom, a "kljuc" i "parametri" služe za prikaz na izabranom jeziku.
 export function predloziPrioritet(naslov, opis, brojPovezanih = 0) {
   const tekst = `${naslov || ''} ${opis || ''}`
   const razlozi = []
 
   const opasnost = pronadjiKljucneRijeci(tekst, RIJECI_OPASNOSTI)
   if (opasnost.length > 0) {
+    const rijeci = opasnost.map((p) => `„${p.rijec}“`).join(', ')
     razlozi.push({
-      pravilo: `Riječi opasnosti: ${opasnost.map((p) => `„${p.rijec}“`).join(', ')}`,
+      pravilo: `Riječi opasnosti: ${rijeci}`,
       bodovi: BODOVI_OPASNOST,
+      kljuc: 'pp.razlogOpasnost',
+      parametri: { rijeci },
     })
   }
 
   const djeca = pronadjiKljucneRijeci(tekst, RIJECI_DJECA)
   if (djeca.length > 0) {
+    const rijeci = djeca.map((p) => `„${p.rijec}“`).join(', ')
     razlozi.push({
-      pravilo: `Spominje se škola, vrtić ili igralište: ${djeca.map((p) => `„${p.rijec}“`).join(', ')}`,
+      pravilo: `Spominje se škola, vrtić ili igralište: ${rijeci}`,
       bodovi: BODOVI_DJECA,
+      kljuc: 'pp.razlogDjeca',
+      parametri: { rijeci },
     })
   }
 
@@ -48,6 +56,8 @@ export function predloziPrioritet(naslov, opis, brojPovezanih = 0) {
     razlozi.push({
       pravilo: `Povezane prijave: ${povezane}`,
       bodovi: povezane * BODOVI_PO_POVEZANOJ,
+      kljuc: 'pp.razlogPovezane',
+      parametri: { broj: povezane },
     })
   }
 

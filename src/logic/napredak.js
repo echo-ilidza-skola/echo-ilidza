@@ -2,15 +2,11 @@
 // Čista funkcija: iz prijave pravi listu koraka sa stanjem i datumom.
 
 import { TOK_STATUSA, nazivStatusa } from '../data/konstante.js'
+import { prevedi } from '../jezik/prevodi.js'
 
-// Kraći nazivi za uski ekran; "(simulacija)" ostaje uz Proslijeđeno.
-const KRATKI_NAZIVI = {
-  NA_CEKANJU: 'Na čekanju',
-  ZAPRIMLJENO: 'Zaprimljeno',
-  U_OBRADI: 'U obradi',
-  PROSLIJEDJENO: 'Proslijeđeno (simulacija)',
-  RIJESENO: 'Riješeno',
-  ODBIJENO: 'Odbijeno',
+// Kraći nazivi za uski ekran (rječnik: statusiKratko); "(simulacija)" ostaje uz Proslijeđeno.
+function kratkiNaziv(status, jezik) {
+  return prevedi(jezik, `statusiKratko.${status}`)
 }
 
 // POSLJEDNJI ulazak u dati status iz historije (ili null).
@@ -32,7 +28,7 @@ function napomenaStatusa(historija, status) {
 // Vraća [{ status, naziv, punNaziv, stanje, datum, napomena }]
 //   stanje: 'gotov' (prošli korak), 'trenutni', 'buduci' ili 'odbijen'
 // Odbijena prijava ima samo dva koraka: Na čekanju → Odbijeno.
-export function koraciNapretka(prijava) {
+export function koraciNapretka(prijava, jezik = 'bs') {
   const historija = prijava.historijaStatusa || []
 
   if (prijava.status === 'ODBIJENO') {
@@ -41,8 +37,8 @@ export function koraciNapretka(prijava) {
       { status: 'ODBIJENO', stanje: 'odbijen' },
     ].map((k) => ({
       ...k,
-      naziv: KRATKI_NAZIVI[k.status],
-      punNaziv: nazivStatusa(k.status),
+      naziv: kratkiNaziv(k.status, jezik),
+      punNaziv: nazivStatusa(k.status, jezik),
       datum: datumStatusa(historija, k.status),
       napomena: napomenaStatusa(historija, k.status),
     }))
@@ -53,8 +49,8 @@ export function koraciNapretka(prijava) {
     const stanje = i < trenutni ? 'gotov' : i === trenutni ? 'trenutni' : 'buduci'
     return {
       status,
-      naziv: KRATKI_NAZIVI[status],
-      punNaziv: nazivStatusa(status),
+      naziv: kratkiNaziv(status, jezik),
+      punNaziv: nazivStatusa(status, jezik),
       stanje,
       // Budući koraci nemaju datum (čak i ako je status nekad ranije bio postavljen pa vraćen).
       datum: stanje === 'buduci' ? null : datumStatusa(historija, status),

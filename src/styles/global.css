@@ -1894,8 +1894,8 @@ img {
    ZAGLAVLJE NA RAČUNARU (kao na mockupu)
    ===================================================================== */
 @media (min-width: 960px) {
-  /* Tanka okomita crta između navigacije i prekidača uloge. */
-  .prekidac-uloge {
+  /* Tanka okomita crta između navigacije i desnog dijela zaglavlja (jezik i uloga). */
+  .zaglavlje-desno {
     padding-left: 1.25rem;
     border-left: 1px solid var(--linija-na-tamnoj);
   }
@@ -2248,7 +2248,7 @@ img {
 }
 
 .logo-link,
-.prekidac-uloge {
+.zaglavlje-desno {
   flex: none;
 }
 
@@ -2283,7 +2283,7 @@ img {
     padding: 0 0.7rem;
   }
 
-  .zaglavlje .prekidac-uloge {
+  .zaglavlje .zaglavlje-desno {
     padding-left: 0.75rem;
   }
 
@@ -2781,4 +2781,44 @@ img {
   font-size: 0.75rem;
   line-height: 1.35;
   color: var(--tekst-prigusen);
+}
+
+/* =====================================================================
+   DESNI DIO ZAGLAVLJA: izbor jezika (BS | EN) i ikona demo uloge
+   ===================================================================== */
+.zaglavlje-desno {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.izbor-jezika {
+  display: inline-flex;
+  padding: 3px;
+  border: 1.5px solid var(--linija-na-tamnoj-jaca);
+  border-radius: var(--radius-pun);
+}
+
+.izbor-jezika button {
+  min-width: 38px;
+  min-height: 34px;
+  padding: 0 0.5rem;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--tekst-na-tamnoj-prigusen);
+  background: none;
+  border: none;
+  border-radius: var(--radius-pun);
+  cursor: pointer;
+}
+
+.izbor-jezika button:hover {
+  color: var(--tekst-na-tamnoj);
+}
+
+.izbor-jezika button[aria-pressed='true'] {
+  color: var(--tamna);
+  background: var(--limeta);
 }

@@ -2,9 +2,18 @@
 
 import { JAVNI_STATUSI, PRIORITETI, kategorijaPoKljucu, nazivStatusa } from '../data/konstante.js'
 import { predloziPrioritet } from './prioritet.js'
+import { napraviGresku } from '../jezik/greska.js'
+import { prevedi } from '../jezik/prevodi.js'
 
 // Uz "Proslijeđeno službi" uvijek piše da je to SIMULACIJA (aplikacija ne šalje ništa nikome).
 export const NAPOMENA_SIMULACIJA = 'Simulirani korak – aplikacija ne šalje ništa nijednoj službi.'
+
+// Napomena iz historije statusa za prikaz na izabranom jeziku: sistemska napomena o simulaciji se prevede,
+// a napomenu koju je napisao administrator prikazujemo onako kako je napisana (to je sadržaj).
+export function napomenaZaPrikaz(napomena, jezik = 'bs') {
+  if (!napomena) return napomena
+  return napomena.replace(NAPOMENA_SIMULACIJA, prevedi(jezik, 'napomene.simulacija'))
+}
 
 // U koje statuse administrator smije prebaciti prijavu iz trenutnog statusa.
 //   Na čekanju → Zaprimljeno (odobri) ili Odbijeno (odbij, uz razlog)
@@ -21,11 +30,11 @@ export function dozvoljeniStatusi(trenutni) {
 // Napomena uz korak je javna (vidi se u historiji statusa kad je prijava javna).
 export function promijeniStatus(prijava, noviStatus, { napomena = '', sada = new Date() } = {}) {
   if (!dozvoljeniStatusi(prijava.status).includes(noviStatus)) {
-    throw new Error(`Promjena iz „${nazivStatusa(prijava.status)}“ u „${nazivStatusa(noviStatus)}“ nije dozvoljena.`)
+    throw napraviGresku('greske.promjenaStatusa', { od: `@statusi.${prijava.status}`, u: `@statusi.${noviStatus}` })
   }
   const tekst = (napomena || '').trim()
   if (noviStatus === 'ODBIJENO' && !tekst) {
-    throw new Error('Za odbijanje je obavezan razlog (autor prijave ga vidi).')
+    throw napraviGresku('greske.razlogObavezan')
   }
 
   let napomenaKoraka = tekst
@@ -48,8 +57,8 @@ export function promijeniStatus(prijava, noviStatus, { napomena = '', sada = new
 // Administrator potvrđuje (ili mijenja) konačnu kategoriju i prioritet.
 // Prijedlozi pravila (predlozenaKategorija, predlozeniPrioritet) ostaju sačuvani.
 export function potvrdiKategorijuIPrioritet(prijava, kategorija, prioritet) {
-  if (!kategorijaPoKljucu(kategorija)) throw new Error('Odaberite ispravnu kategoriju.')
-  if (!PRIORITETI[prioritet]) throw new Error('Odaberite prioritet.')
+  if (!kategorijaPoKljucu(kategorija)) throw napraviGresku('greske.kategorija')
+  if (!PRIORITETI[prioritet]) throw napraviGresku('greske.prioritet')
   return { ...prijava, kategorija, potvrdjeniPrioritet: prioritet }
 }
 
@@ -82,10 +91,10 @@ export function poveziPrijave(prijave, id, saId) {
   const prijava = prijave.find((p) => p.id === id)
   const glavnaId = idGlavneGrupe(prijave, saId)
   const glavna = prijave.find((p) => p.id === glavnaId)
-  if (!prijava || !glavna) throw new Error('Prijava ne postoji.')
-  if (glavnaId === id) throw new Error('Prijava ne može biti povezana sama sa sobom.')
+  if (!prijava || !glavna) throw napraviGresku('greske.nemaPrijave')
+  if (glavnaId === id) throw napraviGresku('greske.samaSaSobom')
   if (prijava.kategorija !== glavna.kategorija) {
-    throw new Error('Povezati se mogu samo prijave iste kategorije. Prvo uskladite kategoriju.')
+    throw napraviGresku('greske.istaKategorija')
   }
 
   const staraGlavnaId = prijava.glavnaPrijavaId
@@ -102,8 +111,8 @@ export function poveziPrijave(prijave, id, saId) {
 // Razdvajanje: povezana prijava ponovo postaje samostalna.
 export function razdvojiPrijave(prijave, id) {
   const prijava = prijave.find((p) => p.id === id)
-  if (!prijava) throw new Error('Prijava ne postoji.')
-  if (!prijava.glavnaPrijavaId) throw new Error('Ova prijava nije povezana ni s jednom prijavom.')
+  if (!prijava) throw napraviGresku('greske.nemaPrijave')
+  if (!prijava.glavnaPrijavaId) throw napraviGresku('greske.nijePovezana')
   const staraGlavnaId = prijava.glavnaPrijavaId
   const nove = prijave.map((p) => (p.id === id ? { ...p, glavnaPrijavaId: null, brojPrijavitelja: 1 } : p))
   return preracunajGrupu(nove, staraGlavnaId)

@@ -8,11 +8,13 @@ import { KATEGORIJE, NASELJA, STATUSI, PRIORITETI } from '../../data/konstante.j
 import { filtrirajZaAdmina } from '../../logic/administracija.js'
 import { posljednjePrijave } from '../../logic/statistika.js'
 import { formatirajDatum } from '../../logic/datum.js'
+import { useJezik } from '../../jezik/JezikContext.jsx'
 
 const PRAZNI_FILTERI = { status: '', kategorija: '', naselje: '', tekst: '' }
 
 export default function SvePrijave({ sve }) {
   const [filteri, postaviFiltere] = useState(PRAZNI_FILTERI)
+  const { jezik, t } = useJezik()
   const [otvorena, postaviOtvorenu] = useState(null)
 
   const prikazane = posljednjePrijave(filtrirajZaAdmina(sve, filteri), Infinity)
@@ -20,37 +22,37 @@ export default function SvePrijave({ sve }) {
 
   return (
     <div>
-      <div className="admin-filteri" role="search" aria-label="Filteri prijava">
+      <div className="admin-filteri" role="search" aria-label={t('sve.filteri')}>
         <div className="polje">
-          <label htmlFor="f-tekst">Pretraga</label>
-          <input id="f-tekst" type="text" value={filteri.tekst} onChange={promijeni('tekst')} placeholder="naslov, opis ili id" />
+          <label htmlFor="f-tekst">{t('sve.pretraga')}</label>
+          <input id="f-tekst" type="text" value={filteri.tekst} onChange={promijeni('tekst')} placeholder={t('sve.pretragaPrimjer')} />
         </div>
         <div className="polje">
-          <label htmlFor="f-status">Status</label>
+          <label htmlFor="f-status">{t('sve.status')}</label>
           <select id="f-status" value={filteri.status} onChange={promijeni('status')}>
-            <option value="">Svi statusi</option>
-            {Object.entries(STATUSI).map(([k, s]) => (
+            <option value="">{t('sve.sviStatusi')}</option>
+            {Object.keys(STATUSI).map((k) => (
               <option key={k} value={k}>
-                {s.naziv}
+                {t(`statusi.${k}`)}
               </option>
             ))}
           </select>
         </div>
         <div className="polje">
-          <label htmlFor="f-kategorija">Kategorija</label>
+          <label htmlFor="f-kategorija">{t('sve.kategorija')}</label>
           <select id="f-kategorija" value={filteri.kategorija} onChange={promijeni('kategorija')}>
-            <option value="">Sve kategorije</option>
+            <option value="">{t('sve.sveKategorije')}</option>
             {KATEGORIJE.map((k) => (
               <option key={k.kljuc} value={k.kljuc}>
-                {k.naziv}
+                {t(`kategorije.${k.kljuc}`)}
               </option>
             ))}
           </select>
         </div>
         <div className="polje">
-          <label htmlFor="f-naselje">Naselje</label>
+          <label htmlFor="f-naselje">{t('sve.naselje')}</label>
           <select id="f-naselje" value={filteri.naselje} onChange={promijeni('naselje')}>
-            <option value="">Sva naselja</option>
+            <option value="">{t('sve.svaNaselja')}</option>
             {NASELJA.map((n) => (
               <option key={n.naziv} value={n.naziv}>
                 {n.naziv}
@@ -59,12 +61,12 @@ export default function SvePrijave({ sve }) {
           </select>
         </div>
         <button type="button" className="dugme dugme-sporedno dugme-malo" onClick={() => postaviFiltere(PRAZNI_FILTERI)}>
-          Poništi filtere
+          {t('sve.ponisti')}
         </button>
       </div>
 
       <p className="prigusen" aria-live="polite">
-        Prikazano {prikazane.length} od {sve.length} prijava (najnovije prve).
+        {t('sve.prikazano', { broj: prikazane.length, ukupno: sve.length })}
       </p>
 
       <ul className="admin-lista">
@@ -78,11 +80,13 @@ export default function SvePrijave({ sve }) {
                   <span className="admin-meta">
                     <KategorijaOznaka kategorija={p.kategorija} />
                     <span>{p.naselje}</span>
-                    <span>{formatirajDatum(p.datumPrijave)}</span>
-                    {p.brojPrijavitelja > 1 && <span>Prijavitelja: {p.brojPrijavitelja}</span>}
-                    {p.glavnaPrijavaId && <span>Povezana s {p.glavnaPrijavaId}</span>}
+                    <span>{formatirajDatum(p.datumPrijave, false, jezik)}</span>
+                    {p.brojPrijavitelja > 1 && <span>{t('sve.prijavitelja', { broj: p.brojPrijavitelja })}</span>}
+                    {p.glavnaPrijavaId && <span>{t('sve.povezanaS', { id: p.glavnaPrijavaId })}</span>}
                     <span>
-                      Prioritet: {p.potvrdjeniPrioritet ? PRIORITETI[p.potvrdjeniPrioritet] : 'nije potvrđen'}
+                      {t('sve.prioritet', {
+                        prioritet: p.potvrdjeniPrioritet ? t(`prioriteti.${p.potvrdjeniPrioritet}`) : t('sve.nijePotvrdjen'),
+                      })}
                     </span>
                   </span>
                 </div>
@@ -94,7 +98,7 @@ export default function SvePrijave({ sve }) {
                   aria-controls={`admin-detalji-${p.id}`}
                   onClick={() => postaviOtvorenu(otvoreno ? null : p.id)}
                 >
-                  {otvoreno ? 'Zatvori' : 'Otvori'}
+                  {otvoreno ? t('sve.zatvori') : t('sve.otvori')}
                 </button>
               </div>
               {otvoreno && (

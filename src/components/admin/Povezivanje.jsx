@@ -4,9 +4,13 @@
 import { useState } from 'react'
 import { pronadjiMoguceDuplikate } from '../../logic/duplikati.js'
 import { poveziPrijavu, razdvojiPrijavu } from '../../data/storage.js'
+import { useJezik } from '../../jezik/JezikContext.jsx'
+import { tekstGreske } from '../../jezik/greska.js'
+import { PRAG_DUPLIKATA_M } from '../../data/konstante.js'
 
 export default function Povezivanje({ prijava, sve, javiPoruku }) {
   const [odabrana, postaviOdabranu] = useState('')
+  const { jezik, t } = useJezik()
 
   const glavna = prijava.glavnaPrijavaId ? sve.find((p) => p.id === prijava.glavnaPrijavaId) : null
   const povezane = sve.filter((p) => p.glavnaPrijavaId === prijava.id)
@@ -16,24 +20,21 @@ export default function Povezivanje({ prijava, sve, javiPoruku }) {
       radnja()
       javiPoruku(uspjeh)
     } catch (e) {
-      javiPoruku(e.message, true)
+      javiPoruku(tekstGreske(e, jezik), true)
     }
   }
 
   if (glavna) {
     return (
       <div className="admin-sekcija">
-        <h3>Povezane prijave</h3>
-        <p>
-          Povezana s prijavom <strong>{glavna.naslov}</strong> ({glavna.id}), koja ima {glavna.brojPrijavitelja}{' '}
-          prijavitelja.
-        </p>
+        <h3>{t('pov.naslov')}</h3>
+        <p>{t('pov.povezanaS', { naslov: glavna.naslov, id: glavna.id, broj: glavna.brojPrijavitelja })}</p>
         <button
           type="button"
           className="dugme dugme-sporedno dugme-malo"
-          onClick={() => izvrsi(() => razdvojiPrijavu(prijava.id), 'Prijave su razdvojene.')}
+          onClick={() => izvrsi(() => razdvojiPrijavu(prijava.id), t('pov.razdvojene'))}
         >
-          Razdvoji
+          {t('pov.razdvoji')}
         </button>
       </div>
     )
@@ -49,10 +50,10 @@ export default function Povezivanje({ prijava, sve, javiPoruku }) {
 
   return (
     <div className="admin-sekcija">
-      <h3>Povezane prijave</h3>
+      <h3>{t('pov.naslov')}</h3>
       {povezane.length > 0 ? (
         <>
-          <p>Ovo je glavna prijava grupe ({prijava.brojPrijavitelja} prijavitelja). Povezane prijave:</p>
+          <p>{t('pov.glavna', { broj: prijava.brojPrijavitelja })}</p>
           <ul className="admin-lista-mala">
             {povezane.map((p) => (
               <li key={p.id}>
@@ -62,26 +63,27 @@ export default function Povezivanje({ prijava, sve, javiPoruku }) {
           </ul>
         </>
       ) : (
-        <p className="prigusen mali-tekst">Prijava nije povezana ni s jednom drugom.</p>
+        <p className="prigusen mali-tekst">{t('pov.nijePovezana')}</p>
       )}
 
       {duplikati.length > 0 && (
         <div className="admin-duplikati">
           <p className="mali-tekst">
-            <strong>Mogući duplikati</strong> (ista kategorija, manje od 50 m) – samo prijedlog:
+            <strong>{t('pov.duplikati')}</strong>
+            {t('pov.duplikatiUslov', { m: PRAG_DUPLIKATA_M })}
           </p>
           <ul className="admin-lista-mala">
             {duplikati.map((d) => (
               <li key={d.prijavaId}>
                 <span>
-                  {d.prijava.naslov} ({d.prijavaId}), oko {Math.round(d.udaljenostM)} m
+                  {t('pov.oko', { naslov: d.prijava.naslov, id: d.prijavaId, m: Math.round(d.udaljenostM) })}
                 </span>
                 <button
                   type="button"
                   className="dugme dugme-sporedno dugme-malo"
-                  onClick={() => izvrsi(() => poveziPrijavu(prijava.id, d.prijavaId), 'Prijave su povezane.')}
+                  onClick={() => izvrsi(() => poveziPrijavu(prijava.id, d.prijavaId), t('pov.povezane'))}
                 >
-                  Poveži
+                  {t('pov.povezi')}
                 </button>
               </li>
             ))}
@@ -92,10 +94,10 @@ export default function Povezivanje({ prijava, sve, javiPoruku }) {
       {iste.length > 0 && (
         <div className="admin-red-polja">
           <label htmlFor={`povezi-${prijava.id}`} className="mali-tekst">
-            Poveži ručno s prijavom iste kategorije:
+            {t('pov.rucno')}
           </label>
           <select id={`povezi-${prijava.id}`} value={odabrana} onChange={(e) => postaviOdabranu(e.target.value)}>
-            <option value="">– odaberite prijavu –</option>
+            <option value="">{t('pov.odaberitePrijavu')}</option>
             {iste.map((p) => (
               <option key={p.id} value={p.id}>
                 {p.naslov} ({p.id}, {p.naselje})
@@ -106,9 +108,9 @@ export default function Povezivanje({ prijava, sve, javiPoruku }) {
             type="button"
             className="dugme dugme-sporedno dugme-malo"
             disabled={!odabrana}
-            onClick={() => izvrsi(() => poveziPrijavu(prijava.id, odabrana), 'Prijave su povezane.')}
+            onClick={() => izvrsi(() => poveziPrijavu(prijava.id, odabrana), t('pov.povezane'))}
           >
-            Poveži
+            {t('pov.povezi')}
           </button>
         </div>
       )}

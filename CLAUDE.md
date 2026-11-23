@@ -49,7 +49,12 @@ Akronim "Every Citizen Has One voice" može se spomenuti samo kao sitni detalj n
 ## Stil koda
 - Kod mora biti čitljiv učenicima: kratke funkcije, jasna imena, komentari na bosanskom gdje logika nije očita.
 - Imena polja podataka su na bosanskom, bez dijakritika (vidi model podataka). Ostala imena mogu biti na engleskom.
-- Sav tekst u interfejsu je na bosanskom jeziku, ijekavica, s pravilnim dijakriticima (č, ć, š, ž, đ).
+- Interfejs je dvojezičan: bosanski (zadani; ijekavica, s pravilnim dijakriticima č, ć, š, ž, đ) i engleski.
+  Izbor „BS | EN“ je u zaglavlju i pamti se u pregledniku (storage.js). Svi tekstovi interfejsa su u rječnicima
+  `src/jezik/bs.js` i `src/jezik/en.js` (isti ključevi – provjerava test); komponente koriste `useJezik()` i `t('ključ')`,
+  logika prima neobavezni parametar `jezik` (zadano 'bs'). Dugi tekst ekrana O projektu je u `src/pages/OProjektuSadrzaj.jsx`
+  na oba jezika. Sadržaj prijava (naslov, opis, napomene administratora) se NE prevodi.
+  Ključne riječi za prijedlog kategorije i prioriteta postoje na oba jezika; engleske ne smiju pronaći bosanske riječi (test).
 - Sav pristup podacima ide ISKLJUČIVO kroz `src/data/storage.js`. Komponente nikad ne diraju localStorage direktno.
   (U kasnijim fazama ovaj modul se zamjenjuje pozivima na server.)
 - Čista logika (haversine, prijedlozi, prioritet, statistika) živi u `src/logic/` bez React koda i ima Vitest testove.

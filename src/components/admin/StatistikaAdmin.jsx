@@ -7,6 +7,7 @@ import {
   brojPoNaselju,
   prosjecnoVrijemeRjesavanjaDana,
 } from '../../logic/statistika.js'
+import { useJezik } from '../../jezik/JezikContext.jsx'
 
 // Boje traka po statusu (iste nijanse kao natpisi statusa).
 const BOJE_STATUSA = {
@@ -21,38 +22,42 @@ const BOJE_STATUSA = {
 export default function StatistikaAdmin({ sve }) {
   const prosjek = prosjecnoVrijemeRjesavanjaDana(sve)
   const brojRijesenih = sve.filter((p) => p.status === 'RIJESENO').length
+  const { t } = useJezik()
 
   return (
     <div>
       <div className="admin-kpi">
         <div className="admin-kpi-stavka">
           <span className="admin-kpi-broj">{sve.length}</span>
-          <span>Ukupno prijava</span>
+          <span>{t('stat.ukupno')}</span>
         </div>
         <div className="admin-kpi-stavka">
           <span className="admin-kpi-broj">
             {prosjek === null ? '–' : prosjek.toFixed(1).replace('.', ',')}
           </span>
           <span>
-            Prosječno dana od prijave do „Riješeno“
-            <span className="prigusen mali-tekst"> (na osnovu {brojRijesenih} riješenih)</span>
+            {t('stat.prosjek')}
+            <span className="prigusen mali-tekst">{t('stat.naOsnovu', { broj: brojRijesenih })}</span>
           </span>
         </div>
       </div>
 
       <div className="admin-grafikoni">
         <TrakastiGrafikon
-          naslov="Prijave po kategoriji"
-          stavke={brojPoKategoriji(sve).map((k) => ({ naziv: k.naziv, broj: k.broj, boja: k.boja }))}
+          naslov={t('stat.poKategoriji')}
+          stavke={brojPoKategoriji(sve).map((k) => ({ naziv: t(`kategorije.${k.kljuc}`), broj: k.broj, boja: k.boja }))}
         />
         <TrakastiGrafikon
-          naslov="Prijave po statusu"
-          stavke={brojPoStatusu(sve).map((s) => ({ naziv: s.naziv, broj: s.broj, boja: BOJE_STATUSA[s.kljuc] }))}
+          naslov={t('stat.poStatusu')}
+          stavke={brojPoStatusu(sve).map((s) => ({ naziv: t(`statusi.${s.kljuc}`), broj: s.broj, boja: BOJE_STATUSA[s.kljuc] }))}
         />
-        <TrakastiGrafikon naslov="Prijave po naselju (približno)" stavke={brojPoNaselju(sve)} />
+        <TrakastiGrafikon
+          naslov={t('stat.poNaselju')}
+          stavke={brojPoNaselju(sve).map((n) => (n.nepoznato ? { ...n, naziv: t('stat.nepoznato') } : n))}
+        />
       </div>
       <p className="prigusen mali-tekst">
-        Statistika uključuje sve prijave u ovom pregledniku, i one na čekanju i odbijene. Svi podaci su testni.
+        {t('stat.napomena')}
       </p>
     </div>
   )

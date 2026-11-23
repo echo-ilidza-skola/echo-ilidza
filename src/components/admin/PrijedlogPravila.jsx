@@ -4,9 +4,9 @@
 import { KATEGORIJE, PRIORITETI, kategorijaPoKljucu } from '../../data/konstante.js'
 import { predloziPrioritet } from '../../logic/prioritet.js'
 import { predloziKategoriju } from '../../logic/prijedlogKategorije.js'
-import { OZNAKA_PRAVILA } from '../prijava/PrijedlogKategorije.jsx'
+import { useJezik } from '../../jezik/JezikContext.jsx'
 
-export const NAPOMENA_PRIORITET = 'Orijentacioni prijedlog, nije procjena stvarne opasnosti.'
+// Uz prioritet uvijek piše "Orijentacioni prijedlog, nije procjena stvarne opasnosti." (rječnik: pp.napomena).
 
 export default function PrijedlogPravila({ prijava, kategorija, prioritet, promijeniKategoriju, promijeniPrioritet }) {
   const predlozenaKat = kategorijaPoKljucu(prijava.predlozenaKategorija)
@@ -17,62 +17,63 @@ export default function PrijedlogPravila({ prijava, kategorija, prioritet, promi
     (prijava.brojPrijavitelja || 1) - 1,
   )
   const idPrefiks = `pp-${prijava.id}`
+  const { t } = useJezik()
 
   return (
     <div className="admin-prijedlog">
-      <p className="prijedlog-oznaka">{OZNAKA_PRAVILA}</p>
+      <p className="prijedlog-oznaka">{t('pravila.oznaka')}</p>
 
       <div className="admin-prijedlog-mreza">
         <div>
-          <p className="admin-prijedlog-naslov">Kategorija</p>
+          <p className="admin-prijedlog-naslov">{t('pp.kategorija')}</p>
           <p className="mali-tekst">
-            Prijedlog pravila:{' '}
-            <strong>{predlozenaKat ? predlozenaKat.naziv : 'nema prijedloga (nema ključnih riječi)'}</strong>
+            {t('pp.prijedlogPravila')}{' '}
+            <strong>{predlozenaKat ? t(`kategorije.${predlozenaKat.kljuc}`) : t('pp.nemaPrijedloga')}</strong>
             {pogociKategorije.length > 0 && (
-              <span className="prigusen"> – riječi: {pogociKategorije[0].rijeci.join(', ')}</span>
+              <span className="prigusen">{t('pp.rijeci', { rijeci: pogociKategorije[0].rijeci.join(', ') })}</span>
             )}
           </p>
           <label htmlFor={`${idPrefiks}-kat`} className="mali-tekst">
-            Konačna kategorija
+            {t('pp.konacna')}
           </label>
           <select id={`${idPrefiks}-kat`} value={kategorija} onChange={(e) => promijeniKategoriju(e.target.value)}>
             {KATEGORIJE.map((k) => (
               <option key={k.kljuc} value={k.kljuc}>
-                {k.naziv}
-                {k.kljuc === prijava.predlozenaKategorija ? ' ✓ prijedlog' : ''}
+                {t(`kategorije.${k.kljuc}`)}
+                {k.kljuc === prijava.predlozenaKategorija ? t('pp.oznakaPrijedloga') : ''}
               </option>
             ))}
           </select>
         </div>
 
         <div>
-          <p className="admin-prijedlog-naslov">Prioritet</p>
+          <p className="admin-prijedlog-naslov">{t('pp.prioritet')}</p>
           <p className="mali-tekst">
-            Prijedlog pravila: <strong>{PRIORITETI[predlozeniPr]}</strong> ({bodovi} bod.)
+            {t('pp.prijedlogPravila')} <strong>{t(`prioriteti.${predlozeniPr}`)}</strong> {t('pp.bodova', { bodovi })}
           </p>
           {razlozi.length > 0 ? (
             <ul className="admin-razlozi">
               {razlozi.map((r) => (
-                <li key={r.pravilo}>
-                  {r.pravilo} <strong>+{r.bodovi}</strong>
+                <li key={r.kljuc}>
+                  {t(r.kljuc, r.parametri)} <strong>+{r.bodovi}</strong>
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="mali-tekst prigusen">Nijedno pravilo se nije aktiviralo (0 bodova).</p>
+            <p className="mali-tekst prigusen">{t('pp.nijedno')}</p>
           )}
           <label htmlFor={`${idPrefiks}-pr`} className="mali-tekst">
-            Potvrđeni prioritet
+            {t('pp.potvrdjeni')}
           </label>
           <select id={`${idPrefiks}-pr`} value={prioritet} onChange={(e) => promijeniPrioritet(e.target.value)}>
-            {Object.entries(PRIORITETI).map(([kljuc, naziv]) => (
+            {Object.keys(PRIORITETI).map((kljuc) => (
               <option key={kljuc} value={kljuc}>
-                {naziv}
-                {kljuc === predlozeniPr ? ' ✓ prijedlog' : ''}
+                {t(`prioriteti.${kljuc}`)}
+                {kljuc === predlozeniPr ? t('pp.oznakaPrijedloga') : ''}
               </option>
             ))}
           </select>
-          <p className="mali-tekst prigusen admin-napomena-prioritet">{NAPOMENA_PRIORITET}</p>
+          <p className="mali-tekst prigusen admin-napomena-prioritet">{t('pp.napomena')}</p>
         </div>
       </div>
     </div>

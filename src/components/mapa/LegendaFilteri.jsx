@@ -2,6 +2,7 @@
 
 import { KATEGORIJE, JAVNI_STATUSI, ZNACKE_STATUSA, nazivStatusa } from '../../data/konstante.js'
 import { htmlPina } from './ikonaOznake.js'
+import { useJezik } from '../../jezik/JezikContext.jsx'
 
 // Mala oznaka (isti crtež kao na mapi). HTML je naš, bez teksta korisnika, pa je ubacivanje sigurno.
 function MalaOznaka({ boja, status = null, brojPrijavitelja = 1 }) {
@@ -20,19 +21,18 @@ function prebaci(lista, vrijednost) {
 }
 
 export default function LegendaFilteri({ otvoreno, filteri, promijeniFiltere, ponisti }) {
+  const { jezik, t } = useJezik()
   return (
     <section
       id="legenda-filteri"
       className={otvoreno ? 'legenda legenda-otvorena' : 'legenda'}
       aria-labelledby="legenda-naslov"
     >
-      <h2 id="legenda-naslov">Legenda i filteri</h2>
-      <p className="prigusen mali-tekst">
-        Sve oznake imaju isti oblik. Boja oznake je kategorija, a mala značka na oznaci je status.
-      </p>
+      <h2 id="legenda-naslov">{t('mapa.legendaFilteri')}</h2>
+      <p className="prigusen mali-tekst">{t('legenda.opis')}</p>
 
       <fieldset>
-        <legend>Kategorija (boja oznake)</legend>
+        <legend>{t('legenda.kategorija')}</legend>
         {KATEGORIJE.map((k) => (
           <label key={k.kljuc} className="filter-opcija">
             <input
@@ -41,13 +41,13 @@ export default function LegendaFilteri({ otvoreno, filteri, promijeniFiltere, po
               onChange={() => promijeniFiltere({ ...filteri, kategorije: prebaci(filteri.kategorije, k.kljuc) })}
             />
             <MalaOznaka boja={k.boja} />
-            {k.naziv}
+            {t(`kategorije.${k.kljuc}`)}
           </label>
         ))}
       </fieldset>
 
       <fieldset>
-        <legend>Status (značka na oznaci)</legend>
+        <legend>{t('legenda.status')}</legend>
         {JAVNI_STATUSI.map((s) => (
           <label key={s} className="filter-opcija">
             <input
@@ -56,10 +56,10 @@ export default function LegendaFilteri({ otvoreno, filteri, promijeniFiltere, po
               onChange={() => promijeniFiltere({ ...filteri, statusi: prebaci(filteri.statusi, s) })}
             />
             <MalaOznaka boja="var(--tekst-prigusen)" status={s} />
-            {nazivStatusa(s)}
+            {nazivStatusa(s, jezik)}
             <span className="vizuelno-skriveno">
               {' '}
-              ({ZNACKE_STATUSA[s] ? `značka: ${ZNACKE_STATUSA[s].opis}` : 'bez značke'})
+              ({ZNACKE_STATUSA[s] ? t('legenda.znacka', { opis: t(`znacke.${ZNACKE_STATUSA[s].opis}`) }) : t('legenda.bezZnacke')})
             </span>
           </label>
         ))}
@@ -69,13 +69,13 @@ export default function LegendaFilteri({ otvoreno, filteri, promijeniFiltere, po
       <p className="legenda-talasi">
         <MalaOznaka boja="var(--tekst-prigusen)" brojPrijavitelja={5} />
         <span>
-          <strong>Talasi oko oznake:</strong> više građana prijavilo je isti problem. Što je talasa više, više je
-          prijavitelja (2–3: jedan, 4–6: dva, 7 i više: tri). Tačan broj piše kad kliknete oznaku.
+          <strong>{t('legenda.talasiNaslov')}</strong>
+          {t('legenda.talasiTekst')}
         </span>
       </p>
 
       <button type="button" className="dugme dugme-sporedno" onClick={ponisti}>
-        Prikaži sve
+        {t('legenda.prikaziSve')}
       </button>
     </section>
   )

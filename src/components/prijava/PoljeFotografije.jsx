@@ -4,8 +4,8 @@
 // kameru, bez posebnih dozvola. Na računaru oba dugmeta otvaraju izbor fajla.
 
 import Ikona from '../Ikona.jsx'
+import { useJezik } from '../../jezik/JezikContext.jsx'
 
-export const UPOZORENJE_FOTO = 'Ne fotografišite lica ni registarske oznake. Fotografija treba prikazati samo problem.'
 
 // Skriveno polje za fajl unutar labele koja izgleda kao dugme.
 function DugmeFotografije({ ikona, tekst, kamera, obrada, odaberi, glavno }) {
@@ -31,38 +31,38 @@ function DugmeFotografije({ ikona, tekst, kamera, obrada, odaberi, glavno }) {
 }
 
 export default function PoljeFotografije({ foto, obrada, greska, odaberi, ukloni }) {
+  const { t } = useJezik()
   return (
     <section className="foto-polje" aria-labelledby="foto-oznaka">
       <h3 id="foto-oznaka" className="oznaka-polja">
-        Fotografija problema <span className="prigusen">(neobavezno)</span>
+        {t('obrazacFoto.naslov')} <span className="prigusen">{t('obrazacFoto.neobavezno')}</span>
       </h3>
 
       {/* Upozorenje je vidljivo PRIJE nego se kamera otvori. */}
       <p className="upozorenje-okvir" id="foto-upozorenje">
         <span aria-hidden="true">⚠ </span>
-        {UPOZORENJE_FOTO}
+        {t('obrazacFoto.upozorenje')}
       </p>
 
       {foto ? (
         <div className="foto-pregled foto-pregled--veliki">
-          <img src={foto.url} alt="Pregled odabrane fotografije" />
+          <img src={foto.url} alt={t('obrazacFoto.pregledAlt')} />
           <p className="prigusen mali-tekst">
-            Smanjeno na {foto.sirina} × {foto.visina} px, {Math.round(foto.blob.size / 1024)} kB. Podaci o lokaciji i
-            uređaju iz fotografije (EXIF) su uklonjeni.
+            {t('obrazacFoto.smanjeno', { sirina: foto.sirina, visina: foto.visina, kb: Math.round(foto.blob.size / 1024) })}
           </p>
           <button type="button" className="dugme dugme-upozorenje" onClick={ukloni}>
             <Ikona ime="zatvori" velicina={18} />
-            Ukloni fotografiju
+            {t('obrazacFoto.ukloni')}
           </button>
         </div>
       ) : obrada ? (
         <p className="foto-obrada" role="status">
-          Obrađujem fotografiju…
+          {t('obrazacFoto.obrada')}
         </p>
       ) : (
         <div className="foto-dugmad">
-          <DugmeFotografije ikona="kamera" tekst="Fotografiši problem" kamera glavno odaberi={odaberi} />
-          <DugmeFotografije ikona="galerija" tekst="Iz galerije" odaberi={odaberi} />
+          <DugmeFotografije ikona="kamera" tekst={t('obrazacFoto.fotografisi')} kamera glavno odaberi={odaberi} />
+          <DugmeFotografije ikona="galerija" tekst={t('obrazacFoto.galerija')} odaberi={odaberi} />
         </div>
       )}
 

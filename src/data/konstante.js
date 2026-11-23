@@ -1,5 +1,8 @@
 // Zajedničke konstante aplikacije: kategorije, statusi, naselja, granice Ilidže.
 // Ovdje nema React koda, pa se ovaj fajl može koristiti i u testovima.
+// Nazivi za prikaz (na bosanskom i engleskom) su u rječnicima src/jezik/bs.js i en.js.
+
+import { prevedi } from '../jezik/prevodi.js'
 
 export const OPCINA = 'ilidza'
 
@@ -14,55 +17,64 @@ export const MAX_OPIS = 1000
 
 // Kategorije: ključ, naziv za prikaz, boja oznake na mapi i ključne riječi za prijedlog.
 // Same boje su dizajn-tokeni u src/styles/tokeni.css (--kategorija-...).
-// Liste ključnih riječi se mogu proširiti.
+// Liste ključnih riječi se mogu proširiti. Drugi red svake liste su engleske riječi (za prijave na engleskom);
+// izabrane su tako da nijedna nije početak neke bosanske ključne riječi, da se pogoci ne broje dvaput.
 export const KATEGORIJE = [
   {
     kljuc: 'ceste',
     naziv: 'Ceste i trotoari',
     boja: 'var(--kategorija-ceste)',
-    kljucneRijeci: ['rupa', 'udarna rupa', 'asfalt', 'trotoar', 'pločnik', 'oštećena cesta'],
+    kljucneRijeci: ['rupa', 'udarna rupa', 'asfalt', 'trotoar', 'pločnik', 'oštećena cesta',
+      'pothole', 'asphalt', 'sidewalk', 'pavement', 'damaged road'],
   },
   {
     kljuc: 'rasvjeta',
     naziv: 'Javna rasvjeta',
     boja: 'var(--kategorija-rasvjeta)',
-    kljucneRijeci: ['rasvjeta', 'lampa', 'sijalica', 'mrak', 'ne svijetli', 'stub'],
+    kljucneRijeci: ['rasvjeta', 'lampa', 'sijalica', 'mrak', 'ne svijetli', 'stub',
+      'street light', 'streetlight', 'lamppost', 'bulb', 'dark'],
   },
   {
     kljuc: 'otpad',
     naziv: 'Otpad i deponije',
     boja: 'var(--kategorija-otpad)',
-    kljucneRijeci: ['smeće', 'otpad', 'deponija', 'kontejner', 'kanta', 'đubre'],
+    kljucneRijeci: ['smeće', 'otpad', 'deponija', 'kontejner', 'kanta', 'đubre',
+      'trash', 'garbage', 'waste', 'litter', 'rubbish', 'dumpster'],
   },
   {
     kljuc: 'igralista',
     naziv: 'Igrališta i parkovi',
     boja: 'var(--kategorija-igralista)',
-    kljucneRijeci: ['igralište', 'ljuljačka', 'tobogan', 'klupa', 'park'],
+    kljucneRijeci: ['igralište', 'ljuljačka', 'tobogan', 'klupa', 'park',
+      'playground', 'swing', 'slide', 'bench'],
   },
   {
     kljuc: 'prevoz',
     naziv: 'Javni prevoz',
     boja: 'var(--kategorija-prevoz)',
-    kljucneRijeci: ['autobus', 'tramvaj', 'stanica', 'kasni', 'linija', 'nadstrešnica'],
+    kljucneRijeci: ['autobus', 'tramvaj', 'stanica', 'kasni', 'linija', 'nadstrešnica',
+      'buses', 'bus stop', 'bus line', 'shelter', 'timetable', 'delay'],
   },
   {
     kljuc: 'sigurnost',
     naziv: 'Pješački prelazi i sigurnost',
     boja: 'var(--kategorija-sigurnost)',
-    kljucneRijeci: ['prelaz', 'zebra', 'semafor', 'brzina', 'opasno za pješake'],
+    kljucneRijeci: ['prelaz', 'zebra', 'semafor', 'brzina', 'opasno za pješake',
+      'crosswalk', 'pedestrian crossing', 'traffic light', 'speeding'],
   },
   {
     kljuc: 'infrastruktura',
     naziv: 'Javna infrastruktura',
     boja: 'var(--kategorija-infrastruktura)',
-    kljucneRijeci: ['šaht', 'poklopac', 'ograda', 'most', 'kanalizacija', 'voda'],
+    kljucneRijeci: ['šaht', 'poklopac', 'ograda', 'most', 'kanalizacija', 'voda',
+      'manhole', 'cover', 'fence', 'bridge', 'sewer', 'water'],
   },
   {
     kljuc: 'okolis',
     naziv: 'Zelene površine i okoliš',
     boja: 'var(--kategorija-okolis)',
-    kljucneRijeci: ['drvo', 'trava', 'zelena površina', 'sječa', 'zagađenje'],
+    kljucneRijeci: ['drvo', 'trava', 'zelena površina', 'sječa', 'zagađenje',
+      'trees', 'fallen tree', 'branch', 'grass', 'green area', 'logging', 'pollution'],
   },
 ]
 
@@ -88,16 +100,23 @@ export const JAVNI_STATUSI = Object.keys(STATUSI).filter((s) => STATUSI[s].javno
 
 // Oblik oznake na mapi za svaki javni status (boja oznake = kategorija, oblik = status).
 // Mala značka statusa na oznaci na mapi (sve oznake imaju isti oblik; boja je kategorija).
-// Zaprimljeno nema značku. "putanja" je SVG crtež ikone (polje 16 × 16, crta se linijom).
+// Zaprimljeno nema značku. "opis" je ključ naziva značke u rječniku (znacke.…),
+// a "putanja" je SVG crtež ikone (polje 16 × 16, crta se linijom).
 export const ZNACKE_STATUSA = {
   ZAPRIMLJENO: null,
   U_OBRADI: { opis: 'sat', putanja: 'M8 3.6a4.4 4.4 0 1 0 0 8.8a4.4 4.4 0 1 0 0-8.8zM8 5.6V8l1.7 1.2' },
   PROSLIJEDJENO: { opis: 'strelica', putanja: 'M3.8 8h7.6M8.4 5l3 3-3 3' },
-  RIJESENO: { opis: 'kvačica', putanja: 'M4.2 8.3l2.5 2.5 5-5.4' },
+  RIJESENO: { opis: 'kvacica', putanja: 'M4.2 8.3l2.5 2.5 5-5.4' },
 }
 
-export function nazivStatusa(status) {
-  return STATUSI[status] ? STATUSI[status].naziv : status
+// Naziv statusa u izabranom jeziku (zadani je bosanski).
+export function nazivStatusa(status, jezik = 'bs') {
+  return STATUSI[status] ? prevedi(jezik, `statusi.${status}`) : status
+}
+
+// Naziv kategorije u izabranom jeziku (zadani je bosanski).
+export function nazivKategorije(kljuc, jezik = 'bs') {
+  return kategorijaPoKljucu(kljuc) ? prevedi(jezik, `kategorije.${kljuc}`) : kljuc
 }
 
 export const PRIORITETI = {

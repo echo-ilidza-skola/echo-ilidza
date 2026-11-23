@@ -3,16 +3,17 @@
 // i na ekranu O projektu. Trenutna uloga se vidi u meniju (kvačica) i u oblačiću ikone.
 
 import { useEffect, useRef, useState } from 'react'
-import { ULOGE } from '../data/konstante.js'
 import { useUloga } from '../context/UlogaContext.jsx'
 import Ikona from './Ikona.jsx'
+import { useJezik } from '../jezik/JezikContext.jsx'
 
 export default function PrekidacUloge() {
   const { uloga, promijeniUlogu } = useUloga()
+  const { t } = useJezik()
   const [otvoren, postaviOtvoren] = useState(false)
   const okvirRef = useRef(null)
   const dugmeRef = useRef(null)
-  const naslov = `Demo uloga: ${ULOGE[uloga]}`
+  const nazivUloge = t(`uloge.${uloga}`)
 
   // Meni se zatvara klikom izvan njega ili tipkom Escape (fokus se vraća na ikonu).
   useEffect(() => {
@@ -48,8 +49,8 @@ export default function PrekidacUloge() {
         className="prekidac-dugme"
         aria-expanded={otvoren}
         aria-controls="meni-uloge"
-        aria-label={`${naslov} (promijeni ulogu)`}
-        title={naslov}
+        aria-label={t('uloga.promijeni', { uloga: nazivUloge })}
+        title={t('uloga.trenutna', { uloga: nazivUloge })}
         onClick={() => postaviOtvoren(!otvoren)}
       >
         <Ikona ime="osoba" velicina={20} />
@@ -57,22 +58,20 @@ export default function PrekidacUloge() {
 
       {otvoren && (
         <div id="meni-uloge" className="meni-uloge">
-          <p className="meni-uloge-naslov">Demo uloga</p>
+          <p className="meni-uloge-naslov">{t('uloga.naslov')}</p>
           <ul>
-            {Object.entries(ULOGE).map(([kljuc, naziv]) => (
+            {['gost', 'gradjanin', 'administrator'].map((kljuc) => (
               <li key={kljuc}>
                 <button type="button" aria-pressed={kljuc === uloga} onClick={() => izaberi(kljuc)}>
                   <span className="meni-uloge-kvacica" aria-hidden="true">
                     {kljuc === uloga && <Ikona ime="kvaka" velicina={16} />}
                   </span>
-                  {naziv}
+                  {t(`uloge.${kljuc}`)}
                 </button>
               </li>
             ))}
           </ul>
-          <p className="meni-uloge-napomena">
-            Samo za demonstraciju – nije prijava korisnika ni zaštita podataka. Svi podaci su testni.
-          </p>
+          <p className="meni-uloge-napomena">{t('uloga.napomena')}</p>
         </div>
       )}
     </div>

@@ -102,12 +102,27 @@ describe('predloziPrioritet', () => {
     const r = predloziPrioritet('Rupa', '', 3)
     expect(r.bodovi).toBe(3)
     expect(r.prioritet).toBe('srednji')
-    expect(r.razlozi[0]).toEqual({ pravilo: 'Povezane prijave: 3', bodovi: 3 })
+    // Razlog ima i ključ prevoda (za engleski prikaz); bosanski tekst i bodovi su isti kao i ranije.
+    expect(r.razlozi[0]).toMatchObject({ pravilo: 'Povezane prijave: 3', bodovi: 3, kljuc: 'pp.razlogPovezane' })
   })
 
   it('neispravan broj povezanih prijava se tretira kao 0', () => {
     expect(predloziPrioritet('Rupa', '', -2).bodovi).toBe(0)
     expect(predloziPrioritet('Rupa', '', undefined).bodovi).toBe(0)
     expect(predloziPrioritet('Rupa', '', 'abc').bodovi).toBe(0)
+  })
+})
+
+describe('engleske ključne riječi', () => {
+  it('predlaže kategoriju i za prijavu napisanu na engleskom', () => {
+    expect(predloziKategoriju('Big pothole on the road', 'The sidewalk is broken too').kategorija).toBe('ceste')
+    expect(predloziKategoriju('Overflowing garbage', 'Trash everywhere next to the container').kategorija).toBe('otpad')
+    expect(predloziKategoriju('Open manhole', 'The cover is missing').kategorija).toBe('infrastruktura')
+  })
+
+  it('prioritet: engleske riječi opasnosti i škole', () => {
+    const r = predloziPrioritet('Open manhole near the school', 'Very dangerous, a child fell')
+    expect(r.bodovi).toBe(5)
+    expect(r.prioritet).toBe('visok')
   })
 })

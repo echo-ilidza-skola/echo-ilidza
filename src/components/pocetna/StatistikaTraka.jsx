@@ -5,6 +5,7 @@
 import Ikona from '../Ikona.jsx'
 import { osnovnaStatistika } from '../../logic/statistika.js'
 import { useBrojanje } from '../../hooks/useBrojanje.js'
+import { useJezik } from '../../jezik/JezikContext.jsx'
 
 function Stavka({ broj, naziv, ikona, klasa }) {
   const prikazano = useBrojanje(broj)
@@ -27,11 +28,12 @@ function Stavka({ broj, naziv, ikona, klasa }) {
 
 export default function StatistikaTraka({ javne }) {
   const s = osnovnaStatistika(javne)
+  const { t } = useJezik()
   return (
-    <ul className="statistika-traka ulaz ulaz-5" aria-label="Statistika javnih prijava (testni podaci)">
-      <Stavka broj={s.ukupno} naziv="Javne prijave" ikona="moje" klasa="stat-ikona--zelena" />
-      <Stavka broj={s.uObradi} naziv="U obradi" ikona="sat" klasa="stat-ikona--zuta" />
-      <Stavka broj={s.rijeseno} naziv="Riješeno" ikona="kvaka" klasa="stat-ikona--kvacica" />
+    <ul className="statistika-traka ulaz ulaz-5" aria-label={t('statistika.oznaka')}>
+      <Stavka broj={s.ukupno} naziv={t('statistika.javne')} ikona="moje" klasa="stat-ikona--zelena" />
+      <Stavka broj={s.uObradi} naziv={t('statistika.uObradi')} ikona="sat" klasa="stat-ikona--zuta" />
+      <Stavka broj={s.rijeseno} naziv={t('statistika.rijeseno')} ikona="kvaka" klasa="stat-ikona--kvacica" />
     </ul>
   )
 }

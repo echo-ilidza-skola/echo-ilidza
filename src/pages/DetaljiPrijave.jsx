@@ -15,22 +15,22 @@ import { nazivStatusa } from '../data/konstante.js'
 import { javnePrijave } from '../data/storage.js'
 import { formatirajDatum } from '../logic/datum.js'
 import { povezanePrijave } from '../logic/mapa.js'
+import { useJezik } from '../jezik/JezikContext.jsx'
 
 export default function DetaljiPrijave() {
   const { id } = useParams()
   const javne = usePodaci(javnePrijave)
   const prijava = javne.find((p) => p.id === id)
+  const { jezik, t } = useJezik()
 
   if (!prijava) {
     return (
       <>
-        <TrakaStranice naslov="Prijava nije dostupna" />
+        <TrakaStranice naslov={t('detalji.nedostupnaNaslov')} />
         <section>
           <div className="kartica">
-            <p>
-              Prijava ne postoji ili još nije javna. Prijave postaju javne tek nakon provjere administratora.
-            </p>
-            <Link to="/mapa">Nazad na mapu</Link>
+            <p>{t('detalji.nedostupnaTekst')}</p>
+            <Link to="/mapa">{t('detalji.nazadNaMapu')}</Link>
           </div>
         </section>
       </>
@@ -46,7 +46,7 @@ export default function DetaljiPrijave() {
         naslov={prijava.naslov}
         nazad={
           <Link to="/mapa" className="traka-stranice-nazad">
-            ← Nazad na mapu
+            ← {t('detalji.nazadNaMapu')}
           </Link>
         }
       />
@@ -61,47 +61,47 @@ export default function DetaljiPrijave() {
           <div className="eho-kartica-glava">
             <EhoStatus status={prijava.status} velicina={72} animacija="pri-prikazu" />
             <div>
-              <h2 id="status-naslov" className="eho-kartica-oznaka">Status prijave</h2>
+              <h2 id="status-naslov" className="eho-kartica-oznaka">{t('detalji.statusPrijave')}</h2>
               {/* Naziv čitač ekrana već čuje iz znaka eha (aria-label), pa ga ovdje preskače. */}
-              <p className="eho-kartica-naziv" aria-hidden="true">{nazivStatusa(prijava.status)}</p>
+              <p className="eho-kartica-naziv" aria-hidden="true">{nazivStatusa(prijava.status, jezik)}</p>
             </div>
           </div>
           <EhoVremenskaLinija prijava={prijava} />
         </section>
 
         <dl className="detalji-polja">
-          <dt>Prijavljeno</dt>
-          <dd>{formatirajDatum(prijava.datumPrijave, true)}</dd>
-          <dt>Naselje (približno)</dt>
-          <dd>{prijava.naselje || 'nepoznato'}</dd>
+          <dt>{t('detalji.prijavljeno')}</dt>
+          <dd>{formatirajDatum(prijava.datumPrijave, true, jezik)}</dd>
+          <dt>{t('detalji.naselje')}</dt>
+          <dd>{prijava.naselje || t('detalji.nepoznato')}</dd>
           {/* Za povezanu prijavu prikazujemo broj prijavitelja cijele grupe (iz glavne prijave). */}
-          <dt>{glavna ? 'Broj prijavitelja (cijela grupa)' : 'Broj prijavitelja'}</dt>
+          <dt>{glavna ? t('detalji.brojGrupa') : t('detalji.broj')}</dt>
           <dd>{glavna ? glavna.brojPrijavitelja : prijava.brojPrijavitelja}</dd>
         </dl>
 
         <section className="kartica">
-          <h2>Opis</h2>
+          <h2>{t('detalji.opis')}</h2>
           <p className="opis-tekst">{prijava.opis}</p>
           {/* Javni prikaz daje fotografijaId = null ako je administrator sakrio fotografiju. */}
           {prijava.fotografijaId ? (
-            <Fotografija id={prijava.fotografijaId} alt={`Fotografija problema: ${prijava.naslov}`} />
+            <Fotografija id={prijava.fotografijaId} alt={t('detalji.fotoAlt', { naslov: prijava.naslov })} />
           ) : (
-            <p className="prigusen mali-tekst">Prijava nema javnu fotografiju.</p>
+            <p className="prigusen mali-tekst">{t('detalji.nemaFoto')}</p>
           )}
         </section>
 
         {(glavna || povezane.length > 0) && (
           <section className="kartica">
-            <h2>Povezane prijave</h2>
+            <h2>{t('detalji.povezane')}</h2>
             {glavna && (
               <p>
-                Ova prijava je povezana s prijavom <Link to={`/prijava/${glavna.id}`}>{glavna.naslov}</Link>, jer
-                opisuje isti problem.
+                {t('detalji.povezanaS')} <Link to={`/prijava/${glavna.id}`}>{glavna.naslov}</Link>
+                {t('detalji.isti')}
               </p>
             )}
             {povezane.length > 0 && (
               <>
-                <p>Isti problem su prijavili i drugi građani:</p>
+                <p>{t('detalji.drugiGradjani')}</p>
                 <ul>
                   {povezane.map((p) => (
                     <li key={p.id}>
@@ -115,18 +115,18 @@ export default function DetaljiPrijave() {
         )}
 
         <section className="kartica">
-          <h2>Lokacija</h2>
+          <h2>{t('detalji.lokacija')}</h2>
           {/* key: nova mapa za svaku prijavu, da se centrira i kad pređemo na povezanu prijavu. */}
           <OsnovnaMapa
             key={prijava.id}
             centar={{ lat: prijava.lat, lng: prijava.lng }}
             zoom={16}
             className="mapa mapa-mala"
-            oznaka="Lokacija prijave na mapi"
+            oznaka={t('detalji.lokacijaMapa')}
           >
-            <Marker position={[prijava.lat, prijava.lng]} icon={napraviIkonu(prijava)} keyboard={false} />
+            <Marker position={[prijava.lat, prijava.lng]} icon={napraviIkonu(prijava, jezik)} keyboard={false} />
           </OsnovnaMapa>
-          <p className="prigusen mali-tekst">Lokacija je onakva kakvu je odabrao građanin.</p>
+          <p className="prigusen mali-tekst">{t('detalji.lokacijaNapomena')}</p>
         </section>
 
       </article>

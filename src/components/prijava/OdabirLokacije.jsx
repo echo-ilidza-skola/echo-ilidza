@@ -5,6 +5,7 @@ import { Marker, useMap, useMapEvents } from 'react-leaflet'
 import L from 'leaflet'
 import OsnovnaMapa from '../mapa/OsnovnaMapa.jsx'
 import { CENTAR_MAPE } from '../../data/konstante.js'
+import { useJezik } from '../../jezik/JezikContext.jsx'
 
 const IKONA_ODABIRA = L.divIcon({
   className: 'oznaka-omotac',
@@ -35,12 +36,13 @@ function PomjeriMapu({ lokacija }) {
 }
 
 export default function OdabirLokacije({ lokacija, naOdabir }) {
+  const { t } = useJezik()
   return (
     <OsnovnaMapa
       centar={lokacija || CENTAR_MAPE}
       zoom={lokacija ? 16 : 13}
       className="mapa mapa-odabir"
-      oznaka="Mapa za odabir lokacije: kliknite na mjesto problema"
+      oznaka={t('obrazacLokacija.mapaOznaka')}
     >
       <SlusacKlika naOdabir={naOdabir} />
       <PomjeriMapu lokacija={lokacija} />

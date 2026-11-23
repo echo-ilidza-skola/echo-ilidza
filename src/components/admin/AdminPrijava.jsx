@@ -12,7 +12,7 @@ import Fotografija from '../Fotografija.jsx'
 import PrijedlogPravila from './PrijedlogPravila.jsx'
 import Povezivanje from './Povezivanje.jsx'
 import { STATUSI, nazivStatusa } from '../../data/konstante.js'
-import { dozvoljeniStatusi } from '../../logic/administracija.js'
+import { dozvoljeniStatusi, napomenaZaPrikaz } from '../../logic/administracija.js'
 import { formatirajDatum } from '../../logic/datum.js'
 import {
   odobriPrijavu,
@@ -22,6 +22,8 @@ import {
   sacuvajInternuNapomenu,
   postaviSakrivenuFotografiju,
 } from '../../data/storage.js'
+import { useJezik } from '../../jezik/JezikContext.jsx'
+import { tekstGreske } from '../../jezik/greska.js'
 
 // naOdluku: neobavezno; poziva se nakon odobravanja/odbijanja (kartica tada nestaje iz reda čekanja,
 // pa poruku prikazuje roditelj).
@@ -34,6 +36,7 @@ export default function AdminPrijava({ prijava, sve, naOdluku }) {
   const [javnaNapomena, postaviJavnuNapomenu] = useState('')
   const [interna, postaviInternu] = useState(prijava.internaNapomena || '')
   const [poruka, postaviPoruku] = useState(null) // { tekst, greska }
+  const { jezik, t } = useJezik()
 
   const id = prijava.id
   const naCekanju = prijava.status === 'NA_CEKANJU'
@@ -50,7 +53,7 @@ export default function AdminPrijava({ prijava, sve, naOdluku }) {
       javiPoruku(uspjeh)
       return true
     } catch (e) {
-      javiPoruku(e.message, true)
+      javiPoruku(tekstGreske(e, jezik), true)
       return false
     }
   }
@@ -63,9 +66,9 @@ export default function AdminPrijava({ prijava, sve, naOdluku }) {
           <p className="admin-meta">
             <KategorijaOznaka kategorija={prijava.kategorija} />
             <span>{prijava.naselje}</span>
-            <span>{formatirajDatum(prijava.datumPrijave, true)}</span>
-            <span>Autor (demo): {prijava.autorId}</span>
-            <span>Id: {id}</span>
+            <span>{formatirajDatum(prijava.datumPrijave, true, jezik)}</span>
+            <span>{t('ap.autor', { autor: prijava.autorId })}</span>
+            <span>{t('ap.id', { id })}</span>
           </p>
         </div>
         {/* Kad administrator promijeni status, lukovi eha se upale jedan za drugim (jednom). */}
@@ -78,23 +81,23 @@ export default function AdminPrijava({ prijava, sve, naOdluku }) {
 
           {prijava.fotografijaId ? (
             <div className="admin-sekcija">
-              <Fotografija id={prijava.fotografijaId} alt={`Fotografija uz prijavu: ${prijava.naslov}`} className="fotografija-mala" />
-              {prijava.fotografijaSkrivena && <p className="info-okvir">Fotografija je sakrivena iz javnog prikaza.</p>}
+              <Fotografija id={prijava.fotografijaId} alt={t('ap.fotoAlt', { naslov: prijava.naslov })} className="fotografija-mala" />
+              {prijava.fotografijaSkrivena && <p className="info-okvir">{t('ap.fotoSakrivena')}</p>}
               <button
                 type="button"
                 className="dugme dugme-sporedno dugme-malo"
                 onClick={() =>
                   izvrsi(
                     () => postaviSakrivenuFotografiju(id, !prijava.fotografijaSkrivena),
-                    prijava.fotografijaSkrivena ? 'Fotografija je ponovo vidljiva u javnom prikazu.' : 'Fotografija je sakrivena.',
+                    prijava.fotografijaSkrivena ? t('ap.fotoVidljiva') : t('ap.fotoSakrivenaPoruka'),
                   )
                 }
               >
-                {prijava.fotografijaSkrivena ? 'Prikaži fotografiju javno' : 'Sakrij fotografiju'}
+                {prijava.fotografijaSkrivena ? t('ap.prikaziFoto') : t('ap.sakrijFoto')}
               </button>
             </div>
           ) : (
-            <p className="prigusen mali-tekst">Prijava nema fotografiju.</p>
+            <p className="prigusen mali-tekst">{t('ap.nemaFoto')}</p>
           )}
 
           <OsnovnaMapa
@@ -102,13 +105,13 @@ export default function AdminPrijava({ prijava, sve, naOdluku }) {
             centar={{ lat: prijava.lat, lng: prijava.lng }}
             zoom={16}
             className="mapa mapa-admin"
-            oznaka={`Lokacija prijave ${prijava.naslov}`}
+            oznaka={t('ap.lokacija', { naslov: prijava.naslov })}
           >
-            <Marker position={[prijava.lat, prijava.lng]} icon={napraviIkonu(prijava)} keyboard={false} />
+            <Marker position={[prijava.lat, prijava.lng]} icon={napraviIkonu(prijava, jezik)} keyboard={false} />
           </OsnovnaMapa>
           {javna && (
             <p className="mali-tekst">
-              <Link to={`/prijava/${id}`}>Otvori javni prikaz ove prijave</Link>
+              <Link to={`/prijava/${id}`}>{t('ap.javniPrikaz')}</Link>
             </p>
           )}
         </div>
@@ -124,40 +127,40 @@ export default function AdminPrijava({ prijava, sve, naOdluku }) {
 
           {naCekanju ? (
             <div className="admin-sekcija">
-              <h3>Odluka</h3>
+              <h3>{t('ap.odluka')}</h3>
               {!odbijanje ? (
                 <div className="admin-dugmad">
                   <button
                     type="button"
                     className="dugme dugme-glavno"
                     onClick={() => {
-                      const tekst = `„${prijava.naslov}“ je odobrena i sada je javna (Zaprimljeno).`
+                      const tekst = t('ap.odobrena', { naslov: prijava.naslov })
                       if (izvrsi(() => odobriPrijavu(id, { kategorija, prioritet }), tekst)) naOdluku?.(tekst)
                     }}
                   >
-                    Odobri
+                    {t('ap.odobri')}
                   </button>
                   <button type="button" className="dugme dugme-upozorenje" onClick={() => postaviOdbijanje(true)}>
-                    Odbij
+                    {t('ap.odbij')}
                   </button>
                 </div>
               ) : (
                 <div className="polje">
-                  <label htmlFor={`razlog-${id}`}>Razlog odbijanja (vidi ga autor prijave) *</label>
+                  <label htmlFor={`razlog-${id}`}>{t('ap.razlog')}</label>
                   <textarea id={`razlog-${id}`} rows={3} value={razlog} onChange={(e) => postaviRazlog(e.target.value)} />
                   <div className="admin-dugmad">
                     <button
                       type="button"
                       className="dugme dugme-upozorenje"
                       onClick={() => {
-                        const tekst = `„${prijava.naslov}“ je odbijena. Autor vidi razlog.`
+                        const tekst = t('ap.odbijena', { naslov: prijava.naslov })
                         if (izvrsi(() => odbijPrijavu(id, razlog), tekst)) naOdluku?.(tekst)
                       }}
                     >
-                      Potvrdi odbijanje
+                      {t('ap.potvrdiOdbijanje')}
                     </button>
                     <button type="button" className="dugme dugme-sporedno" onClick={() => postaviOdbijanje(false)}>
-                      Odustani
+                      {t('ap.odustani')}
                     </button>
                   </div>
                 </div>
@@ -170,29 +173,29 @@ export default function AdminPrijava({ prijava, sve, naOdluku }) {
                   type="button"
                   className="dugme dugme-sporedno dugme-malo"
                   onClick={() =>
-                    izvrsi(() => sacuvajKategorijuIPrioritet(id, kategorija, prioritet), 'Kategorija i prioritet su sačuvani.')
+                    izvrsi(() => sacuvajKategorijuIPrioritet(id, kategorija, prioritet), t('ap.sacuvanoKP'))
                   }
                 >
-                  Sačuvaj kategoriju i prioritet
+                  {t('ap.sacuvajKP')}
                 </button>
               </div>
 
               <div className="admin-sekcija">
-                <h3>Promjena statusa</h3>
+                <h3>{t('ap.promjena')}</h3>
                 <div className="polje">
-                  <label htmlFor={`status-${id}`}>Novi status</label>
+                  <label htmlFor={`status-${id}`}>{t('ap.noviStatus')}</label>
                   <select id={`status-${id}`} value={noviStatus} onChange={(e) => postaviNoviStatus(e.target.value)}>
-                    <option value="">– odaberite –</option>
+                    <option value="">{t('ap.odaberite')}</option>
                     {dozvoljeniStatusi(prijava.status).map((s) => (
                       <option key={s} value={s}>
-                        {nazivStatusa(s)}
+                        {nazivStatusa(s, jezik)}
                       </option>
                     ))}
                   </select>
                 </div>
                 <div className="polje">
                   <label htmlFor={`napomena-${id}`}>
-                    Napomena uz promjenu (javna – vidi se u historiji statusa)
+                    {t('ap.napomena')}
                   </label>
                   <input
                     id={`napomena-${id}`}
@@ -208,7 +211,7 @@ export default function AdminPrijava({ prijava, sve, naOdluku }) {
                   onClick={() => {
                     const ok = izvrsi(
                       () => promijeniStatusPrijave(id, noviStatus, javnaNapomena),
-                      `Status je promijenjen u „${nazivStatusa(noviStatus)}“.`,
+                      t('ap.promijenjen', { status: nazivStatusa(noviStatus, jezik) }),
                     )
                     if (ok) {
                       postaviNoviStatus('')
@@ -216,7 +219,7 @@ export default function AdminPrijava({ prijava, sve, naOdluku }) {
                     }
                   }}
                 >
-                  Promijeni status
+                  {t('ap.promijeni')}
                 </button>
               </div>
             </>
@@ -224,28 +227,28 @@ export default function AdminPrijava({ prijava, sve, naOdluku }) {
 
           <div className="admin-sekcija">
             <label htmlFor={`interna-${id}`} className="admin-naslov-polja">
-              Interna napomena (samo administracija, nikad javno)
+              {t('ap.interna')}
             </label>
             <textarea id={`interna-${id}`} rows={2} value={interna} onChange={(e) => postaviInternu(e.target.value)} />
             <button
               type="button"
               className="dugme dugme-sporedno dugme-malo"
-              onClick={() => izvrsi(() => sacuvajInternuNapomenu(id, interna), 'Interna napomena je sačuvana.')}
+              onClick={() => izvrsi(() => sacuvajInternuNapomenu(id, interna), t('ap.internaSacuvana'))}
             >
-              Sačuvaj napomenu
+              {t('ap.sacuvajNapomenu')}
             </button>
           </div>
 
           <Povezivanje prijava={prijava} sve={sve} javiPoruku={javiPoruku} />
 
           <details className="admin-historija">
-            <summary>Historija statusa ({prijava.historijaStatusa.length})</summary>
+            <summary>{t('ap.historija', { broj: prijava.historijaStatusa.length })}</summary>
             <ol className="historija">
               {prijava.historijaStatusa.map((k, i) => (
                 <li key={i}>
                   <StatusOznaka status={k.status} />
-                  <span className="historija-datum">{formatirajDatum(k.datum, true)}</span>
-                  {k.napomena && <p className="historija-napomena">{k.napomena}</p>}
+                  <span className="historija-datum">{formatirajDatum(k.datum, true, jezik)}</span>
+                  {k.napomena && <p className="historija-napomena">{napomenaZaPrikaz(k.napomena, jezik)}</p>}
                 </li>
               ))}
             </ol>

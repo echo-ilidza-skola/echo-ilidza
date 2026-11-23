@@ -2,6 +2,7 @@
 // oko oznake na mapi za broj prijavitelja. Čista logika, bez React koda.
 
 import { nazivStatusa } from '../data/konstante.js'
+import { prevedi } from '../jezik/prevodi.js'
 
 // Najviše lukova (kao u logu): Zaprimljeno 1, U obradi 2, Proslijeđeno 3, Riješeno 4.
 export const BROJ_LUKOVA = 4
@@ -25,13 +26,13 @@ export function ehoZaStatus(status) {
   }
 }
 
-// Tekst za čitač ekrana, npr. "Status: U obradi, korak 2 od 4".
-export function opisEha(status) {
-  const naziv = nazivStatusa(status)
-  if (status === 'NA_CEKANJU') return `Status: ${naziv}, još nije zaprimljeno`
-  if (status === 'ODBIJENO') return `Status: ${naziv}`
+// Tekst za čitač ekrana, npr. "Status: U obradi, korak 2 od 4" (zadani jezik je bosanski).
+export function opisEha(status, jezik = 'bs') {
+  const naziv = nazivStatusa(status, jezik)
+  if (status === 'NA_CEKANJU') return prevedi(jezik, 'eho.naCekanju', { naziv })
+  if (status === 'ODBIJENO') return prevedi(jezik, 'eho.odbijeno', { naziv })
   const { upaljeno } = ehoZaStatus(status)
-  return `Status: ${naziv}, korak ${upaljeno} od ${BROJ_LUKOVA}`
+  return prevedi(jezik, 'eho.korak', { naziv, korak: upaljeno, ukupno: BROJ_LUKOVA })
 }
 
 // Koliko lukova eha crtamo oko oznake na mapi, prema broju prijavitelja istog problema:

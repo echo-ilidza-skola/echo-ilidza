@@ -2,7 +2,7 @@
 // Komponente nikad ne diraju localStorage ni IndexedDB direktno – uvijek pozivaju funkcije odavde.
 // U kasnijim fazama ovaj modul se može zamijeniti pozivima na server.
 //
-//   - prijave i demo uloga: localStorage
+//   - prijave, demo uloga i jezik: localStorage
 //   - fotografije: IndexedDB (preko biblioteke idb-keyval), jer su prevelike za localStorage
 //
 
@@ -18,16 +18,16 @@ import {
   razdvojiPrijave,
 } from '../logic/administracija.js'
 import { ULOGE } from './konstante.js'
+import { POCETNI_JEZIK, jeIspravanJezik } from '../jezik/prevodi.js'
+import { napraviGresku } from '../jezik/greska.js'
 
 const KLJUC_PRIJAVE = 'echo.prijave.v1'
 const KLJUC_ULOGA = 'echo.uloga'
+const KLJUC_JEZIK = 'echo.jezik'
 
 // Ime događaja koji javlja ekranima da su se podaci promijenili.
 export const DOGADJAJ_PROMJENE = 'echo:promjena'
 
-export const PORUKA_FOTO_GRESKA =
-  'Fotografiju nije moguće spremiti u ovom pregledniku (memorija je možda puna ili je privatni način rada). ' +
-  'Uklonite fotografiju i pošaljite prijavu bez nje, ili pokušajte ponovo.'
 
 // ---------- pomoćne funkcije ----------
 
@@ -134,7 +134,7 @@ export function dodajPrijavu(unos, autorId) {
   azurirane.push(nova)
 
   if (!sacuvajPrijave(azurirane)) {
-    throw new Error('Prijavu nije moguće spremiti u ovom pregledniku (memorija je možda puna).')
+    throw napraviGresku('greske.prijavaSpremanje')
   }
   return nova
 }
@@ -144,7 +144,7 @@ export function dodajPrijavu(unos, autorId) {
 
 function sacuvajIliGreska(prijave) {
   if (!sacuvajPrijave(prijave)) {
-    throw new Error('Izmjenu nije moguće spremiti u ovom pregledniku (memorija je možda puna).')
+    throw napraviGresku('greske.izmjenaSpremanje')
   }
 }
 
@@ -152,7 +152,7 @@ function sacuvajIliGreska(prijave) {
 function azurirajPrijavu(id, izmjena) {
   const prijave = svePrijave()
   const indeks = prijave.findIndex((p) => p.id === id)
-  if (indeks < 0) throw new Error('Prijava ne postoji.')
+  if (indeks < 0) throw napraviGresku('greske.nemaPrijave')
   const nove = [...prijave]
   nove[indeks] = izmjena(prijave[indeks])
   sacuvajIliGreska(nove)
@@ -215,7 +215,7 @@ export async function sacuvajFotografiju(blob) {
   try {
     await set(id, blob, spremiste())
   } catch {
-    throw new Error(PORUKA_FOTO_GRESKA)
+    throw napraviGresku('greske.fotoSpremanje')
   }
   return id
 }
@@ -270,4 +270,16 @@ export function ucitajUlogu() {
 export function sacuvajUlogu(uloga) {
   if (!ULOGE[uloga]) return false
   return pisiJson(KLJUC_ULOGA, uloga)
+}
+
+// ---------- jezik interfejsa ----------
+
+export function ucitajJezik() {
+  const jezik = citajJson(KLJUC_JEZIK)
+  return jeIspravanJezik(jezik) ? jezik : POCETNI_JEZIK
+}
+
+export function sacuvajJezik(jezik) {
+  if (!jeIspravanJezik(jezik)) return false
+  return pisiJson(KLJUC_JEZIK, jezik)
 }

@@ -5,6 +5,7 @@ import { predloziKategoriju } from '../../logic/prijedlogKategorije.js'
 import PrijedlogKategorije from './PrijedlogKategorije.jsx'
 import PoljeFotografije from './PoljeFotografije.jsx'
 import Ikona from '../Ikona.jsx'
+import { useJezik } from '../../jezik/JezikContext.jsx'
 
 // Pomoćna komponenta: poruka greške ispod polja (povezana s poljem preko aria-describedby).
 function Greska({ id, poruka }) {
@@ -18,9 +19,10 @@ function Greska({ id, poruka }) {
 
 // Kategorije kao pločice (radio dugmad): lakše se biraju palcem nego padajući izbornik.
 function PlociceKategorija({ odabrana, predlozena, promijeni, greska }) {
+  const { t } = useJezik()
   return (
     <fieldset className="kategorije-plocice" aria-describedby="kategorija-greska">
-      <legend className="oznaka-polja">Kategorija *</legend>
+      <legend className="oznaka-polja">{t('obrazacOpis.kategorija')}</legend>
       <div className="plocice-mreza">
         {KATEGORIJE.map((k, i) => (
           <label
@@ -42,8 +44,8 @@ function PlociceKategorija({ odabrana, predlozena, promijeni, greska }) {
             <span className="plocica-ikona" aria-hidden="true">
               <Ikona ime={k.kljuc} velicina={24} />
             </span>
-            <span className="plocica-naziv">{k.naziv}</span>
-            {predlozena === k.kljuc && <span className="plocica-prijedlog">prijedlog</span>}
+            <span className="plocica-naziv">{t(`kategorije.${k.kljuc}`)}</span>
+            {predlozena === k.kljuc && <span className="plocica-prijedlog">{t('obrazacOpis.prijedlog')}</span>}
           </label>
         ))}
       </div>
@@ -54,19 +56,20 @@ function PlociceKategorija({ odabrana, predlozena, promijeni, greska }) {
 
 export default function KorakOpis({ unos, promijeni, greske, fotografija }) {
   const predlozena = predloziKategoriju(unos.naslov, unos.opis).kategorija
+  const { t } = useJezik()
 
   return (
     <>
       <PoljeFotografije {...fotografija} />
 
       <div className="polje">
-        <label htmlFor="naslov">Naslov problema *</label>
+        <label htmlFor="naslov">{t('obrazacOpis.naslov')}</label>
         <input
           id="naslov"
           type="text"
           value={unos.naslov}
           maxLength={MAX_NASLOV}
-          placeholder="npr. Udarna rupa ispred stanice"
+          placeholder={t('obrazacOpis.naslovPrimjer')}
           onChange={(e) => promijeni('naslov', e.target.value)}
           aria-invalid={Boolean(greske.naslov)}
           aria-describedby="naslov-brojac naslov-greska"
@@ -78,13 +81,13 @@ export default function KorakOpis({ unos, promijeni, greske, fotografija }) {
       </div>
 
       <div className="polje">
-        <label htmlFor="opis">Opis *</label>
+        <label htmlFor="opis">{t('obrazacOpis.opis')}</label>
         <textarea
           id="opis"
           rows={4}
           value={unos.opis}
           maxLength={MAX_OPIS}
-          placeholder="Šta ste primijetili, od kada, koliko je veliko… (bez imena ljudi i kućnih brojeva)"
+          placeholder={t('obrazacOpis.opisPrimjer')}
           onChange={(e) => promijeni('opis', e.target.value)}
           aria-invalid={Boolean(greske.opis)}
           aria-describedby="opis-brojac opis-greska"

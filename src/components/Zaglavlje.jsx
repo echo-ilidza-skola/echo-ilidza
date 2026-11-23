@@ -1,14 +1,17 @@
 import { useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import PrekidacUloge from './PrekidacUloge.jsx'
+import IzborJezika from './IzborJezika.jsx'
 import Navigacija from './Navigacija.jsx'
 import Logo from './Logo.jsx'
+import { useJezik } from '../jezik/JezikContext.jsx'
 
 export default function Zaglavlje() {
   const { pathname } = useLocation()
   // Na početnoj stranici zaglavlje je poluprovidno i leži preko slike (kao na mockupu).
   const prekoSlike = pathname === '/'
   const ref = useRef(null)
+  const { t } = useJezik()
 
   // Visinu zaglavlja upisujemo u CSS varijablu, da se slika na početnoj može "podvući" ispod njega.
   useEffect(() => {
@@ -24,11 +27,15 @@ export default function Zaglavlje() {
   return (
     <header ref={ref} className={prekoSlike ? 'zaglavlje zaglavlje--preko-slike' : 'zaglavlje'}>
       <div className="zaglavlje-sadrzaj">
-        <Link to="/" className="logo-link" aria-label="ECHO Ilidža, početna stranica">
+        <Link to="/" className="logo-link" aria-label={t('zaglavlje.logoLink')}>
           <Logo />
         </Link>
         <Navigacija />
-        <PrekidacUloge />
+        {/* Desno: izbor jezika i diskretna ikona demo uloge. */}
+        <div className="zaglavlje-desno">
+          <IzborJezika />
+          <PrekidacUloge />
+        </div>
       </div>
     </header>
   )

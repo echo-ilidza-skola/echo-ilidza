@@ -117,3 +117,12 @@
 .admin-kpi-broj {
   color: var(--primarna-tamna);
 }
+
+/* Kartica u listi smije biti uža od najduže riječi u sadržaju (npr. engleski nazivi koraka na 320 px). */
+.moje-lista {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.moje-lista > li {
+  min-width: 0;
+}

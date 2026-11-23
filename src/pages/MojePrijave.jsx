@@ -11,13 +11,16 @@ import { usePodaci } from '../hooks/usePodaci.js'
 import { prijaveAutora, javnePrijave } from '../data/storage.js'
 import { DEMO_KORISNIK_ID, STATUSI } from '../data/konstante.js'
 import { formatirajDatum } from '../logic/datum.js'
+import { napomenaZaPrikaz } from '../logic/administracija.js'
 import { posljednjePrijave } from '../logic/statistika.js'
 import TrakaStranice from '../components/TrakaStranice.jsx'
+import { useJezik } from '../jezik/JezikContext.jsx'
 
 function MojaPrijava({ prijava, javne }) {
   const javna = STATUSI[prijava.status].javno
   const glavna = prijava.glavnaPrijavaId ? javne.find((p) => p.id === prijava.glavnaPrijavaId) : null
   const zadnjiKorak = prijava.historijaStatusa[prijava.historijaStatusa.length - 1]
+  const { jezik, t } = useJezik()
 
   return (
     <li className="moja-prijava">
@@ -33,40 +36,41 @@ function MojaPrijava({ prijava, javne }) {
         <span>
           <Ikona ime="mapa" velicina={14} /> {prijava.naselje}
         </span>
-        <span>Poslano {formatirajDatum(prijava.datumPrijave)}</span>
+        <span>{t('moje.poslano', { datum: formatirajDatum(prijava.datumPrijave, false, jezik) })}</span>
       </p>
 
       <EhoVremenskaLinija prijava={prijava} />
 
       {prijava.status === 'NA_CEKANJU' && (
-        <p className="info-okvir">Prijava još nije javna. Postat će javna kada je administrator provjeri i odobri.</p>
+        <p className="info-okvir">{t('moje.nijeJavna')}</p>
       )}
       {prijava.status === 'ODBIJENO' && (
         <div className="razlog-odbijanja">
-          <strong>Razlog odbijanja:</strong> {prijava.razlogOdbijanja}
-          <p className="mali-tekst">Odbijena prijava nije javna. Možete poslati novu prijavu s više detalja.</p>
+          <strong>{t('moje.razlog')}</strong> {prijava.razlogOdbijanja}
+          <p className="mali-tekst">{t('moje.odbijenaNapomena')}</p>
         </div>
       )}
       {glavna && (
         <p className="mali-tekst">
-          Povezana s prijavom <Link to={`/prijava/${glavna.id}`}>{glavna.naslov}</Link> (isti problem).
+          {t('moje.povezanaS')} <Link to={`/prijava/${glavna.id}`}>{glavna.naslov}</Link>
+          {t('moje.istiProblem')}
         </p>
       )}
 
       {prijava.fotografijaId && (
-        <Fotografija id={prijava.fotografijaId} alt={`Fotografija uz prijavu: ${prijava.naslov}`} className="fotografija-mala" />
+        <Fotografija id={prijava.fotografijaId} alt={t('moje.fotoAlt', { naslov: prijava.naslov })} className="fotografija-mala" />
       )}
 
       <details className="moja-historija">
         <summary>
-          Historija statusa (posljednja promjena {formatirajDatum(zadnjiKorak.datum)})
+          {t('moje.historija', { datum: formatirajDatum(zadnjiKorak.datum, false, jezik) })}
         </summary>
         <ol className="historija">
           {prijava.historijaStatusa.map((korak, i) => (
             <li key={i}>
               <StatusOznaka status={korak.status} />
-              <span className="historija-datum">{formatirajDatum(korak.datum, true)}</span>
-              {korak.napomena && <p className="historija-napomena">{korak.napomena}</p>}
+              <span className="historija-datum">{formatirajDatum(korak.datum, true, jezik)}</span>
+              {korak.napomena && <p className="historija-napomena">{napomenaZaPrikaz(korak.napomena, jezik)}</p>}
             </li>
           ))}
         </ol>
@@ -78,23 +82,24 @@ function MojaPrijava({ prijava, javne }) {
 export default function MojePrijave() {
   const moje = usePodaci(() => posljednjePrijave(prijaveAutora(DEMO_KORISNIK_ID), Infinity))
   const javne = usePodaci(javnePrijave)
+  const { t } = useJezik()
 
   return (
     <>
-      <TrakaStranice naslov="Moje prijave">
+      <TrakaStranice naslov={t('nav.moje')}>
         <Link to="/prijavi" className="dugme dugme-glavno">
           <Ikona ime="prijavi" velicina={18} />
-          Nova prijava
+          {t('moje.novaPrijava')}
         </Link>
       </TrakaStranice>
       <section>
         <p className="uvod">
-          Prijave demo građanina u ovom pregledniku, i one koje još čekaju provjeru. Status vam „odgovara“ kao eho.
+          {t('moje.uvod')}
         </p>
 
         {moje.length === 0 ? (
           <div className="kartica">
-            <p>Još nemate prijava.</p>
+            <p>{t('moje.nema')}</p>
           </div>
         ) : (
           <ul className="moje-lista">

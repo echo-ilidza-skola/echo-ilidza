@@ -5,12 +5,14 @@
 
 import EhoStatus from './EhoStatus.jsx'
 import { nazivStatusa } from '../data/konstante.js'
+import { useJezik } from '../jezik/JezikContext.jsx'
 
 export default function StatusOznaka({ status, velicinaEha = 22, animacija = 'ne' }) {
+  const { jezik } = useJezik()
   return (
     <span className={`status-natpis status-natpis--${status.toLowerCase()}`}>
       <EhoStatus status={status} velicina={velicinaEha} animacija={animacija} />
-      <span aria-hidden="true">{nazivStatusa(status)}</span>
+      <span aria-hidden="true">{nazivStatusa(status, jezik)}</span>
     </span>
   )
 }

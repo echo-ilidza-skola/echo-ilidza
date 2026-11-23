@@ -15,6 +15,7 @@ import { javnePrijave } from '../data/storage.js'
 import { KATEGORIJE, JAVNI_STATUSI, CENTAR_MAPE } from '../data/konstante.js'
 import { grupisiZaMapu, filtrirajPrijave } from '../logic/mapa.js'
 import TrakaStranice from '../components/TrakaStranice.jsx'
+import { useJezik } from '../jezik/JezikContext.jsx'
 
 function sviFilteri() {
   return { kategorije: KATEGORIJE.map((k) => k.kljuc), statusi: [...JAVNI_STATUSI] }
@@ -30,21 +31,23 @@ export default function Mapa() {
   // Poruka o "mojoj lokaciji" (traženje, uspjeh ili zašto GPS ne radi).
   const [porukaLokacije, postaviPorukuLokacije] = useState(null)
 
+  const { t } = useJezik()
   const naMapi = grupisiZaMapu(javne)
   const prikazane = filtrirajPrijave(naMapi, filteri)
 
   return (
     <>
-      <TrakaStranice naslov="Mapa prijava" />
+      <TrakaStranice naslov={t('mapa.naslov')} />
       <section>
-        <p className="uvod">
-          Na mapi su samo prijave koje je administrator odobrio. Nove prijave postaju vidljive tek nakon provjere.
-        </p>
+        <p className="uvod">{t('mapa.uvod')}</p>
 
         <div className="mapa-alati">
-          <p className="mapa-brojac" aria-live="polite">
-            Prikazano <strong>{prikazane.length}</strong> od {naMapi.length} oznaka
-          </p>
+          {/* Prevod sadrži <strong> oko broja; tekst je naš (iz rječnika), pa je ubacivanje sigurno. */}
+          <p
+            className="mapa-brojac"
+            aria-live="polite"
+            dangerouslySetInnerHTML={{ __html: t('mapa.prikazano', { broj: prikazane.length, ukupno: naMapi.length }) }}
+          />
           {/* Prekidač (switch): čitač ekrana pročita "Toplotna mapa, uključeno/isključeno". */}
           <button
             type="button"
@@ -56,7 +59,7 @@ export default function Mapa() {
             <span className="prekidac-staza" aria-hidden="true">
               <span className="prekidac-kruzic" />
             </span>
-            Toplotna mapa
+            {t('mapa.toplotna')}
           </button>
           <button
             type="button"
@@ -66,13 +69,13 @@ export default function Mapa() {
             onClick={() => postaviFiltereOtvorene(!filteriOtvoreni)}
           >
             <Ikona ime={filteriOtvoreni ? 'zatvori' : 'filter'} velicina={18} />
-            {filteriOtvoreni ? 'Sakrij filtere' : 'Legenda i filteri'}
+            {filteriOtvoreni ? t('mapa.sakrijFiltere') : t('mapa.legendaFilteri')}
           </button>
         </div>
 
         <div className="mapa-raspored">
           <div className="mapa-glavni">
-            <OsnovnaMapa centar={CENTAR_MAPE} zoom={13} className="mapa" oznaka="Mapa javnih prijava">
+            <OsnovnaMapa centar={CENTAR_MAPE} zoom={13} className="mapa" oznaka={t('mapa.oznakaMape')}>
               {toplotna && <ToplotniSloj prijave={prikazane} />}
               <MojaLokacija naPoruku={postaviPorukuLokacije} />
               {prikazane.map((p) => (
@@ -84,9 +87,8 @@ export default function Mapa() {
               {porukaLokacije}
             </p>
             <p className="prigusen mali-tekst">
-              Povezane prijave istog problema prikazane su kao jedna oznaka.
-              {toplotna &&
-                ' Toplotna mapa: što je boja toplija (od zelene prema narandžastoj), to je na tom mjestu više prijava i prijavitelja. Prati odabrane filtere.'}
+              {t('mapa.povezane')}
+              {toplotna && t('mapa.toplotnaObjasnjenje')}
             </p>
           </div>
 
@@ -100,9 +102,9 @@ export default function Mapa() {
 
         {/* Lista je zamjena za mapu za one koji ne mogu koristiti mapu (npr. čitač ekrana). */}
         <section className="kartica">
-          <h2>Prijave prikazane na mapi</h2>
+          <h2>{t('mapa.listaNaslov')}</h2>
           {prikazane.length === 0 ? (
-            <p>Nijedna prijava ne odgovara odabranim filterima.</p>
+            <p>{t('mapa.nijedna')}</p>
           ) : (
             <ul className="lista-prijava">
               {prikazane.map((p) => (
@@ -111,7 +113,7 @@ export default function Mapa() {
                   <span className="lista-detalji">
                     <KategorijaOznaka kategorija={p.kategorija} />
                     <StatusOznaka status={p.status} />
-                    {p.brojPrijavitelja > 1 && <span>Prijavitelja: {p.brojPrijavitelja}</span>}
+                    {p.brojPrijavitelja > 1 && <span>{t('mapa.prijavitelja', { broj: p.brojPrijavitelja })}</span>}
                   </span>
                 </li>
               ))}

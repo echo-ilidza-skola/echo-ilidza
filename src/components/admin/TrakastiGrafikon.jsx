@@ -1,14 +1,17 @@
 // Jednostavan trakasti grafikon u čistom CSS-u (bez biblioteke).
 // Svaka traka ima i broj ispisan tekstom, da se podatak ne čita samo iz dužine trake.
 
+import { useJezik } from '../../jezik/JezikContext.jsx'
+
 export default function TrakastiGrafikon({ naslov, stavke }) {
   const najveci = Math.max(1, ...stavke.map((s) => s.broj))
   const ukupno = stavke.reduce((zbir, s) => zbir + s.broj, 0)
+  const { t } = useJezik()
 
   return (
     <figure className="grafikon">
       <figcaption className="grafikon-naslov">
-        {naslov} <span className="prigusen">(ukupno {ukupno})</span>
+        {naslov} <span className="prigusen">{t('stat.ukupnoGrafikon', { broj: ukupno })}</span>
       </figcaption>
       <ul className="grafikon-lista">
         {stavke.map((s) => (

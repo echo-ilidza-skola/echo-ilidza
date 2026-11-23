@@ -7,21 +7,23 @@ import StatusOznaka from '../StatusOznaka.jsx'
 import { kategorijaPoKljucu } from '../../data/konstante.js'
 import { jeTestnaFotografija } from '../../data/testneFotografije.js'
 import { posljednjePrijave } from '../../logic/statistika.js'
+import { useJezik } from '../../jezik/JezikContext.jsx'
 
 export default function PosljednjePrijave({ javne }) {
   const prijave = posljednjePrijave(javne, 5)
+  const { t } = useJezik()
 
   return (
     <section className="pocetna-kartica posljednje" aria-labelledby="posljednje-naslov">
       <div className="kartica-zaglavlje">
-        <h2 id="posljednje-naslov">Posljednje prijave</h2>
+        <h2 id="posljednje-naslov">{t('posljednje.naslov')}</h2>
         <Link to="/mapa" className="link-strelica">
-          Sve prijave <Ikona ime="strelica" velicina={16} />
+          {t('posljednje.sve')} <Ikona ime="strelica" velicina={16} />
         </Link>
       </div>
 
       {prijave.length === 0 ? (
-        <p>Još nema odobrenih prijava.</p>
+        <p>{t('posljednje.nema')}</p>
       ) : (
         <ul className="posljednje-lista">
           {prijave.map((p) => {
@@ -36,10 +38,10 @@ export default function PosljednjePrijave({ javne }) {
                   <span className="posljednje-naselje">
                     <Ikona ime="mapa" velicina={14} />
                     {p.naselje}
-                    <span className="vizuelno-skriveno">, kategorija: {k?.naziv}</span>
+                    <span className="vizuelno-skriveno">{t('posljednje.kategorija', { kategorija: t(`kategorije.${p.kategorija}`) })}</span>
                   </span>
                   {/* Mala minijatura nema mjesta za natpis, pa oznaka stoji ispod naselja. */}
-                  {jeTestnaFotografija(p.fotografijaId) && <span className="oznaka-testna-tekst">Testna fotografija</span>}
+                  {jeTestnaFotografija(p.fotografijaId) && <span className="oznaka-testna-tekst">{t('foto.testna')}</span>}
                 </span>
                 <StatusOznaka status={p.status} />
               </li>

@@ -7,8 +7,9 @@ import { Link } from 'react-router-dom'
 import { useEffect, useMemo } from 'react'
 import { MapContainer, TileLayer, CircleMarker, useMap } from 'react-leaflet'
 import Ikona from '../Ikona.jsx'
-import { OSM_ATRIBUCIJA } from '../mapa/OsnovnaMapa.jsx'
+import { osmAtribucija } from '../mapa/OsnovnaMapa.jsx'
 import { CENTAR_MAPE } from '../../data/konstante.js'
+import { useJezik } from '../../jezik/JezikContext.jsx'
 
 // Sve interakcije s mapom su isključene (mapa se samo gleda).
 const BEZ_INTERAKCIJE = {
@@ -49,9 +50,10 @@ function PrilagodiPrikaz({ okvir }) {
 export default function MiniMapaGlasova({ javne }) {
   // Okvir se računa ponovo samo kad se promijene prijave.
   const okvir = useMemo(() => okvirPrijava(javne), [javne])
+  const { jezik, t } = useJezik()
   return (
     <section className="pocetna-kartica mini-mapa" aria-labelledby="mini-mapa-naslov">
-      <h2 id="mini-mapa-naslov">Ilidža kroz prijave građana</h2>
+      <h2 id="mini-mapa-naslov">{t('miniMapa.naslov')}</h2>
       <div className="mini-mapa-karta-okvir">
         <MapContainer
           className="mini-mapa-karta"
@@ -59,11 +61,13 @@ export default function MiniMapaGlasova({ javne }) {
           {...(okvir
             ? { bounds: okvir, boundsOptions: { padding: [18, 18] } }
             : { center: [CENTAR_MAPE.lat, CENTAR_MAPE.lng], zoom: 12 })}
-          aria-label={`Mala mapa Ilidže: ${javne.length} javnih prijava prikazano kao tačke`}
+          aria-label={t('miniMapa.oznaka', { broj: javne.length })}
         >
+          {/* key={jezik}: sloj se napravi ponovo kad se promijeni jezik, da se prevede i atribucija. */}
           <TileLayer
+            key={jezik}
             url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution={OSM_ATRIBUCIJA}
+            attribution={osmAtribucija(t)}
             className="mini-mapa-plocice"
             maxZoom={19}
           />
@@ -79,9 +83,9 @@ export default function MiniMapaGlasova({ javne }) {
           ))}
         </MapContainer>
       </div>
-      <p className="mini-mapa-tekst">Svjetleće tačke prikazuju lokacije javnih prijava.</p>
+      <p className="mini-mapa-tekst">{t('miniMapa.tekst')}</p>
       <Link to="/mapa" className="dugme dugme-glavno mini-mapa-link">
-        Pogledaj mapu
+        {t('miniMapa.dugme')}
         <Ikona ime="strelica" velicina={18} />
       </Link>
     </section>

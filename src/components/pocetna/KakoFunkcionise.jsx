@@ -1,34 +1,37 @@
 // Tri koraka: opiši, označi, prati.
 
 import Ikona from '../Ikona.jsx'
+import { useJezik } from '../../jezik/JezikContext.jsx'
 
+// Tekstovi koraka su u rječniku (src/jezik): kako.korak1Naslov, kako.korak1Tekst …
 const KORACI = [
-  { ikona: 'poruka', naslov: 'Opiši problem', tekst: 'Naslov, kratak opis i fotografija.' },
-  { ikona: 'mapa', naslov: 'Označi lokaciju', tekst: 'Klikni na mapu ili koristi GPS.' },
-  { ikona: 'kvacica', naslov: 'Prati status', tekst: 'Status ti odgovara kao eho.' },
+  { ikona: 'poruka', naslov: 'kako.korak1Naslov', tekst: 'kako.korak1Tekst' },
+  { ikona: 'mapa', naslov: 'kako.korak2Naslov', tekst: 'kako.korak2Tekst' },
+  { ikona: 'kvacica', naslov: 'kako.korak3Naslov', tekst: 'kako.korak3Tekst' },
 ]
 
 export default function KakoFunkcionise() {
+  const { t } = useJezik()
   return (
     <section className="pocetna-kartica kako" aria-labelledby="kako-naslov">
-      <h2 id="kako-naslov">Kako funkcioniše ECHO?</h2>
+      <h2 id="kako-naslov">{t('kako.naslov')}</h2>
       <ol className="koraci">
         {KORACI.map((k, i) => (
-          <li key={k.naslov} className="korak">
+          <li key={k.ikona} className="korak">
             <span className="korak-broj" aria-hidden="true">
               {i + 1}
             </span>
             <span className="korak-ikona" aria-hidden="true">
               <Ikona ime={k.ikona} velicina={30} />
             </span>
-            <strong className="korak-naslov">{k.naslov}</strong>
-            <span className="korak-tekst">{k.tekst}</span>
+            <strong className="korak-naslov">{t(k.naslov)}</strong>
+            <span className="korak-tekst">{t(k.tekst)}</span>
           </li>
         ))}
       </ol>
       <p className="kako-napomena">
         <Ikona ime="admin" velicina={18} />
-        Prijava postaje javna tek kada je administrator provjeri i odobri.
+        {t('kako.napomena')}
       </p>
     </section>
   )

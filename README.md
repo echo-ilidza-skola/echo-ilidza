@@ -92,8 +92,8 @@ ECHO_Ilidža/
    ├─ data/
    │  ├─ storage.js        JEDINI pristup podacima (localStorage + IndexedDB za fotografije)
    │  ├─ testniPodaci.js   28 izmišljenih prijava
-   │  ├─ konstante.js      kategorije, statusi, naselja, okvir Ilidže
-   │  └─ tekstovi.js       tekstovi banera na početnoj
+   │  └─ konstante.js      kategorije, statusi, naselja, okvir Ilidže
+   ├─ jezik/               dvojezičnost: bs.js i en.js (svi tekstovi interfejsa), prevodi.js, JezikContext.jsx
    ├─ logic/               čista logika s Vitest testovima (*.test.js):
    │                       udaljenost (haversine), prijedlog kategorije, prioritet,
    │                       duplikati, statistika, javni prikaz, administracija, …
@@ -107,6 +107,12 @@ ECHO_Ilidža/
 
 **Pravilo za razvoj:** komponente nikad ne diraju `localStorage` direktno – sve ide kroz
 `src/data/storage.js`. U kasnijoj fazi taj fajl se može zamijeniti pozivima na server.
+
+**Dva jezika (BS | EN):** svaki tekst koji se vidi na ekranu ima ključ, npr. `mapa.naslov`, i prevod u
+`src/jezik/bs.js` i `src/jezik/en.js`. U komponenti se piše `const { t } = useJezik()` pa `t('mapa.naslov')`.
+Kad dodajete ili mijenjate tekst, promijenite ga u OBA fajla – `npm test` javi ako neki ključ fali u jednom
+jeziku. Tekst ekrana „O projektu“ je u `src/pages/OProjektuSadrzaj.jsx` (obje verzije jedna ispod druge).
+Sadržaj prijava (naslov, opis) se ne prevodi.
 
 ---
 

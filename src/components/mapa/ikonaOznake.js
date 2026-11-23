@@ -6,18 +6,22 @@
 // Ikona je obični HTML/SVG, a izgled je u global.css (klase .pin...).
 
 import L from 'leaflet'
-import { kategorijaPoKljucu, nazivStatusa, ZNACKE_STATUSA } from '../../data/konstante.js'
+import { kategorijaPoKljucu, nazivStatusa, nazivKategorije, ZNACKE_STATUSA } from '../../data/konstante.js'
+import { prevedi } from '../../jezik/prevodi.js'
 import { escapeHtml } from '../../logic/tekst.js'
 import { lukoviZaPrijavitelje } from '../../logic/ehoStatus.js'
 
 // Oblik pina u polju 32 × 42 (vrh pina je dolje u sredini, tačka 16, 41).
 const OBLIK_PINA = 'M16 1.5C7.9 1.5 1.5 7.9 1.5 15.8c0 10.3 12.6 23.4 13.5 24.3a1.4 1.4 0 0 0 2 0c.9-.9 13.5-14 13.5-24.3C30.5 7.9 24.1 1.5 16 1.5z'
 
-// Tekst koji čitač ekrana pročita kad oznaka dobije fokus.
-export function opisOznake(prijava) {
-  const kategorija = kategorijaPoKljucu(prijava.kategorija)
-  let opis = `${prijava.naslov}. ${kategorija ? kategorija.naziv : ''}. Status: ${nazivStatusa(prijava.status)}.`
-  if (prijava.brojPrijavitelja > 1) opis += ` Broj prijavitelja: ${prijava.brojPrijavitelja}.`
+// Tekst koji čitač ekrana pročita kad oznaka dobije fokus (na izabranom jeziku).
+export function opisOznake(prijava, jezik = 'bs') {
+  let opis = prevedi(jezik, 'oznaka.opis', {
+    naslov: prijava.naslov,
+    kategorija: nazivKategorije(prijava.kategorija, jezik),
+    status: nazivStatusa(prijava.status, jezik),
+  })
+  if (prijava.brojPrijavitelja > 1) opis += prevedi(jezik, 'oznaka.prijavitelja', { broj: prijava.brojPrijavitelja })
   return opis
 }
 
@@ -68,13 +72,13 @@ export function htmlPina(boja, status, brojPrijavitelja = 1) {
   )
 }
 
-export function napraviIkonu(prijava) {
+export function napraviIkonu(prijava, jezik = 'bs') {
   const kategorija = kategorijaPoKljucu(prijava.kategorija)
   const boja = kategorija ? kategorija.boja : 'var(--tekst-prigusen)'
   // Naslov je tekst koji je unio korisnik, pa ga OBAVEZNO pretvaramo u bezopasan tekst.
   const html =
     htmlPina(boja, prijava.status, prijava.brojPrijavitelja) +
-    `<span class="vizuelno-skriveno">${escapeHtml(opisOznake(prijava))}</span>`
+    `<span class="vizuelno-skriveno">${escapeHtml(opisOznake(prijava, jezik))}</span>`
 
   return L.divIcon({
     className: 'oznaka-omotac',

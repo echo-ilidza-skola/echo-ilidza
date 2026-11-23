@@ -6,29 +6,39 @@
 import { NavLink } from 'react-router-dom'
 import { useUloga } from '../context/UlogaContext.jsx'
 import Ikona from './Ikona.jsx'
+import { useJezik } from '../jezik/JezikContext.jsx'
 
+// Nazivi su ključevi u rječniku (src/jezik):
 // naziv – puni naziv (zaglavlje na računaru i čitač ekrana)
 // kratko – kraći naziv u zaglavlju na užem računaru (960–1199 px)
 // mobitel – natpis ispod ikone u donjoj traci na mobitelu (odluka mentorice: "Slikaj" i "Prijave")
 const LINKOVI = [
-  { putanja: '/', naziv: 'Početna', kratko: 'Početna', mobitel: 'Početna', ikona: 'pocetna', uloge: null },
-  { putanja: '/mapa', naziv: 'Mapa', kratko: 'Mapa', mobitel: 'Mapa', ikona: 'mapa', uloge: null },
-  { putanja: '/prijavi', naziv: 'Prijavi problem', kratko: 'Prijavi', mobitel: 'Slikaj', ikona: 'prijavi', uloge: ['gradjanin'] },
-  { putanja: '/moje-prijave', naziv: 'Moje prijave', kratko: 'Moje', mobitel: 'Prijave', ikona: 'moje', uloge: ['gradjanin'] },
-  { putanja: '/admin', naziv: 'Administracija', kratko: 'Admin', mobitel: 'Admin', ikona: 'admin', uloge: ['administrator'] },
-  { putanja: '/o-projektu', naziv: 'O projektu', kratko: 'O projektu', mobitel: 'O projektu', ikona: 'info', uloge: null },
+  { putanja: '/', naziv: 'nav.pocetna', kratko: 'nav.pocetna', mobitel: 'nav.pocetna', ikona: 'pocetna', uloge: null },
+  { putanja: '/mapa', naziv: 'nav.mapa', kratko: 'nav.mapa', mobitel: 'nav.mapa', ikona: 'mapa', uloge: null },
+  { putanja: '/prijavi', naziv: 'nav.prijavi', kratko: 'nav.prijaviKratko', mobitel: 'nav.prijaviMobitel', ikona: 'prijavi', uloge: ['gradjanin'] },
+  { putanja: '/moje-prijave', naziv: 'nav.moje', kratko: 'nav.mojeKratko', mobitel: 'nav.mojeMobitel', ikona: 'moje', uloge: ['gradjanin'] },
+  { putanja: '/admin', naziv: 'nav.admin', kratko: 'nav.adminKratko', mobitel: 'nav.adminKratko', ikona: 'admin', uloge: ['administrator'] },
+  { putanja: '/o-projektu', naziv: 'nav.oProjektu', kratko: 'nav.oProjektu', mobitel: 'nav.oProjektu', ikona: 'info', uloge: null },
 ]
 
+// Vidljivi linkovi za trenutnu ulogu, s nazivima prevedenim na trenutni jezik.
 function useVidljiviLinkovi() {
   const { uloga } = useUloga()
-  return LINKOVI.filter((l) => l.uloge === null || l.uloge.includes(uloga))
+  const { t } = useJezik()
+  return LINKOVI.filter((l) => l.uloge === null || l.uloge.includes(uloga)).map((l) => ({
+    ...l,
+    naziv: t(l.naziv),
+    kratko: t(l.kratko),
+    mobitel: t(l.mobitel),
+  }))
 }
 
 // Navigacija u zaglavlju (vidljiva od širine tableta).
 export default function Navigacija() {
   const linkovi = useVidljiviLinkovi()
+  const { t } = useJezik()
   return (
-    <nav className="navigacija" aria-label="Glavna navigacija">
+    <nav className="navigacija" aria-label={t('nav.glavna')}>
       <ul>
         {linkovi.map((link) => (
           <li key={link.putanja}>
@@ -48,8 +58,9 @@ export default function Navigacija() {
 // Donja traka s ikonama (samo na mobitelu).
 export function DonjaNavigacija() {
   const linkovi = useVidljiviLinkovi()
+  const { t } = useJezik()
   return (
-    <nav className="donja-navigacija" aria-label="Glavna navigacija (mobitel)">
+    <nav className="donja-navigacija" aria-label={t('nav.glavnaMobitel')}>
       <ul>
         {linkovi.map((link) => {
           // "Prijavi" je istaknuto okruglo dugme s kamerom u sredini trake (najbrži put do nove prijave).

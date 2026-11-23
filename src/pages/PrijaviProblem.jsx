@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import TrakaKoraka from '../components/prijava/TrakaKoraka.jsx'
 import KorakOpis from '../components/prijava/KorakOpis.jsx'
 import KorakLokacija from '../components/prijava/KorakLokacija.jsx'
-import KorakPregled, { NAPOMENA_JAVNOST } from '../components/prijava/KorakPregled.jsx'
+import KorakPregled from '../components/prijava/KorakPregled.jsx'
 import StatusOznaka from '../components/StatusOznaka.jsx'
 import Ikona from '../components/Ikona.jsx'
 import TrakaStranice from '../components/TrakaStranice.jsx'
@@ -15,13 +15,15 @@ import { dodajPrijavu, javnePrijave, sacuvajFotografiju, obrisiFotografiju } fro
 import { provjeriOsnovno, provjeriLokaciju, imaGresaka } from '../logic/validacija.js'
 import { pronadjiMoguceDuplikate } from '../logic/duplikati.js'
 import { pripremiFotografiju } from '../utils/slike.js'
+import { tekstGreske } from '../jezik/greska.js'
+import { useJezik } from '../jezik/JezikContext.jsx'
 
 const PRAZAN_UNOS = { naslov: '', opis: '', kategorija: '' }
-const NASLOVI_KORAKA = { 1: 'Opišite problem', 2: 'Označite lokaciju', 3: 'Provjerite i pošaljite' }
 
 export default function PrijaviProblem() {
   const [korak, postaviKorak] = useState(1)
   const [unos, postaviUnos] = useState(PRAZAN_UNOS)
+  const { jezik, t } = useJezik()
   const [lokacija, postaviLokaciju] = useState(null)
   const [foto, postaviFoto] = useState(null) // { blob, url, sirina, visina }
   const [fotoObrada, postaviFotoObradu] = useState(false)
@@ -62,14 +64,14 @@ export default function PrijaviProblem() {
       const { blob, sirina, visina } = await pripremiFotografiju(fajl)
       postaviFoto({ blob, url: URL.createObjectURL(blob), sirina, visina })
     } catch (e) {
-      postaviFotoGresku(e.message)
+      postaviFotoGresku(e)
     } finally {
       postaviFotoObradu(false)
     }
   }
 
   function dalje() {
-    const nove = korak === 1 ? provjeriOsnovno(unos) : provjeriLokaciju(lokacija)
+    const nove = korak === 1 ? provjeriOsnovno(unos, jezik) : provjeriLokaciju(lokacija, jezik)
     postaviGreske(nove)
     if (imaGresaka(nove)) {
       // Fokus na prvo neispravno polje.
@@ -104,7 +106,7 @@ export default function PrijaviProblem() {
     } catch (e) {
       // Ako je fotografija spremljena, a prijava nije, obrišemo fotografiju da ne ostane "siroče".
       if (fotografijaId) obrisiFotografiju(fotografijaId)
-      postaviGreskuSlanja(e.message)
+      postaviGreskuSlanja(e)
     } finally {
       postaviSalje(false)
     }
@@ -122,31 +124,30 @@ export default function PrijaviProblem() {
   if (poslana) {
     return (
       <>
-        <TrakaStranice naslov="Prijavi problem" />
+        <TrakaStranice naslov={t('nav.prijavi')} />
         <section className="obrazac-stranica">
           <div className="kartica uspjeh">
             <span className="uspjeh-ikona" aria-hidden="true">
               <Ikona ime="kvacica" velicina={40} />
             </span>
             <h2 ref={naslovRef} tabIndex={-1}>
-              Prijava je poslana
+              {t('obrazac.poslana')}
             </h2>
             <p>
-              Status: <StatusOznaka status={poslana.prijava.status} />
+              {t('obrazac.status')} <StatusOznaka status={poslana.prijava.status} />
             </p>
-            <p>{NAPOMENA_JAVNOST}</p>
+            <p>{t('obrazac.napomenaJavnost')}</p>
             {poslana.glavna && (
               <p>
-                Prijava je povezana s prijavom „{poslana.glavna.naslov}“. Taj problem sada ima{' '}
-                {poslana.glavna.brojPrijavitelja + 1} prijavitelja.
+                {t('obrazac.povezanaPoslana', { naslov: poslana.glavna.naslov, broj: poslana.glavna.brojPrijavitelja + 1 })}
               </p>
             )}
             <div className="obrazac-dugmad">
               <Link to="/moje-prijave" className="dugme dugme-glavno">
-                Moje prijave
+                {t('nav.moje')}
               </Link>
               <button type="button" className="dugme dugme-sporedno" onClick={novaPrijava}>
-                Nova prijava
+                {t('moje.novaPrijava')}
               </button>
             </div>
           </div>
@@ -157,13 +158,13 @@ export default function PrijaviProblem() {
 
   return (
     <>
-      <TrakaStranice naslov="Prijavi problem" />
+      <TrakaStranice naslov={t('nav.prijavi')} />
       <section className="obrazac-stranica">
         <TrakaKoraka trenutni={korak} />
 
         <div className="kartica obrazac">
           <h2 ref={naslovRef} tabIndex={-1} className="naslov-koraka">
-            Korak {korak}: {NASLOVI_KORAKA[korak]}
+            {t('obrazac.korakNaslov', { broj: korak, naziv: t(`obrazac.koraci.${korak}`) })}
           </h2>
 
           {korak === 1 && (
@@ -174,7 +175,7 @@ export default function PrijaviProblem() {
               fotografija={{
                 foto,
                 obrada: fotoObrada,
-                greska: fotoGreska,
+                greska: tekstGreske(fotoGreska, jezik),
                 odaberi: odaberiFotografiju,
                 ukloni: () => postaviFoto(null),
               }}
@@ -202,7 +203,7 @@ export default function PrijaviProblem() {
               idiNaKorak={postaviKorak}
               posalji={posalji}
               salje={salje}
-              greska={greskaSlanja}
+              greska={tekstGreske(greskaSlanja, jezik)}
             />
           )}
 
@@ -210,11 +211,11 @@ export default function PrijaviProblem() {
             <div className="obrazac-dugmad">
               {korak > 1 && (
                 <button type="button" className="dugme" onClick={() => postaviKorak(korak - 1)}>
-                  Nazad
+                  {t('obrazac.nazad')}
                 </button>
               )}
               <button type="button" className="dugme dugme-glavno" onClick={dalje} disabled={fotoObrada}>
-                Dalje
+                {t('obrazac.dalje')}
                 <Ikona ime="strelica" velicina={18} className="ikona-strelica" />
               </button>
             </div>

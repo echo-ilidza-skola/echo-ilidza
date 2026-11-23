@@ -33,7 +33,7 @@ export function brojPoNaselju(prijave) {
   const rezultat = NASELJA.map((n) => ({ naziv: n.naziv, broj: prebroji(prijave, 'naselje', n.naziv) }))
   const poznata = NASELJA.map((n) => n.naziv)
   const nepoznato = prijave.filter((p) => !poznata.includes(p.naselje)).length
-  if (nepoznato > 0) rezultat.push({ naziv: 'Nepoznato', broj: nepoznato })
+  if (nepoznato > 0) rezultat.push({ naziv: 'Nepoznato', broj: nepoznato, nepoznato: true })
   return rezultat
 }
 

@@ -1,13 +1,15 @@
 import { Link } from 'react-router-dom'
 import TrakaStranice from '../components/TrakaStranice.jsx'
+import { useJezik } from '../jezik/JezikContext.jsx'
 
 export default function NijePronadjeno() {
+  const { t } = useJezik()
   return (
     <>
-      <TrakaStranice naslov="Stranica nije pronađena" />
+      <TrakaStranice naslov={t('nijePronadjeno.naslov')} />
       <section>
         <p>
-          Ova adresa ne postoji. <Link to="/">Vratite se na početnu stranicu.</Link>
+          {t('nijePronadjeno.tekst')} <Link to="/">{t('nijePronadjeno.link')}</Link>
         </p>
       </section>
     </>
