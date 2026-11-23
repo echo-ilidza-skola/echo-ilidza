@@ -163,5 +163,6 @@
   /* ---------- mjere ---------- */
   --min-dugme: 44px;
   --visina-donje-trake: 64px;
+  --visina-zaglavlja-mobitel: 70px; /* zaglavlje na mobitelu i tabletu (do 959 px) */
   --sirina-sadrzaja: 1160px;
 }

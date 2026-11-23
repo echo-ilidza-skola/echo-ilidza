@@ -2829,7 +2829,7 @@ img {
 @media (max-width: 959px) {
   /* Zaglavlje iste visine kao prije (dok je ispod uloge bio natpis), da uvodni dio ne "poskoči" gore. */
   .zaglavlje-sadrzaj {
-    min-height: 70px;
+    min-height: var(--visina-zaglavlja-mobitel);
   }
 }
 
@@ -2867,5 +2867,23 @@ img {
   .stat-naziv {
     font-size: 0.72rem;
     line-height: 1.2;
+  }
+}
+
+/* =====================================================================
+   MOBITEL: PRVI EKRAN BEZ STATISTIKE (zahtjev mentorice)
+   Pri otvaranju se vide slika, naslov, opis, dugme i slogan; statistika je odmah ispod
+   i vidi se kad se stranica pomjeri. Tekst popuni prostor od slike do donje navigacije
+   i stoji u njegovoj sredini, pa je naslov spušten sa slike koliko prostor dozvoljava.
+   100vh je rezerva za starije preglednike; 100svh je visina ekrana kad je traka preglednika vidljiva.
+   ===================================================================== */
+@media (max-width: 639px) {
+  .hero-tekst {
+    --prvi-ekran: calc(100vh - var(--visina-zaglavlja-mobitel) - var(--visina-donje-trake));
+    --prvi-ekran: calc(100svh - var(--visina-zaglavlja-mobitel) - var(--visina-donje-trake));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: calc(var(--prvi-ekran) - var(--visina-slike) + var(--preklop-naslova));
   }
 }
