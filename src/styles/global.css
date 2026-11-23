@@ -919,6 +919,18 @@ img {
   color: var(--primarna-tamna);
 }
 
+/* Znak eha u natpisu statusa prati boju statusa (isti ton kao tekst natpisa).
+   Ugašeni lukovi imaju boju obruba natpisa. */
+.status-natpis--na_cekanju { --eho-sivo: var(--status-ceka-tekst); }
+.status-natpis--odbijeno { --eho-sivo: var(--greska); }
+.status-natpis--zaprimljeno { --eho-upaljen: var(--info-tekst); --eho-ugasen: var(--info-obrub); }
+.status-natpis--u_obradi { --eho-upaljen: var(--upozorenje); --eho-ugasen: var(--upozorenje-obrub); }
+.status-natpis--proslijedjeno {
+  --eho-upaljen: var(--status-proslijedjeno-tekst);
+  --eho-ugasen: var(--status-proslijedjeno-obrub);
+}
+.status-natpis--rijeseno { --eho-upaljen: var(--primarna); --eho-ugasen: var(--zelena-obrub); }
+
 .kategorija-natpis {
   display: inline-flex;
   align-items: center;
