@@ -12,7 +12,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@fontsource/montserrat": "^5.3.0",
+    "@fontsource/sora": "^5.3.0",
     "idb-keyval": "^6.3.0",
     "leaflet": "^1.9.4",
     "leaflet.heat": "^1.0.1",

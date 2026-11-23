@@ -39,7 +39,7 @@ Akronim "Every Citizen Has One voice" može se spomenuti samo kao sitni detalj n
 - leaflet.heat za toplotnu mapu
 - idb-keyval za fotografije u IndexedDB; ostali podaci u localStorage
 - Vitest za testove logike
-- @fontsource/montserrat za font naslova (odobreno)
+- @fontsource/sora za font naslova (odobreno; zamijenio Montserrat u doradama, etapa 2)
 - Bez UI biblioteka (bez Tailwinda, MUI…): običan CSS s CSS varijablama, da učenici razumiju svaki red
 - Ne dodaji druge biblioteke bez pitanja
 
@@ -58,11 +58,18 @@ Akronim "Every Citizen Has One voice" može se spomenuti samo kao sitni detalj n
   Tekst NA limeti je uvijek tamni (#0F2E25); limeta se ne koristi za tekst na svijetloj podlozi (slab kontrast).
 - Sadržaj na svijetloj podlozi #EEF5F2 i bijelim karticama; tekst #22302C, prigušeni #5E6B66, linije #D5DFDA,
   upozorenje #B9731F na #FBF3E7
-- Naslovi: Montserrat (paket @fontsource/montserrat, licenca OFL, odobrila mentorica), debljine 800 i 900,
+- Naslovi: Sora (paket @fontsource/sora, licenca OFL, odobrila mentorica), debljine 600 i 700,
   samo latinica (latin + latin-ext); font je u projektu, bez Google servera. Baner u hero dijelu velikim slovima.
   Ostali tekst: sistemski sans-serif.
-- Gradijent i sjaj (glow) dozvoljeni SAMO kao ukras u hero dijelu i zaglavlju. Kartice imaju tanak obrub;
-  kartice početne stranice smiju imati blagu, mekanu sjenku (--sjena-kartice), ostale su ravne.
+- Sve boje, sjenke, sjaj, zaobljenja, razmaci i fontovi su dizajn-tokeni u `src/styles/tokeni.css`;
+  ostali CSS koristi samo var(--…). Tamna zelena: zaglavlje, traka s naslovom stranice, donja navigacija,
+  uvodni dio Početne i podnožje; sav sadržaj je na svijetloj podlozi i bijelim karticama.
+- Sjaj (glow) je definisan jednom (--sjaj, --sjaj-filter) i dozvoljen SAMO na: glavnom dugmetu „Pošalji
+  prijavu“ (bez pulsiranja), dugmetu kamere u donjoj navigaciji, oznakama lokacija u uvodnom dijelu i na
+  mini-mapi (sporo, suptilno pulsiranje), odabranoj oznaci na mapi i logu (lukovi se pale jedan za drugim,
+  ciklus oko 3,6 s). Gradijent samo kao ukras u uvodnom dijelu i zaglavlju. Izuzetak: tamna sjena
+  (--sjena-teksta-na-slici, nije sjaj) na naslovu preko slike na mobitelu, zbog kontrasta.
+- Sve kartice su iste: isti radijus, ista blaga sjenka (--sjena-kartice), isti unutrašnji razmak i naslov.
 - Talasasti prelazi (SVG) između tamnih i svijetlih dijelova stranice, kao na odobrenom mockupu.
 - Pokret (motion): samo CSS i SVG animacije, bez biblioteka; sve animacije su na kraju global.css.
   Sadržaj nikad ne smije ostati sakriven ako se animacija ne pokrene, a uz prefers-reduced-motion

@@ -1,0 +1,156 @@
+/* =====================================================================
+   DIZAJN-TOKENI aplikacije ECHO Ilidža
+   Ovo je JEDINO mjesto gdje se upisuju boje, sjenke, sjaj, zaobljenja, razmaci i fontovi.
+   Svi ostali CSS fajlovi koriste samo ove varijable (var(--ime)).
+
+   Pravilo boja:
+   - tamna zelena: zaglavlje, traka s naslovom stranice, donja navigacija, uvodni dio Početne, podnožje;
+   - svijetla podloga i bijele kartice: sav sadržaj;
+   - limeta je samo AKCENT (glavna dugmad, aktivna stavka navigacije, ključni brojevi na tamnoj podlozi).
+     Limeta se ne koristi za tekst na svijetloj podlozi (premali kontrast).
+   ===================================================================== */
+
+:root {
+  /* ---------- tamni dijelovi ---------- */
+  --tamna: #0f2e25;
+  --tamna-gornja: #0c2a21; /* gornji dio prelaza u zaglavlju */
+  --tamna-2: #163d32; /* hover na tamnoj podlozi */
+  --tamna-linija: #2c5446;
+  --tekst-na-tamnoj: #ffffff;
+  --tekst-na-tamnoj-svijetli: #e3eee9; /* duži tekst na tamnoj (malo mekši od bijele) */
+  --tekst-na-tamnoj-prigusen: #b9d0c7;
+  --linija-na-tamnoj: rgba(255, 255, 255, 0.16);
+  --linija-na-tamnoj-jaca: rgba(255, 255, 255, 0.45);
+
+  /* RGB vrijednosti za providne nijanse: rgba(var(--rgb-...), providnost) */
+  --rgb-tamna: 15, 46, 37;
+  --rgb-tamna-duboka: 10, 34, 27; /* zatamnjenje slike i providno zaglavlje */
+  --rgb-limeta: 180, 240, 74;
+  --rgb-crna: 0, 0, 0;
+
+  /* ---------- glavne boje ---------- */
+  --primarna: #1f7a63;
+  --primarna-tamna: #14523f;
+  --limeta: #b4f04a;
+  --limeta-tamnija: #9bd935;
+  --limeta-svijetla: #e9ffc6;
+  --limeta-blijeda: #f4ffd9;
+
+  /* ---------- svijetli sadržaj ---------- */
+  --podloga: #eef5f2;
+  --bijela: #ffffff;
+  --tekst: #22302c;
+  --tekst-prigusen: #5e6b66;
+  --linija: #d5dfda;
+  --linija-polja: #b9c7c1; /* obrub polja obrasca i isključenog prekidača */
+  --zelena-blijeda: #e3f4ea; /* pozadina ikona i potvrda */
+  --zelena-blijeda-2: #f3faf6; /* vrlo blaga zelena pozadina (odabrano polje, red tabele) */
+  --zelena-obrub: #a9d8bd;
+  --zelena-strelica: #8fcf9f;
+
+  /* ---------- upozorenje, greška, informacija ---------- */
+  --upozorenje: #b9731f;
+  --upozorenje-podloga: #fbf3e7;
+  --upozorenje-obrub: #ebcf9f;
+  /* Tamnija nijansa upozorenja za tekst, da kontrast bude najmanje WCAG AA. */
+  --upozorenje-tekst: #7a4a10;
+  --greska: #b42318;
+  --greska-tekst: #8a1f1f;
+  --greska-tekst-tamni: #6d1616;
+  --greska-podloga: #fbeaea;
+  --greska-podloga-svijetla: #fff8f7;
+  --greska-obrub: #e7b9b9;
+  --info-podloga: #e6f0fa;
+  --info-obrub: #b9d2ec;
+  --info-tekst: #164c7e;
+
+  /* ---------- statusi (natpis statusa) ---------- */
+  --status-ceka-podloga: #eef1f0;
+  --status-ceka-obrub: #c9d3cf;
+  --status-ceka-tekst: #3d4a45;
+  --status-proslijedjeno-podloga: #f3ecfa;
+  --status-proslijedjeno-obrub: #d6c4ea;
+  --status-proslijedjeno-tekst: #5b3a86;
+
+  /* ---------- statistika u uvodnom dijelu ---------- */
+  --stat-zelena: #1fa64a;
+  --stat-zelena-svijetla: #2dbb4f;
+  --stat-zuta: #e2ec3a;
+  --stat-zuta-obrub: #d2de2e;
+  --stat-zuta-podloga: rgba(40, 48, 8, 0.55);
+  --stat-panel: rgba(6, 28, 20, 0.5);
+
+  /* ---------- mini-mapa i odsjaji u uvodnom dijelu ---------- */
+  --mapa-tamna-sredina: #1f5a46;
+  --mapa-tamna-rub: #143d31;
+  --hero-odsjaj-1: rgba(30, 110, 60, 0.35);
+  --hero-odsjaj-2: rgba(80, 150, 40, 0.25);
+
+  /* ---------- kategorije (boja oznake na mapi; svaka jasno različita) ---------- */
+  --kategorija-ceste: #6b4e9b;
+  --kategorija-rasvjeta: #b07d00;
+  --kategorija-otpad: #7a5230;
+  --kategorija-igralista: #c2416b;
+  --kategorija-prevoz: #1f6fb2;
+  --kategorija-sigurnost: #c8372d;
+  --kategorija-infrastruktura: #4a5a66;
+  --kategorija-okolis: #4e8f2a;
+
+  /* ---------- grafikon statusa u administraciji ---------- */
+  --grafikon-na_cekanju: #8a9792;
+  --grafikon-odbijeno: #b42318;
+  --grafikon-zaprimljeno: #1f6fb2;
+  --grafikon-u_obradi: #b9731f;
+  --grafikon-proslijedjeno: #6b4e9b;
+  --grafikon-rijeseno: #1f7a63;
+
+  /* ---------- toplotna mapa (od hladnog prema toplom; čita se u ToplotniSloj.jsx) ---------- */
+  --toplotna-1: #1f7a63;
+  --toplotna-2: #7fd34a;
+  --toplotna-3: #b4f04a;
+  --toplotna-4: #f2c230;
+  --toplotna-5: #e4572e;
+
+  /* ---------- sjenke (kartice) ---------- */
+  --sjena-kartice: 0 6px 22px rgba(var(--rgb-tamna), 0.07);
+  --sjena-kartice-hover: 0 12px 30px rgba(var(--rgb-tamna), 0.12);
+  --sjena-teksta-na-slici: 0 2px 14px rgba(var(--rgb-crna), 0.55), 0 0 2px rgba(var(--rgb-crna), 0.4);
+
+  /* ---------- SJAJ (glow) ----------
+     Definisan JEDNOM. Dozvoljen samo na: glavnom dugmetu "Pošalji prijavu", dugmetu kamere u donjoj
+     navigaciji, oznakama lokacija u uvodnom dijelu i na mini-mapi, odabranoj oznaci na mapi i logu. */
+  --sjaj-boja: rgba(var(--rgb-limeta), 0.5);
+  --sjaj-velicina: 18px;
+  --sjaj: 0 0 var(--sjaj-velicina) var(--sjaj-boja); /* za box-shadow */
+  --sjaj-filter: drop-shadow(0 0 calc(var(--sjaj-velicina) / 3) var(--sjaj-boja)); /* za SVG (filter) */
+
+  /* ---------- zaobljenja ---------- */
+  --radius-s: 8px;
+  --radius-m: 12px;
+  --radius-kartica: 16px;
+  --radius-xl: 20px;
+  --radius-pun: 999px;
+  --zaobljenje: var(--radius-kartica); /* staro ime, ostaje radi postojećeg koda */
+
+  /* ---------- razmaci ---------- */
+  --razmak-xs: 0.25rem;
+  --razmak-s: 0.5rem;
+  --razmak: 1rem;
+  --razmak-l: 1.5rem;
+  --razmak-xl: 2.5rem;
+  --kartica-razmak: 1.25rem; /* unutrašnji razmak svih kartica */
+
+  /* ---------- tipografija ---------- */
+  /* Sora (paket @fontsource/sora, licenca OFL) je dio projekta – ne učitava se s Google servera. */
+  --font-naslov: Sora, 'Segoe UI', system-ui, sans-serif;
+  --font-tekst: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  --tezina-naslova: 700;
+  --tezina-podnaslova: 600;
+  --velicina-naslova-stranice: clamp(1.4rem, 1.1rem + 1.2vw, 1.9rem);
+  --velicina-naslova-kartice: 1.15rem;
+
+  /* ---------- mjere ---------- */
+  --min-dugme: 44px;
+  --visina-donje-trake: 64px;
+  --sirina-sadrzaja: 1160px;
+}

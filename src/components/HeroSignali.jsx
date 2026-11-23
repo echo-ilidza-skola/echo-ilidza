@@ -78,14 +78,14 @@ export default function HeroSignali() {
     >
       <defs>
         <radialGradient id="sjaj-fontane">
-          <stop offset="0%" stopColor="#d9ff8a" stopOpacity="0.75" />
-          <stop offset="35%" stopColor="#b4f04a" stopOpacity="0.35" />
-          <stop offset="100%" stopColor="#b4f04a" stopOpacity="0" />
+          <stop offset="0%" style={{ stopColor: 'var(--limeta-svijetla)', stopOpacity: 0.75 }} />
+          <stop offset="35%" style={{ stopColor: 'var(--limeta)', stopOpacity: 0.35 }} />
+          <stop offset="100%" style={{ stopColor: 'var(--limeta)', stopOpacity: 0 }} />
         </radialGradient>
         <radialGradient id="sjaj-signala">
-          <stop offset="0%" stopColor="#f4ffd9" />
-          <stop offset="45%" stopColor="#b4f04a" />
-          <stop offset="100%" stopColor="#b4f04a" stopOpacity="0" />
+          <stop offset="0%" style={{ stopColor: 'var(--limeta-blijeda)' }} />
+          <stop offset="45%" style={{ stopColor: 'var(--limeta)' }} />
+          <stop offset="100%" style={{ stopColor: 'var(--limeta)', stopOpacity: 0 }} />
         </radialGradient>
       </defs>
 

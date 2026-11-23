@@ -50,7 +50,7 @@
 }
 
 .admin-poruka--greska {
-  color: #b42318;
+  color: var(--greska);
 }
 
 /* --- kartica jedne prijave --- */
@@ -129,7 +129,7 @@
   padding: 0.55rem 0.75rem;
   margin-bottom: 0.5rem;
   font: inherit;
-  border: 1.5px solid #b9c7c1;
+  border: 1.5px solid var(--linija-polja);
   border-radius: 10px;
   background: var(--bijela);
 }
@@ -145,7 +145,7 @@
   padding: 0.85rem 1rem;
   border: 1px dashed var(--primarna);
   border-radius: 12px;
-  background: #f3faf6;
+  background: var(--zelena-blijeda-2);
 }
 
 .admin-prijedlog-mreza {
@@ -155,7 +155,7 @@
 
 .admin-prijedlog-naslov {
   margin: 0 0 0.2rem;
-  font-weight: 800;
+  font-weight: var(--tezina-naslova);
   font-family: var(--font-naslov);
   color: var(--tamna);
 }
@@ -295,7 +295,7 @@
 
 .admin-kpi-broj {
   font-family: var(--font-naslov);
-  font-weight: 900;
+  font-weight: var(--tezina-naslova);
   font-size: 2.2rem;
   line-height: 1;
   color: var(--limeta);
@@ -317,7 +317,7 @@
 .grafikon-naslov {
   margin-bottom: 0.75rem;
   font-family: var(--font-naslov);
-  font-weight: 800;
+  font-weight: var(--tezina-naslova);
   color: var(--tamna);
 }
 

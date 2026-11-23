@@ -22,7 +22,7 @@ export function opisOznake(prijava) {
 
 export function napraviIkonu(prijava) {
   const kategorija = kategorijaPoKljucu(prijava.kategorija)
-  const boja = kategorija ? kategorija.boja : '#5E6B66'
+  const boja = kategorija ? kategorija.boja : 'var(--tekst-prigusen)'
   const broj =
     prijava.brojPrijavitelja > 1
       ? `<span class="oznaka-broj" aria-hidden="true">${Number(prijava.brojPrijavitelja)}</span>`

@@ -10,12 +10,12 @@ import {
 
 // Boje traka po statusu (iste nijanse kao natpisi statusa).
 const BOJE_STATUSA = {
-  NA_CEKANJU: '#8a9792',
-  ODBIJENO: '#b42318',
-  ZAPRIMLJENO: '#1f6fb2',
-  U_OBRADI: '#b9731f',
-  PROSLIJEDJENO: '#6b4e9b',
-  RIJESENO: '#1f7a63',
+  NA_CEKANJU: 'var(--grafikon-na_cekanju)',
+  ODBIJENO: 'var(--grafikon-odbijeno)',
+  ZAPRIMLJENO: 'var(--grafikon-zaprimljeno)',
+  U_OBRADI: 'var(--grafikon-u_obradi)',
+  PROSLIJEDJENO: 'var(--grafikon-proslijedjeno)',
+  RIJESENO: 'var(--grafikon-rijeseno)',
 }
 
 export default function StatistikaAdmin({ sve }) {

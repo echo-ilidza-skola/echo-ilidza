@@ -13,54 +13,55 @@ export const MAX_NASLOV = 80
 export const MAX_OPIS = 1000
 
 // Kategorije: ključ, naziv za prikaz, boja oznake na mapi i ključne riječi za prijedlog.
+// Same boje su dizajn-tokeni u src/styles/tokeni.css (--kategorija-...).
 // Liste ključnih riječi se mogu proširiti.
 export const KATEGORIJE = [
   {
     kljuc: 'ceste',
     naziv: 'Ceste i trotoari',
-    boja: '#6B4E9B',
+    boja: 'var(--kategorija-ceste)',
     kljucneRijeci: ['rupa', 'udarna rupa', 'asfalt', 'trotoar', 'pločnik', 'oštećena cesta'],
   },
   {
     kljuc: 'rasvjeta',
     naziv: 'Javna rasvjeta',
-    boja: '#B07D00',
+    boja: 'var(--kategorija-rasvjeta)',
     kljucneRijeci: ['rasvjeta', 'lampa', 'sijalica', 'mrak', 'ne svijetli', 'stub'],
   },
   {
     kljuc: 'otpad',
     naziv: 'Otpad i deponije',
-    boja: '#7A5230',
+    boja: 'var(--kategorija-otpad)',
     kljucneRijeci: ['smeće', 'otpad', 'deponija', 'kontejner', 'kanta', 'đubre'],
   },
   {
     kljuc: 'igralista',
     naziv: 'Igrališta i parkovi',
-    boja: '#C2416B',
+    boja: 'var(--kategorija-igralista)',
     kljucneRijeci: ['igralište', 'ljuljačka', 'tobogan', 'klupa', 'park'],
   },
   {
     kljuc: 'prevoz',
     naziv: 'Javni prevoz',
-    boja: '#1F6FB2',
+    boja: 'var(--kategorija-prevoz)',
     kljucneRijeci: ['autobus', 'tramvaj', 'stanica', 'kasni', 'linija', 'nadstrešnica'],
   },
   {
     kljuc: 'sigurnost',
     naziv: 'Pješački prelazi i sigurnost',
-    boja: '#C8372D',
+    boja: 'var(--kategorija-sigurnost)',
     kljucneRijeci: ['prelaz', 'zebra', 'semafor', 'brzina', 'opasno za pješake'],
   },
   {
     kljuc: 'infrastruktura',
     naziv: 'Javna infrastruktura',
-    boja: '#4A5A66',
+    boja: 'var(--kategorija-infrastruktura)',
     kljucneRijeci: ['šaht', 'poklopac', 'ograda', 'most', 'kanalizacija', 'voda'],
   },
   {
     kljuc: 'okolis',
     naziv: 'Zelene površine i okoliš',
-    boja: '#4E8F2A',
+    boja: 'var(--kategorija-okolis)',
     kljucneRijeci: ['drvo', 'trava', 'zelena površina', 'sječa', 'zagađenje'],
   },
 ]

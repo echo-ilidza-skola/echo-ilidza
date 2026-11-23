@@ -242,7 +242,7 @@ i računara.
 
 - Mapa: © [saradnici OpenStreetMap-a](https://www.openstreetmap.org/copyright), prikaz biblioteke
   [Leaflet](https://leafletjs.com) (BSD-2); toplotna mapa: Leaflet.heat (BSD-2).
-- Font naslova: Montserrat (SIL Open Font License), paket `@fontsource/montserrat`.
+- Font naslova: Sora (SIL Open Font License), paket `@fontsource/sora`, učitan lokalno (bez Google servera).
 - Slika na početnoj stranici je **ilustracija generisana pomoću AI**, a ne stvarna fotografija Ilidže
   (vidi `src/assets/IZVORI.md`). Zamijenit će je fotografija koju snime učenici.
 - Ikone i znak eha nacrtani su posebno za ovaj projekat.
