@@ -1526,10 +1526,12 @@ img {
     border-radius: 10px;
   }
 
+  /* Naslov smije u dva reda (natpis statusa sa znakom eha je širi), tek treći red se skraćuje. */
   .posljednje-naslov {
-    white-space: nowrap;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   /* Na računaru je naslov u dva reda, kao na mockupu; redovi smiju preći u desnu kolonu. */
@@ -1988,7 +1990,8 @@ img {
     bottom: 0;
     z-index: -3;
     background: var(--hero-slika) center bottom / cover no-repeat;
-    filter: blur(14px) brightness(0.55) saturate(1.3);
+    /* Svjetlina najviše 40 %: i preko najsvjetlijeg dijela slike tekst ima kontrast WCAG AA. */
+    filter: blur(14px) brightness(0.4) saturate(1.3);
     transform: scale(1.1);
     -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 35%);
     mask-image: linear-gradient(180deg, transparent 0%, #000 35%);
@@ -2470,10 +2473,17 @@ img {
   filter: var(--sjaj-filter);
 }
 
-/* Atribucija OpenStreetMap-a ostaje vidljiva i klikabilna (iznad razvučenog linka). */
+/* Atribucija OpenStreetMap-a ostaje vidljiva i klikabilna (iznad razvučenog linka).
+   Puna bijela podloga i tamni link: preko tamnih pločica poluprovidna podloga ne bi imala dovoljan kontrast. */
 .mini-mapa .leaflet-control-attribution {
   pointer-events: auto;
   font-size: 0.65rem;
+  color: var(--tekst);
+  background: var(--bijela);
+}
+
+.mini-mapa .leaflet-control-attribution a {
+  color: var(--primarna-tamna);
 }
 
 /* =====================================================================
@@ -2711,4 +2721,11 @@ img {
 .legenda-pin--talasi {
   width: 40px;
   padding-left: 10px; /* mjesto za talase lijevo od pina */
+}
+
+/* Mobitel i tablet: napomena ispod dugmeta stoji na zamućenoj slici, pa je malo svjetlija (kontrast AA). */
+@media (max-width: 959px) {
+  .hero-napomena {
+    color: var(--tekst-na-tamnoj-svijetli);
+  }
 }
