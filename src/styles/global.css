@@ -2445,3 +2445,42 @@ img {
   pointer-events: auto;
   font-size: 0.65rem;
 }
+
+/* =====================================================================
+   OZNAKA "Testna fotografija" (privremene fotografije testnih prijava)
+   ===================================================================== */
+.fotografija-okvir {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  vertical-align: top;
+}
+
+.oznaka-testna {
+  position: absolute;
+  left: 0.5rem;
+  bottom: 0.5rem;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--tekst-na-tamnoj);
+  background: rgba(var(--rgb-tamna-duboka), 0.82);
+  border-radius: var(--radius-pun);
+  pointer-events: none;
+}
+
+/* U listi s malom minijaturom oznaka je običan, sitni tekst ispod naselja. */
+.oznaka-testna-tekst {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--tekst-prigusen);
+}
+
+/* Razmak male fotografije prelazi na okvir, da oznaka stoji tačno u uglu slike. */
+.fotografija-okvir:has(.fotografija-mala) {
+  margin: 0.5rem 0;
+}
+
+.fotografija-okvir .fotografija-mala {
+  margin: 0;
+}

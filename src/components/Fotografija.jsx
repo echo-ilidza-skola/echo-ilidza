@@ -1,8 +1,10 @@
 // Prikazuje fotografiju prijave iz IndexedDB-a (preko storage.js).
 // Ako fotografija ne postoji u ovom pregledniku, to se jasno kaže.
+// Testna fotografija (privremena, iz projekta) ima malu oznaku "Testna fotografija".
 
 import { useEffect, useState } from 'react'
 import { ucitajFotografiju } from '../data/storage.js'
+import { jeTestnaFotografija } from '../data/testneFotografije.js'
 
 export default function Fotografija({ id, alt, className = '' }) {
   const [stanje, postaviStanje] = useState({ ucitava: true, url: null })
@@ -27,5 +29,12 @@ export default function Fotografija({ id, alt, className = '' }) {
   if (!stanje.url) {
     return <p className="prigusen mali-tekst">Fotografija nije dostupna u ovom pregledniku.</p>
   }
-  return <img className={`fotografija ${className}`} src={stanje.url} alt={alt} />
+  const slika = <img className={`fotografija ${className}`} src={stanje.url} alt={alt} />
+  if (!jeTestnaFotografija(id)) return slika
+  return (
+    <span className="fotografija-okvir">
+      {slika}
+      <span className="oznaka-testna">Testna fotografija</span>
+    </span>
+  )
 }

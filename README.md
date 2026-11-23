@@ -21,10 +21,11 @@ Ime dolazi od eha: građanin pošalje prijavu (glas), a status prijave mu „odg
 3. [Struktura projekta](#struktura-projekta)
 4. [Ograničenja (važno!)](#ograničenja-važno)
 5. [GPS i HTTPS](#gps-i-https)
-6. [Objava na GitHub Pages](#objava-na-github-pages)
-7. [Vraćanje na prethodnu verziju](#vraćanje-na-prethodnu-verziju)
-8. [Testovi](#testovi)
-9. [Izvori i licence](#izvori-i-licence)
+6. [Testne fotografije – uputstvo za učenike](#testne-fotografije--uputstvo-za-učenike)
+7. [Objava na GitHub Pages](#objava-na-github-pages)
+8. [Vraćanje na prethodnu verziju](#vraćanje-na-prethodnu-verziju)
+9. [Testovi](#testovi)
+10. [Izvori i licence](#izvori-i-licence)
 
 ---
 
@@ -133,6 +134,44 @@ ECHO_Ilidža/
   **neće imati GPS**. To nije greška aplikacije, nego pravilo preglednika – aplikacija to i objasni porukom.
 - **Ručni odabir lokacije uvijek radi**: klik na mapu ili izbor naselja.
 - Za probu na telefonu najbolje je objaviti aplikaciju na GitHub Pages (HTTPS).
+
+---
+
+## Testne fotografije – uputstvo za učenike
+
+Neke testne prijave imaju privremenu fotografiju s Wikimedia Commonsa. Na fotografiji (ili uz nju u listi)
+piše **„Testna fotografija“**. Plan je da ih zamijenite fotografijama koje sami snimite.
+
+Sve testne fotografije su u **jednom folderu**: `src/assets/testne-fotografije/`.
+Koja fotografija pripada kojoj prijavi piše u fajlu **`src/assets/testne-fotografije/spisak.js`**,
+jedan red po prijavi, npr.:
+
+```js
+t04: { fajl: 't04.jpg', izvor: 'Wikimedia Commons, Santeri Viinamäki, CC BY-SA 4.0' },
+```
+
+### Kako zamijeniti testnu fotografiju svojom
+**Način 1 – isto ime (najlakše):**
+1. Svoju fotografiju nazovite isto kao staru (npr. `t04.jpg`).
+2. Stavite je u folder `src/assets/testne-fotografije/` umjesto stare.
+3. U `spisak.js`, u redu te prijave, promijenite samo izvor, npr. `izvor: 'Učenici Četvrte gimnazije Ilidža'`.
+
+**Način 2 – novo ime:**
+1. Stavite fotografiju u isti folder (npr. `rupa-stup.jpg`).
+2. U `spisak.js` promijenite JEDAN red: `t04: { fajl: 'rupa-stup.jpg', izvor: 'Učenici Četvrte gimnazije Ilidža' },`
+
+Drugi kod se ne dira. Pokrenite `npm test` – test provjerava da svaki red spiska vodi do fotografije
+koja stvarno postoji. Ako ste pogriješili ime fajla, test to javi.
+Ako ste zamijenili fotografiju s Wikimedije, izbrišite njen red i u `src/assets/IZVORI.md`.
+
+### Preporučena veličina
+- **JPEG** (`.jpg`), najviše **1024 px po dužoj strani** (npr. 1024 × 768).
+- Tako fotografija brzo učitava i na mobitelu. Veće fotografije smanjite prije stavljanja u folder.
+
+### Pravila (obavezno)
+- **Samo vlastite fotografije** – one koje ste sami snimili.
+- **Bez lica i bez registarskih oznaka** vozila (ako se vide, odrežite ih ili izaberite drugu fotografiju).
+- **Samo prikaz problema** (rupa, kontejner, rasvjeta…), bez ljudi, kućnih brojeva i drugih ličnih podataka.
 
 ---
 

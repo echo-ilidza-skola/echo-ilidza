@@ -24,7 +24,8 @@ Akronim "Every Citizen Has One voice" može se spomenuti samo kao sitni detalj n
    odjeljak „Zahvale i izvori“ na ekranu O projektu mentorica je privremeno uklonila, ne vraćaj ga bez pitanja):
    - slika za hero dio (`src/assets/hero-ilidza-ai.jpg`), AI ilustracija koju je napravila mentorica
      (na samoj slici u uglu piše „Ilustracija (AI)“);
-   - fotografije nekih testnih prijava (`src/assets/testne-fotografije/`, `src/data/testneFotografije.js`):
+   - fotografije nekih testnih prijava (folder `src/assets/testne-fotografije/`, spisak `spisak.js` u istom
+     folderu – jedan red po prijavi; u aplikaciji uz njih piše „Testna fotografija“):
      slobodne licence s Wikimedia Commonsa, bez lica i registarskih oznaka, uz autora i licencu.
    Sve su privremene – zamijenit će ih fotografije koje snime učenici. Ostale testne prijave koriste ikonu kategorije.
 10. Demo uloge (Gost / Građanin / Administrator) NISU prijava korisnika ni zaštita podataka. Uz prekidač

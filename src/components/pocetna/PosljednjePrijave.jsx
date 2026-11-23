@@ -5,6 +5,7 @@ import Ikona from '../Ikona.jsx'
 import MinijaturaPrijave from './MinijaturaPrijave.jsx'
 import StatusOznaka from '../StatusOznaka.jsx'
 import { kategorijaPoKljucu } from '../../data/konstante.js'
+import { jeTestnaFotografija } from '../../data/testneFotografije.js'
 import { posljednjePrijave } from '../../logic/statistika.js'
 
 export default function PosljednjePrijave({ javne }) {
@@ -37,6 +38,8 @@ export default function PosljednjePrijave({ javne }) {
                     {p.naselje}
                     <span className="vizuelno-skriveno">, kategorija: {k?.naziv}</span>
                   </span>
+                  {/* Mala minijatura nema mjesta za natpis, pa oznaka stoji ispod naselja. */}
+                  {jeTestnaFotografija(p.fotografijaId) && <span className="oznaka-testna-tekst">Testna fotografija</span>}
                 </span>
                 <StatusOznaka status={p.status} />
               </li>

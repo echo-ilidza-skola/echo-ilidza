@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { dopuniTestneFotografije } from './testneFotografije.js'
+import { dopuniTestneFotografije, TESTNE_FOTOGRAFIJE, jeTestnaFotografija } from './testneFotografije.js'
+import { SPISAK_TESTNIH_FOTOGRAFIJA } from '../assets/testne-fotografije/spisak.js'
 
 describe('dopuniTestneFotografije', () => {
   it('testnoj prijavi bez fotografije upisuje ključ njene testne fotografije', () => {
@@ -23,5 +24,20 @@ describe('dopuniTestneFotografije', () => {
     const { prijave, dopunjeno } = dopuniTestneFotografije(lista)
     expect(prijave).toEqual(lista)
     expect(dopunjeno).toBe(0)
+  })
+})
+
+describe('spisak testnih fotografija', () => {
+  it('svaki red spiska vodi do fotografije koja postoji u folderu', () => {
+    for (const [id, stavka] of Object.entries(SPISAK_TESTNIH_FOTOGRAFIJA)) {
+      expect(TESTNE_FOTOGRAFIJE[id], `${id}: ${stavka.fajl}`).toBeTruthy()
+      expect(TESTNE_FOTOGRAFIJE[id].url).toBeTruthy()
+    }
+  })
+
+  it('prepoznaje ključ testne fotografije', () => {
+    expect(jeTestnaFotografija('test:t04')).toBe(true)
+    expect(jeTestnaFotografija('foto-123')).toBe(false)
+    expect(jeTestnaFotografija(null)).toBe(false)
   })
 })
