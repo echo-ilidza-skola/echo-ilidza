@@ -8,7 +8,6 @@ import { napraviIkonu } from '../components/mapa/ikonaOznake.js'
 import KategorijaOznaka from '../components/KategorijaOznaka.jsx'
 import Fotografija from '../components/Fotografija.jsx'
 import EhoStatus from '../components/EhoStatus.jsx'
-import EhoVremenskaLinija from '../components/EhoVremenskaLinija.jsx'
 import TrakaStranice from '../components/TrakaStranice.jsx'
 import { usePodaci } from '../hooks/usePodaci.js'
 import { nazivStatusa } from '../data/konstante.js'
@@ -39,6 +38,7 @@ export default function DetaljiPrijave() {
 
   const glavna = prijava.glavnaPrijavaId ? javne.find((p) => p.id === prijava.glavnaPrijavaId) : null
   const povezane = povezanePrijave(prijava.id, javne)
+  const zadnjaPromjena = prijava.historijaStatusa[prijava.historijaStatusa.length - 1]
 
   return (
     <>
@@ -56,17 +56,19 @@ export default function DetaljiPrijave() {
           <KategorijaOznaka kategorija={prijava.kategorija} />
         </div>
 
-        {/* Status kao eho: velika verzija (lukovi se upale jedan za drugim) i historija kao vremenska linija. */}
-        <section className="kartica eho-kartica" aria-labelledby="status-naslov">
+        {/* Status kao eho: jedna velika oznaka u boji statusa (lukovi se upale jedan za drugim) i datum posljednje promjene. */}
+        <section className={`kartica eho-kartica eho-kartica--${prijava.status.toLowerCase()}`} aria-labelledby="status-naslov">
           <div className="eho-kartica-glava">
             <EhoStatus status={prijava.status} velicina={72} animacija="pri-prikazu" />
             <div>
               <h2 id="status-naslov" className="eho-kartica-oznaka">{t('detalji.statusPrijave')}</h2>
               {/* Naziv čitač ekrana već čuje iz znaka eha (aria-label), pa ga ovdje preskače. */}
               <p className="eho-kartica-naziv" aria-hidden="true">{nazivStatusa(prijava.status, jezik)}</p>
+              <p className="eho-kartica-datum">
+                {t('detalji.posljednjaPromjena', { datum: formatirajDatum(zadnjaPromjena.datum, false, jezik) })}
+              </p>
             </div>
           </div>
-          <EhoVremenskaLinija prijava={prijava} />
         </section>
 
         <dl className="detalji-polja">

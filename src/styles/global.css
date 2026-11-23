@@ -919,17 +919,47 @@ img {
   color: var(--primarna-tamna);
 }
 
-/* Znak eha u natpisu statusa prati boju statusa (isti ton kao tekst natpisa).
-   Ugašeni lukovi imaju boju obruba natpisa. */
-.status-natpis--na_cekanju { --eho-sivo: var(--status-ceka-tekst); }
-.status-natpis--odbijeno { --eho-sivo: var(--greska); }
-.status-natpis--zaprimljeno { --eho-upaljen: var(--info-tekst); --eho-ugasen: var(--info-obrub); }
-.status-natpis--u_obradi { --eho-upaljen: var(--upozorenje); --eho-ugasen: var(--upozorenje-obrub); }
-.status-natpis--proslijedjeno {
+/* Znak eha prati boju statusa: u natpisu statusa i u velikoj kartici statusa (detalji prijave).
+   Upaljeni lukovi i tačka imaju ton teksta statusa, ugašeni lukovi boju obruba natpisa. */
+.status-natpis--na_cekanju,
+.eho-kartica--na_cekanju {
+  --eho-sivo: var(--status-ceka-tekst);
+  --boja-statusa: var(--status-ceka-tekst);
+}
+
+.status-natpis--odbijeno,
+.eho-kartica--odbijeno {
+  --eho-sivo: var(--greska);
+  --boja-statusa: var(--greska-tekst);
+}
+
+.status-natpis--zaprimljeno,
+.eho-kartica--zaprimljeno {
+  --eho-upaljen: var(--info-tekst);
+  --eho-ugasen: var(--info-obrub);
+  --boja-statusa: var(--info-tekst);
+}
+
+.status-natpis--u_obradi,
+.eho-kartica--u_obradi {
+  --eho-upaljen: var(--upozorenje);
+  --eho-ugasen: var(--upozorenje-obrub);
+  --boja-statusa: var(--upozorenje-tekst);
+}
+
+.status-natpis--proslijedjeno,
+.eho-kartica--proslijedjeno {
   --eho-upaljen: var(--status-proslijedjeno-tekst);
   --eho-ugasen: var(--status-proslijedjeno-obrub);
+  --boja-statusa: var(--status-proslijedjeno-tekst);
 }
-.status-natpis--rijeseno { --eho-upaljen: var(--primarna); --eho-ugasen: var(--zelena-obrub); }
+
+.status-natpis--rijeseno,
+.eho-kartica--rijeseno {
+  --eho-upaljen: var(--primarna);
+  --eho-ugasen: var(--zelena-obrub);
+  --boja-statusa: var(--primarna-tamna);
+}
 
 .kategorija-natpis {
   display: inline-flex;
@@ -2509,91 +2539,12 @@ img {
   to { stroke: var(--eho-upaljen); }
 }
 
-/* ---------- Vremenska linija eha (historija statusa) ---------- */
-.eho-linija {
-  display: grid;
-  grid-template-columns: repeat(var(--broj-koraka), minmax(0, 1fr));
-  gap: 0.25rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.eho-linija-korak {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.15rem;
-  text-align: center;
-  min-width: 0;
-}
-
-.eho-linija-znak {
-  overflow: visible;
-}
-
-.eho-linija-tacka {
-  fill: var(--eho-upaljen);
-}
-
-.eho-linija-luk {
-  fill: none;
-  stroke: var(--eho-upaljen);
-  stroke-width: 2.6;
-  stroke-linecap: round;
-}
-
-/* Korak koji još nije dostignut: sivi crtež. */
-.eho-linija--ugasen .eho-linija-tacka {
-  fill: var(--eho-ugasen);
-}
-
-.eho-linija--ugasen .eho-linija-luk {
-  stroke: var(--eho-ugasen);
-}
-
-.eho-linija-x circle {
-  fill: var(--eho-sivo);
-}
-
-.eho-linija-x path {
-  stroke: var(--bijela);
-  stroke-width: 2;
-  stroke-linecap: round;
-}
-
-.eho-linija-naziv {
-  font-size: 0.8rem;
-  line-height: 1.25;
-  color: var(--tekst-prigusen);
-  overflow-wrap: break-word; /* lomi se između riječi, ne usred riječi */
-}
-
-.eho-linija-korak--gotov .eho-linija-naziv,
-.eho-linija-korak--trenutni .eho-linija-naziv,
-.eho-linija-korak--odbijen .eho-linija-naziv {
-  font-weight: 700;
-  color: var(--tekst);
-}
-
-.eho-linija-datum {
-  font-size: 0.75rem;
-  color: var(--tekst-prigusen);
-}
-
-.eho-linija-napomena {
-  font-size: 0.72rem;
-  line-height: 1.3;
-  color: var(--tekst-prigusen);
-  font-style: italic;
-}
-
 /* ---------- Kartica statusa u detaljima prijave (velika verzija) ---------- */
 .eho-kartica-glava {
   display: flex;
   align-items: center;
   gap: var(--razmak);
-  margin-bottom: var(--razmak);
+  margin-bottom: 0;
 }
 
 /* Mali natpis "Status prijave" (h2, ali sitan; jače pravilo od zajedničkog stila naslova kartice). */
@@ -2611,12 +2562,13 @@ img {
   font-weight: var(--tezina-naslova);
   font-size: 1.3rem;
   line-height: 1.2;
-  color: var(--tamna);
+  color: var(--boja-statusa, var(--tamna));
 }
 
-.eho-kartica .eho-linija {
-  padding-top: var(--razmak);
-  border-top: 1px solid var(--linija);
+.eho-kartica-datum {
+  margin: 0.2rem 0 0;
+  font-size: 0.85rem;
+  color: var(--tekst-prigusen);
 }
 
 /* Legenda: primjer oznake s talasima eha */
@@ -2925,38 +2877,5 @@ img {
     top: calc(max(var(--visina-slike), calc(var(--vrh-naslova, 0px) + var(--preklop-naslova) / 2)) * 0.6);
     -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 45%);
     mask-image: linear-gradient(180deg, transparent 0%, #000 45%);
-  }
-}
-
-/* =====================================================================
-   MOBITEL: VREMENSKA LINIJA STATUSA JEDAN KORAK ISPOD DRUGOG
-   Pet kolona je preusko za nazive koraka (lomili su se usred riječi), pa na mobitelu svaki korak
-   ima svoj red: znak signala lijevo, naziv u sredini, datum desno, napomena ispod naziva.
-   ===================================================================== */
-@media (max-width: 639px) {
-  .eho-linija {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0.3rem;
-  }
-
-  .eho-linija-korak {
-    display: grid;
-    grid-template-columns: 34px minmax(0, 1fr) auto;
-    column-gap: 0.6rem;
-    align-items: center;
-    text-align: left;
-  }
-
-  .eho-linija-naziv {
-    font-size: 0.9rem;
-  }
-
-  .eho-linija-datum {
-    justify-self: end;
-    white-space: nowrap;
-  }
-
-  .eho-linija-napomena {
-    grid-column: 2 / -1;
   }
 }

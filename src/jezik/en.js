@@ -72,6 +72,7 @@ const en = {
     povezane: "Linked reports",
     prijavljeno: "Reported",
     statusPrijave: "Report status",
+    posljednjaPromjena: "Last status change: {datum}",
   },
   duplikati: {
     napomena: "The system only suggests possible duplicates (same category, less than {m} m apart). Nothing is linked without your confirmation.",

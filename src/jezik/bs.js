@@ -72,6 +72,7 @@ const bs = {
     povezane: "Povezane prijave",
     prijavljeno: "Prijavljeno",
     statusPrijave: "Status prijave",
+    posljednjaPromjena: "Posljednja promjena statusa: {datum}",
   },
   duplikati: {
     napomena: "Sistem samo predlaže moguće duplikate (ista kategorija, manje od {m} m). Ništa se ne povezuje bez vaše potvrde.",
