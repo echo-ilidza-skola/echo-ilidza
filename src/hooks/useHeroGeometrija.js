@@ -15,7 +15,18 @@ export function useHeroGeometrija() {
     if (!element) return undefined
     const tekstElement = document.querySelector('.hero-tekst')
 
+    // Upisuje u CSS varijablu --vrh-naslova koliko je naslov udaljen od vrha uvodnog dijela.
+    // Na mobitelu se slika produži do naslova (vidi kraj global.css).
+    function oznaciVrhNaslova() {
+      const hero = element.closest('.hero')
+      const naslov = hero?.querySelector('.hero-naslov')
+      if (!hero || !naslov) return
+      const vrh = naslov.getBoundingClientRect().top - hero.getBoundingClientRect().top
+      hero.style.setProperty('--vrh-naslova', `${Math.round(vrh)}px`)
+    }
+
     function izracunaj() {
+      oznaciVrhNaslova()
       const okvir = element.getBoundingClientRect()
       if (!okvir.width || !okvir.height) return
       const zaglavlje = document.querySelector('.zaglavlje')
