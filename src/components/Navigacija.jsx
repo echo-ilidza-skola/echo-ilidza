@@ -31,7 +31,9 @@ export default function Navigacija() {
           <li key={link.putanja}>
             <NavLink to={link.putanja} end={link.putanja === '/'}>
               <Ikona ime={link.ikona} velicina={18} />
-              {link.naziv}
+              {/* Na užem računaru (960–1199 px) prikazuje se kraća oznaka, da zaglavlje stane u ekran. */}
+              <span className="nav-puno">{link.naziv}</span>
+              <span className="nav-kratko">{link.kratko}</span>
             </NavLink>
           </li>
         ))}

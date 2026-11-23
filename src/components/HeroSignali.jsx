@@ -113,7 +113,7 @@ export default function HeroSignali() {
       {/* Lukovi: puna svijetleća linija + svjetlo koje "teče" po njoj */}
       {oznake.map((o, i) => (
         <g key={`luk-${o.x}`}>
-          <path id={`luk-${i}`} className="hero-luk" style={{ animationDelay: `${0.6 + i * 0.15}s` }} d={putanjaLuka(o, vidljiviVrh + 10)} />
+          <path id={`luk-${i}`} className="hero-luk" style={{ animationDelay: `${0.15 + i * 0.08}s` }} d={putanjaLuka(o, vidljiviVrh + 10)} />
           <path className="hero-luk-tok" style={{ animationDelay: `${i * 0.5}s` }} d={putanjaLuka(o, vidljiviVrh + 10)} />
         </g>
       ))}
@@ -137,10 +137,10 @@ export default function HeroSignali() {
         ))}
 
       {oznake.map((o, i) => (
-        <Oznaka key={`pin-${o.x}`} x={o.x} y={o.y} mjerilo={mjeriloOznake} kasnjenje={0.35 + i * 0.12} />
+        <Oznaka key={`pin-${o.x}`} x={o.x} y={o.y} mjerilo={mjeriloOznake} kasnjenje={0.1 + i * 0.08} />
       ))}
       {/* Glavna oznaka stoji na fontani */}
-      <Oznaka x={FONTANA.x} y={FONTANA.y} mjerilo={mjeriloGlavne} glavna kasnjenje={0.2} />
+      <Oznaka x={FONTANA.x} y={FONTANA.y} mjerilo={mjeriloGlavne} glavna kasnjenje={0} />
     </svg>
   )
 }

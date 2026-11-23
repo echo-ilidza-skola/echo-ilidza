@@ -46,6 +46,14 @@
   box-sizing: border-box;
 }
 
+/* Zaštita: stranica nikad nema vodoravni scroll. "clip" (za razliku od "hidden") ne pravi novi
+   okvir za pomjeranje, pa fiksirani i "sticky" elementi rade normalno; "hidden" je rezerva za starije preglednike. */
+html,
+body {
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
 body {
   margin: 0;
   font-family: var(--font-tekst);
@@ -1582,28 +1590,27 @@ img {
    u sistemu traži manje pokreta (prefers-reduced-motion).
    ===================================================================== */
 
-/* --- Ulaz hero dijela: elementi se pojavljuju jedan za drugim --- */
+/* --- Ulaz hero dijela: elementi se pojavljuju jedan za drugim ---
+   Kratko (ukupno oko 0,7 s) i bez zamućenja: tekst je čitljiv odmah, a nijedan element ne kreće
+   iz potpuno nevidljivog stanja. Bez animacije (ili ako se ne pokrene) sve je normalno vidljivo. */
 .ulaz {
-  opacity: 0;
-  animation: ulaz 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  animation: ulaz 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
-.ulaz-1 { animation-delay: 0.1s; }
-.ulaz-2 { animation-delay: 0.25s; }
-.ulaz-3 { animation-delay: 0.45s; }
-.ulaz-4 { animation-delay: 0.6s; }
-.ulaz-5 { animation-delay: 0.8s; }
+.ulaz-1 { animation-delay: 0s; }
+.ulaz-2 { animation-delay: 0.06s; }
+.ulaz-3 { animation-delay: 0.12s; }
+.ulaz-4 { animation-delay: 0.18s; }
+.ulaz-5 { animation-delay: 0.24s; }
 
 @keyframes ulaz {
   from {
-    opacity: 0;
-    transform: translateY(24px);
-    filter: blur(4px);
+    opacity: 0.25;
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
     transform: none;
-    filter: none;
   }
 }
 
@@ -1618,11 +1625,12 @@ img {
 
 /* --- Signali: lukovi se pojave pa "teku", oznake padnu pa lebde --- */
 .hero-luk {
-  opacity: 0;
-  animation: pojavaLuka 0.9s ease-out forwards;
+  opacity: 0.75;
+  animation: pojavaLuka 0.4s ease-out both;
 }
 
 @keyframes pojavaLuka {
+  from { opacity: 0.1; }
   to { opacity: 0.75; }
 }
 
@@ -1635,14 +1643,13 @@ img {
 }
 
 .hero-pin-ulaz {
-  opacity: 0;
-  animation: padPina 0.7s cubic-bezier(0.3, 1.5, 0.5, 1) forwards;
+  animation: padPina 0.45s cubic-bezier(0.3, 1.4, 0.5, 1) both;
 }
 
 @keyframes padPina {
   from {
-    opacity: 0;
-    transform: translateY(-40px) scale(0.6);
+    opacity: 0.2;
+    transform: translateY(-16px) scale(0.8);
   }
   to {
     opacity: 1;
@@ -1766,9 +1773,9 @@ img {
 
 /* --- Kartice početne: pojave se dok skrolamo, i podignu se pod mišem --- */
 .pojava {
-  opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  opacity: 0.35;
+  transform: translateY(16px);
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .pojava-vidljivo {
@@ -1790,21 +1797,17 @@ img {
 }
 
 /* Koraci "iskoče" jedan za drugim kad kartica dođe na ekran. */
-.pojava .korak {
-  opacity: 0;
-}
-
 .pojava-vidljivo .korak {
-  animation: iskakanje 0.6s cubic-bezier(0.3, 1.4, 0.5, 1) forwards;
+  animation: iskakanje 0.4s cubic-bezier(0.3, 1.4, 0.5, 1) both;
 }
 
-.pojava-vidljivo .korak:nth-child(2) { animation-delay: 0.2s; }
-.pojava-vidljivo .korak:nth-child(3) { animation-delay: 0.4s; }
+.pojava-vidljivo .korak:nth-child(2) { animation-delay: 0.08s; }
+.pojava-vidljivo .korak:nth-child(3) { animation-delay: 0.16s; }
 
 @keyframes iskakanje {
   from {
-    opacity: 0;
-    transform: translateY(14px) scale(0.85);
+    opacity: 0.3;
+    transform: translateY(10px) scale(0.92);
   }
   to {
     opacity: 1;
@@ -1874,13 +1877,13 @@ img {
 
 /* --- Prelaz između stranica: sadržaj se lagano pojavi --- */
 .sadrzaj > * {
-  animation: ulazStranice 0.45s ease-out both;
+  animation: ulazStranice 0.25s ease-out both;
 }
 
 @keyframes ulazStranice {
   from {
-    opacity: 0;
-    transform: translateY(10px);
+    opacity: 0.4;
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
@@ -2389,4 +2392,92 @@ img {
   margin: 0;
   font-size: 0.75rem;
   color: var(--tekst-na-tamnoj-prigusen);
+}
+
+/* =====================================================================
+   ZAGLAVLJE BEZ PRELIJEVANJA (320–1920 px)
+   Dijelovi zaglavlja smiju se suziti (min-width: 0); navigacija zauzima samo preostali prostor.
+   ===================================================================== */
+.zaglavlje-sadrzaj > * {
+  min-width: 0;
+}
+
+.logo-link,
+.prekidac-uloge {
+  flex: none;
+}
+
+.navigacija {
+  flex: 1 1 auto;
+}
+
+.navigacija ul {
+  justify-content: center;
+}
+
+/* Kratka oznaka linka se vidi samo na užem računaru (vidi ispod). */
+.nav-kratko {
+  display: none;
+}
+
+/* Uži računar (960–1199 px): kraće oznake, manji razmaci, napomena uz ulogu se prelama. */
+@media (min-width: 960px) and (max-width: 1199px) {
+  .nav-puno {
+    display: none;
+  }
+
+  .nav-kratko {
+    display: inline;
+  }
+
+  .navigacija ul {
+    gap: 0.1rem;
+  }
+
+  .navigacija a {
+    padding: 0 0.7rem;
+  }
+
+  .zaglavlje .prekidac-uloge {
+    padding-left: 0.75rem;
+  }
+
+  .zaglavlje .prekidac-napomena {
+    max-width: 9.5rem;
+    white-space: normal;
+  }
+}
+
+/* Najuži mobiteli (do 359 px): malo manji logo i prekidač uloge, da sve stane u jedan red. */
+@media (max-width: 359px) {
+  .zaglavlje-sadrzaj {
+    gap: 0.5rem;
+  }
+
+  .logo-naziv {
+    font-size: 1.3rem;
+  }
+
+  .prekidac-uloge select {
+    padding-left: 2.1rem;
+    padding-right: 1.9rem;
+  }
+}
+
+/* Kolone se smiju suziti ispod širine najduže riječi (inače kartice izlaze van uskog ekrana).
+   Raspored kartica za tablet i računar ostaje u ranijim pravilima (@media), ovo je samo za mobitel. */
+@media (max-width: 639px) {
+  .pocetna-mreza {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.koraci {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 359px) {
+  .korak-naslov {
+    font-size: 0.92rem;
+  }
 }

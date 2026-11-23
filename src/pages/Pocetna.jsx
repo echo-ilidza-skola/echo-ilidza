@@ -69,10 +69,10 @@ export default function Pocetna() {
         <Pojava className="mreza-kako">
           <KakoFunkcionise />
         </Pojava>
-        <Pojava kasnjenje={0.12}>
+        <Pojava kasnjenje={0.06}>
           <MiniMapaGlasova javne={javne} />
         </Pojava>
-        <Pojava kasnjenje={0.24}>
+        <Pojava kasnjenje={0.12}>
           <PosljednjePrijave javne={javne} />
         </Pojava>
       </div>
