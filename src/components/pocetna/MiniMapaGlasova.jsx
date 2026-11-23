@@ -28,6 +28,12 @@ function okvirPrijava(prijave) {
   return prijave.map((p) => [p.lat, p.lng])
 }
 
+// Boja tačke: Leaflet bez izričite boje crta zadanu PLAVU (#3388ff), a klasa za CSS se ne doda uvijek.
+// Zato boju čitamo iz tokena --limeta i dajemo je Leafletu direktno (sjaj ostaje u CSS-u, .mini-mapa-tacka).
+function stilTackeIzTokena() {
+  const limeta = getComputedStyle(document.documentElement).getPropertyValue('--limeta').trim()
+  return { stroke: false, fillColor: limeta, fillOpacity: 1 }
+}
 
 // Kartica dobije konačnu veličinu tek nakon prvog prikaza (raspored u tri kolone, pojavljivanje),
 // pa mapa ponovo izmjeri svoj okvir i prikaže sve prijave kad god se veličina promijeni.
@@ -51,6 +57,7 @@ export default function MiniMapaGlasova({ javne }) {
   // Okvir se računa ponovo samo kad se promijene prijave.
   const okvir = useMemo(() => okvirPrijava(javne), [javne])
   const { jezik, t } = useJezik()
+  const stilTacke = useMemo(stilTackeIzTokena, [])
   return (
     <section className="pocetna-kartica mini-mapa" aria-labelledby="mini-mapa-naslov">
       <h2 id="mini-mapa-naslov">{t('miniMapa.naslov')}</h2>
@@ -78,7 +85,8 @@ export default function MiniMapaGlasova({ javne }) {
               center={[p.lat, p.lng]}
               radius={5}
               interactive={false}
-              pathOptions={{ className: 'mini-mapa-tacka', stroke: false, fillOpacity: 1 }}
+              className="mini-mapa-tacka"
+              pathOptions={stilTacke}
             />
           ))}
         </MapContainer>

@@ -72,13 +72,13 @@ export default function MojaLokacija({ naPoruku }) {
             center={[lokacija.lat, lokacija.lng]}
             radius={lokacija.tacnost}
             interactive={false}
-            pathOptions={{ className: 'moja-lokacija-krug' }}
+            className="moja-lokacija-krug"
           />
           <CircleMarker
             center={[lokacija.lat, lokacija.lng]}
             radius={7}
             interactive={false}
-            pathOptions={{ className: 'moja-lokacija-tacka' }}
+            className="moja-lokacija-tacka"
           />
         </>
       )}
