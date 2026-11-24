@@ -2,7 +2,7 @@
 // Nova prijava ima status "Na čekanju provjere" i NE pojavljuje se na javnoj mapi.
 
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import TrakaKoraka from '../components/prijava/TrakaKoraka.jsx'
 import KorakOpis from '../components/prijava/KorakOpis.jsx'
 import KorakLokacija from '../components/prijava/KorakLokacija.jsx'
@@ -17,6 +17,7 @@ import { pronadjiMoguceDuplikate } from '../logic/duplikati.js'
 import { pripremiFotografiju } from '../utils/slike.js'
 import { tekstGreske } from '../jezik/greska.js'
 import { useJezik } from '../jezik/JezikContext.jsx'
+import { preuzmiFotografiju } from '../components/prijava/fotografijaSaKamere.js'
 
 const PRAZAN_UNOS = { naslov: '', opis: '', kategorija: '' }
 
@@ -120,6 +121,18 @@ export default function PrijaviProblem() {
     postaviPoslanu(null)
     postaviKorak(1)
   }
+
+  // Fotografija snimljena dugmetom kamere u donjoj navigaciji (vidi Navigacija.jsx):
+  // preuzima se kad se ekran otvori i svaki put kad se dugme kamere pritisne dok je prijava otvorena.
+  // Ako je prethodna prijava upravo poslana, fotografija započinje novu prijavu.
+  const { key: kljucAdrese } = useLocation()
+  useEffect(() => {
+    const fajl = preuzmiFotografiju()
+    if (!fajl) return
+    if (poslana) novaPrijava()
+    odaberiFotografiju(fajl)
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- pokreće se samo kad dođe nova adresa
+  }, [kljucAdrese])
 
   if (poslana) {
     return (

@@ -208,6 +208,7 @@ const en = {
     adminKratko: "Admin",
     glavna: "Main navigation",
     glavnaMobitel: "Main navigation (mobile)",
+    kameraOpis: "take a photo and report a problem",
     mapa: "Map",
     moje: "My reports",
     mojeKratko: "Mine",

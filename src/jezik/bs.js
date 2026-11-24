@@ -208,6 +208,7 @@ const bs = {
     adminKratko: "Admin",
     glavna: "Glavna navigacija",
     glavnaMobitel: "Glavna navigacija (mobitel)",
+    kameraOpis: "fotografiši problem i prijavi ga",
     mapa: "Mapa",
     moje: "Moje prijave",
     mojeKratko: "Moje",

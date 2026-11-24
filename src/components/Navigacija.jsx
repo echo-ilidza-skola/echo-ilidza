@@ -3,10 +3,11 @@
 //   - u zaglavlju (tablet i računar),
 //   - u donjoj traci (mobitel).
 
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useUloga } from '../context/UlogaContext.jsx'
 import Ikona from './Ikona.jsx'
 import { useJezik } from '../jezik/JezikContext.jsx'
+import { predajFotografiju } from './prijava/fotografijaSaKamere.js'
 
 // Nazivi su ključevi u rječniku (src/jezik):
 // naziv – puni naziv (zaglavlje na računaru i čitač ekrana)
@@ -55,6 +56,44 @@ export default function Navigacija() {
   )
 }
 
+// Okruglo dugme s kamerom u sredini donje trake: odmah otvara kameru telefona
+// (polje za fajl s capture="environment"; na računaru se otvori izbor fajla).
+// Kad korisnik snimi fotografiju, otvara se "Prijavi problem" s već dodanom fotografijom.
+// Ako korisnik zatvori kameru bez fotografije, ništa se ne dešava.
+function DugmeKamere({ link }) {
+  const navigiraj = useNavigate()
+  const { pathname } = useLocation()
+  const { t } = useJezik()
+  const aktivno = pathname === link.putanja
+
+  function snimljeno(e) {
+    const fajl = e.target.files && e.target.files[0]
+    e.target.value = '' // da se ista fotografija može ponovo odabrati
+    if (!fajl) return
+    predajFotografiju(fajl)
+    // Novi zapis u historiji (i kad smo već na prijavi), da ekran prijave preuzme fotografiju.
+    navigiraj(link.putanja, { state: { saKamere: Date.now() } })
+  }
+
+  return (
+    <label className={`donje-dugme-kamera${aktivno ? ' active' : ''}`}>
+      <span className="kamera-krug">
+        <Ikona ime="kamera" velicina={26} />
+      </span>
+      <span aria-hidden="true">{link.mobitel}</span>
+      {/* Čitač ekrana čuje natpis s ekrana i šta dugme radi (npr. "Slikaj – fotografiši problem i prijavi ga"). */}
+      <input
+        type="file"
+        accept="image/*"
+        capture="environment"
+        className="vizuelno-skriveno"
+        aria-label={`${link.mobitel} – ${t('nav.kameraOpis')}`}
+        onChange={snimljeno}
+      />
+    </label>
+  )
+}
+
 // Donja traka s ikonama (samo na mobitelu).
 export function DonjaNavigacija() {
   const linkovi = useVidljiviLinkovi()
@@ -64,20 +103,23 @@ export function DonjaNavigacija() {
       <ul>
         {linkovi.map((link) => {
           // "Prijavi" je istaknuto okruglo dugme s kamerom u sredini trake (najbrži put do nove prijave).
-          const istaknuto = link.putanja === '/prijavi'
+          if (link.putanja === '/prijavi') {
+            return (
+              <li key={link.putanja} className="donja-stavka-istaknuta">
+                <DugmeKamere link={link} />
+              </li>
+            )
+          }
           return (
-            <li key={link.putanja} className={istaknuto ? 'donja-stavka-istaknuta' : undefined}>
-              {/* Čitač ekrana čuje natpis i puni naziv (npr. "Slikaj – Prijavi problem"); natpis s ekrana
-                  mora biti dio imena, da i glasovne komande ("klikni Slikaj") rade. */}
+            <li key={link.putanja}>
+              {/* Čitač ekrana čuje natpis i puni naziv (npr. "Prijave – Moje prijave"); natpis s ekrana
+                  mora biti dio imena, da i glasovne komande ("klikni Prijave") rade. */}
               <NavLink
                 to={link.putanja}
                 end={link.putanja === '/'}
-                className={istaknuto ? 'donje-dugme-kamera' : undefined}
                 aria-label={link.mobitel !== link.naziv ? `${link.mobitel} – ${link.naziv}` : undefined}
               >
-                <span className={istaknuto ? 'kamera-krug' : undefined}>
-                  <Ikona ime={istaknuto ? 'kamera' : link.ikona} velicina={istaknuto ? 26 : 22} />
-                </span>
+                <Ikona ime={link.ikona} velicina={22} />
                 <span>{link.mobitel}</span>
               </NavLink>
             </li>
